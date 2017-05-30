@@ -1,0 +1,22 @@
+Graph Representation Summary
+	Graph is a representation of a labeled directed multigraph. Each node in the graph has a label
+and each edge has a label as well. Nodes in the Graph are stored in a private HashMap called "nodes".
+In the map, keys are strings which represent node labels. Values are lists of strings that represent
+the children of a node. Edges in the graph are stored in a private set called "edges". Each edge is an Edge
+object which is represented by a parent node, a child node, and an edge label. 
+
+Representations and Their Advantages
+1. As a collection of edges
+   Advantage: Would allow for easy access to each edge in the graph if stored in a set. We also wouldn't have to worry about duplicate edges.
+2. As an adjacency list, each node is associated with a list of its outgoing edges
+   Advantage: Would allow for easy node and child access. Fast iteration if using a HashMap.
+3. As an adjacency matrix, in which for every pair (A,B) of edges, whether there is a link from A to B, and how many
+   Advantage: Easy access to each edge, fast iteration as HashMap, no duplicate edges. Easy way to check for duplicate edges.
+4. (My Representation)
+   Advantage: Easy access to each edge and node. Fast iteration with HashMap, no duplicate edges or nodes. 
+   
+Reason for Implementation
+I chose my implementation over the others because it was a combination of each implementation's advantages. Using an Adjacency List to represent 
+nodes and children in the graph would allow for fast iteration and searching. With a collection of edges in a set, there would be a 2nd
+representation storing the label of each edge and the nodes that made it.
+   

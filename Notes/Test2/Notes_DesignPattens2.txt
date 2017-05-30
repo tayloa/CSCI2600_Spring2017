@@ -1,0 +1,92 @@
+Slide: 6
+circleMap keeps track of already existing circles. We only create one with a color if it doesn't already exist.
+
+Slide: 10
+Intern FullSpoke objects
+
+Slide: 22
+The problem here is the following: We would like to use TextView, which contains A completed implementation. However, the client Editor expects the Shape interface.  
+If we changed Editor to work with TextView, then we'd have to modify hundreds of places in Editor where Editor uses the Shape interface: e.g., we have to change all calls to BoundedBox() to calls to GetExtent(). 
+
+The Adapter patter allows us to change Editor minimally and still use the implementation of TextView. We'll create an Adapter class Text, which encloses TextView and redirects the calls to BoundingBox() to text.GetExtent(); Editor refers to a Text object, so it keeps calling BoundingBox(), which uses TextView.
+
+Slide: 23
+Can we have myClass work with NonScalableRectangle? I.e., can we adapt NonScalableRectangle to the Interface of Rectangle?
+
+Slide: 25
+Like composition
+
+Slide: 29
+TaxMasterAdapter adapts the TaxMaster interface to the expected interface. Same for the GoodAsGoldTaxProAdapter. The client, POS System uses the interface defined in ITaxCalculatorAdapter. So if the POS System needs to change from one vendor's system to another, the changes to the POS System client will be minimal to none!
+
+Slide: 31
+This is a variation of the Factory object/class pattern we discussed in class. Factory class encapsulates the factory methods that create the right adapters. It also encapsulates the instances (single instances!) of the adapter objects. 
+
+Slide: 32
+Singleton pattern (a slight variation of the singleton pattern): ensures that each adapter has a single instance!
+
+Dependency injection pattern: the correct adapter is created through reflection and external dependency injection.
+
+Slide: 41
+How can we change this code to make it more general?
+A quick release skewer is a mechanism for attaching a wheel to a bicycle. It consists of a rod threaded on one end and with a lever operated cam assembly on the other.
+
+Slide: 48
+new AndExp(new AndExp(new AndExp(new VarExp("x"), new Constant(true)), new OrExp(new VarExp("y"), new VarExp("z"))))
+
+Slide: 50
+Leaf has no children
+
+Slide: 51
+We may optionally add methods to help manage Composites --- add, remove, getChild(n).  
+
+What is the danger here? Danger is that Composite may not be a true subtype of Component. The client must take extra care and distinguish between Leaf components and Composite components.
+
+Slide: 60
+What happens here?
+
+Slide: 63
+InputStream is the Java hierarchy, which interfaces with the OS to read byte-based data.
+
+Slide: 64
+Slightly different hierarchy
+
+Slide: 65
+public int read(char[] buf, int offset, int count) {
+	 int nread = super.read(buf, offset, count);
+	 for (int i = offset; i< offset+nread; i++)
+		buf[i] = Character.toUpperCase(buf[i]);
+		return nread; 
+ } 
+
+
+Slide: 78
+Which one is easier with Interpreter, to add operations or to add objects to the hierarchy of elements?
+
+Thus if we anticipate a constant set of operations, we can implement all those operations with the Interpreter pattern. 
+
+What if we anticipate that we will want to add a lot of new operations? The Visitor pattern makes it easy to do so.
+
+Slide: 79
+Difficulty each subtype must have eval() and prettyPrint()
+
+Slide: 84
+Maintaining this code is tedious and error prone.
+
+The cascaded if-tests will likely run slow.
+
+We must repeat this code for class PrettyPrint and every other operation class.
+
+
+Slide: 86
+n.accept(v) traverses the structure root at n, performing v's operation on every element
+
+
+Slide: 87
+Advantage: easy to add operations (just add a new Visitor class), hard to add new objects.
+
+Slide: 96
+DesignPatter3 - continue with last DesignPatters4
+
+
+

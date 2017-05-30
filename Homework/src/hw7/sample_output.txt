@@ -1,0 +1,34 @@
+a
+Unknown option
+r
+First building id/name, followed by Enter: 7
+Second building id/name, followed by Enter: 11
+Path from Troy Building to 87 Gymnasium:
+     Walk East to (Ricketts Building)
+     Walk East to (87 Gymnasium)
+Total distance: 156.051 pixel units.
+r
+First building id/name, followed by Enter: 81
+Second building id/name, followed by Enter: 20
+Path from RPI Ambulance to Cogswell Laboratory:
+     Walk North to (Intersection 99)
+     Walk NorthWest to (Cogswell Laboratory)
+Total distance: 143.488 pixel units.
+r
+First building id/name, followed by Enter: Lally
+Second building id/name, followed by Enter: Lally Hall
+Unknown building: [Lally]
+r
+First building id/name, followed by Enter: Troy Building
+Second building id/name, followed by Enter: 11
+Path from Troy Building to 87 Gymnasium:
+     Walk East to (Ricketts Building)
+     Walk East to (87 Gymnasium)
+Total distance: 156.051 pixel units.
+r
+First building id/name, followed by Enter: Troy Building
+Second building id/name, followed by Enter: 87 Gymnasium
+Path from Troy Building to 87 Gymnasium:
+     Walk East to (Ricketts Building)
+     Walk East to (87 Gymnasium)
+Total distance: 156.051 pixel units.

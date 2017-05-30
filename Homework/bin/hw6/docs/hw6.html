@@ -1,0 +1,486 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=windows-1252"/>
+	<title>CSCI 2600 Homework 6: Generics and Least-Cost Paths</title>
+	<meta name="generator" content="LibreOffice 5.1.4.2 (Windows)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="2017-04-08T09:30:23.789000000"/>
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2017-04-08T09:23:46.794000000">
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-11-12T16:10:17.739000000">
+	<style type="text/css">
+		h2.cjk { font-family: "SimSun" }
+		h2.ctl { font-family: "Lucida Sans" }
+		h3.cjk { font-family: "SimSun" }
+		h3.ctl { font-family: "Lucida Sans" }
+		h4.cjk { font-family: "SimSun" }
+		h4.ctl { font-family: "Lucida Sans" }
+		pre.cjk { font-family: "NSimSun", monospace }
+		tt.cjk { font-family: "NSimSun", monospace }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<div id="header" dir="ltr">
+	<p>CSCI 2600 Principles of Software</p>
+	<h1><!-- omit from toc -->Homework 6: Generics and Least-Cost Paths 
+	</h1>
+	<h2 class="western"><!-- omit from toc -->Due: April 20 <b>@ 11:59pm</b>
+		</h2>
+</div>
+<h2 class="western"><a name="Introduction"></a>Introduction</h2>
+<p>This assignment lays the groundwork for an application you'll
+build in Homework 7. Using your graph as the underlying data
+structure, your application will generate directions for getting
+around buildings on the RPI Campus. 
+</p>
+<p>This assignment has two main parts. In the first part, you will
+make your graph class(es) generic. In the second part, you will
+implement a different pathfinding algorithm for graphs known as
+Dijkstra's algorithm. 
+</p>
+<h2 class="western"><a name="Problems"></a>Augmenting Your Graph and
+Marvel Paths</h2>
+<h3 class="western"><a name="Problem1"></a>Problem 1: Making Your
+Graph Generic</h3>
+<p>In the application you'll be building in subsequent homeworks,
+your mission is to find the shortest route to visit a certain set of
+buildings. A graph is an excellent representation of a map, and
+luckily you have already specified and implemented a graph.
+Unfortunately, your graph only stores <tt class="western">String</tt>s,
+whereas the route-finding application needs to store non-String data
+types in the nodes and edges. More generally, your graph would be
+much more widely useful if only the client could choose the data
+types to be stored in nodes and edges. Herein lies the power of
+generics! 
+</p>
+<p>Your task is to convert your graph ADT to a generic class. Rather
+than always storing the data in nodes and edge labels as <tt class="western">String</tt>s,
+it should have two type parameters representing the data types to be
+stored in nodes and edges. Directly modify your existing classes
+under <tt class="western">hw4</tt> &mdash; there is no need to copy
+or duplicate code. 
+</p>
+<p>When you are done, your previously-written HW4 and HW5 tests and
+<tt class="western">MarvelPaths</tt> will no longer compile. Modify
+these classes to construct and use graph objects parameterized with
+Strings. All code must compile and all tests must pass when you
+submit your homework. Depending on your changes, some of your tests
+may no longer be valid. Try to adapt your tests to your new
+implementation, or discard them and write new ones: they should help
+you build confidence in your implementation. But, don't overdo it: as
+with any testing, stop when you feel that the additional effort is
+not being repaid in terms of increased confidence in your
+implementation. 
+</p>
+<h4 class="western"><a name="building-generics"></a>Build tools and
+generic code</h4>
+<p>We want you to configure Eclipse to show generics problems as
+errors. By default, Eclipse shows generics problems as warnings
+(indicated by yellow lines and markers). You can configure Eclipse to
+instead issue errors (indicated by red lines and markers) for these
+problems. Doing so will help you remember to write acceptable
+generics code. 
+</p>
+<p>To make this configuration, go to Eclipse &gt;&gt; Preferences and
+select Java &gt;&gt; Compiler &gt;&gt; Errors/Warnings. Under Generic
+types, change the value of Unchecked generic type operation to Error.
+</p>
+<p>(Note that there is another setting named Usage of a raw type that
+is set to Ignore by default. We recommend leaving this option
+disabled or set simply to Warn because it is specific to the Eclipse
+compiler and checks for more stringent requirements than required by
+the Java language specification. Thus, &quot;Usage of raw type&quot;
+may complain about issues, that while providing insight about your
+code, is not checked by Oracle's javac, which is our official
+standard for compilation errors and warnings in this class.) 
+</p>
+<p>Hint: Sometimes you may find that classes which previously
+compiled are now reporting &quot;[some class] cannot be resolved&quot;
+errors in Eclipse. You can fix these errors by doing a clean build:
+go to Project &gt;&gt; Properties &gt;&gt; Clean..., select your
+<tt class="western">csci2600</tt> project, and hit OK. 
+</p>
+<h3 class="western"><a name="Problem2"></a>Problem 2: Weighted Graphs
+and Least-Cost Paths 
+</h3>
+<p>In a <em>weighted graph</em>, the label on each edge is a <em>length</em>,
+<em>cost</em>, or <em>weight</em> representing the cost of traversing
+that edge. Depending on the application, the cost may be measured in
+time, money, physical distance, etc. The total cost of a path is the
+sum of the costs of all edges in that path, and the <em>minimum-cost
+path</em> between two nodes is the path with the lowest total cost
+between those nodes. 
+</p>
+<h4 class="western"><a name="Dijkstras_algorithm"></a>Dijkstra's
+algorithm</h4>
+<p>You will implement <a href="http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm">Dijkstra's
+algorithm</a>, which finds a minimum-cost path between two given
+nodes in a graph with all nonnegative edge weights. Below is a
+pseudocode algorithm that you may use in your implementation. You are
+free to modify it as long as you are essentially still implementing
+Dijkstra's algorithm. Your implementation of the algorithm may assume
+a graph with <tt class="western">Double</tt> edge weights. 
+</p>
+<p>The algorithm uses a <a href="http://en.wikipedia.org/wiki/Priority_queue">priority
+queue</a>. You should be familiar with this data structure from
+Homework 4. In Homework 4 the <tt class="western">remove</tt>
+operation removed the greatest value stored in the queue. For the
+purposes of Dijkstra's algorithm, <tt class="western">remove</tt>
+must remove the least value. The standard Java libraries include an
+implementation of a <tt class="western"><a href="http://docs.oracle.com/javase/7/docs/api/java/util/PriorityQueue.html">PriorityQueue</a></tt>.
+</p>
+<pre class="western">    Dijkstra's algorithm assumes a graph with all nonnegative edge weights.
+
+    start = starting node
+    dest = destination node
+    active = priority queue.  Each element is a path from start to a given node.
+             A path's &quot;priority&quot; in the queue is the total cost of that path.
+             Nodes for which no path is known yet are not in the queue.
+    finished = set of nodes for which we know the minimum-cost path from start.
+
+    // Initially we only know of the path from start to itself, which has a cost
+    // of zero because it contains no edges.
+    Add a path from start to itself to active
+
+    while active is non-empty:
+        // minPath is the lowest-cost path in active and is the minimum-cost
+        // path for some node
+        minPath = active.removeMin()
+        minDest = destination node in minPath
+        
+        if minDest is dest:
+            return minPath
+
+        if minDest is in finished:
+            continue
+
+        for each edge e = &#10216;minDest, child&#10217;:
+            // If we don't know the minimum-cost path from start to child,
+            // examine the path we've just found
+            if child is not in finished:
+                newPath = minPath + e
+                add newPath to active
+
+        add minDest to finished
+
+    If the loop terminates, then no path exists from start to dest.
+    The implementation should indicate this to the client.</pre><h4 class="western">
+<a name="Marvel"></a>Dijkstra's Algorithm in Marvel Paths</h4>
+<p>You will write a modified version of your Marvel Paths application
+in which your application finds its paths using Dijkstra's algorithm
+instead of BFS. Dijkstra's algorithm requires weighted edges. To
+simulate edge weights over the Marvel dataset, the weight of the edge
+between two characters will be based on how well-connected those two
+characters are. Specifically, the weight is the inverse of how many
+comic books two characters are in together (equivalently, the weight
+is the multiplicative inverse of the number of edges in the
+multigraph between them). For example, if Amazing Amoeba and Zany
+Zebra appeared in 5 comic books together, the weight of the edge
+between them would be 1/5. Thus, the more well-connected two
+characters are, the lower the weight and the more likely that a path
+is taken through them. In summary, the idea with the Marvel data is
+to treat the number of paths from one node to another as a &quot;distance&quot;
+&mdash; if there are several edges from one node to another then that
+is a &quot;shorter&quot; distance than another pair of nodes that are
+only connected by a single edge. 
+</p>
+<p>Things to note:</p>
+<ul>
+	<li/>
+<p>A path from a character to itself is defined to have cost
+	0.0. 
+	</p>
+	<li/>
+<p>Calculations for the weight of the edges in your graph
+	should be done when the graph is loaded. This assignment is
+	different from the last one in that when the graph is initialized
+	there is only one edge between nodes and that edge is the weighted
+	edge. The one edge between any two characters will be the label
+	containing the multiplicative inverse of how many books they share. 
+	</p>
+	<li/>
+<p>On graph initialization there will be at most one edge
+	between two marvel characters, but the addEdge functionality still
+	allows adding multiple weighted edges between two characters. You
+	must be sure that pathfinding will use the least cost edge if there
+	are multiple edges between two characters. In other words, if a new
+	edge is added to your graph after its initialization, then
+	pathfinding should be able to factor that edge into its calculations
+	without re-calculating the weights of other edges or
+	deleting/overwriting any existing edges. 
+	</p>
+</ul>
+<p>Place your new Marvel application in <tt class="western">hw6/MarvelPaths2.java</tt>
+in package <tt class="western">hw6</tt>. In choosing how to organize
+your code, remember to avoid duplicating code as much as possible. In
+particular, reuse existing code where possible, and keep in mind that
+you may need to use the same implementation of Dijkstra's algorithm
+in a different application.</p>
+<p><!-- in 13wi: 30 seconds. -->For this assignment, your program
+must be able to construct the graph and find a path in less than <strong>30</strong>
+seconds using the full Marvel dataset. We will set the tests to have
+a 3000 ms (30 second) timeout for each test, run without assertions
+enabled. 
+</p>
+<p>As before, you are welcome to write a <tt class="western">main()</tt>
+method for your application, but you are not required to do so. 
+</p>
+<h4 class="western"><a name="Why_not_breadth-first-search"></a>Why
+not breadth-first search?</h4>
+<p>This assignment does not reuse your breadth-first search
+algorithm. A breadth-first search between two nodes finds the path
+with the fewest number of edges. In a weighted graph, it does not
+always find the minimum-cost path. In the example below, a
+breadth-first search from A to B would find the path <tt class="western">{&#10216;A,B&#10217;}</tt>
+with total cost 10. But the alternative path <tt class="western">{&#10216;A,C&#10217;,&#10216;C,D&#10217;,&#10216;D,B&#10217;}</tt>
+has a total cost of 3, making it a lower-cost path even though it has
+more edges. 
+</p>
+<div id="Graph-Image" dir="ltr">
+	<p style="margin-bottom: 0in"><img src="data:image/png;base64,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" name="Image1" alt="A graph with a minimum-cost path of 3" align="bottom" width="672" height="420" border="0"/>
+
+		</p>
+	<p style="margin-bottom: 0in">A graph whose minimum-cost path is not
+	found by BFS.</p>
+</div>
+<p>Breadth-first search gives the same results as Dijkstra's
+algorithm when all edge weights are 1. 
+</p>
+<p>The interface of <tt class="western">MarvelPaths2</tt> is the same
+as that of <tt class="western">MarvelPaths</tt> in Homework 5, but
+with a few differences in arguments and output: 
+</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in"><strong><!-- <li>
+    Edge labels are <tt>Double</tt>s instead of <tt>String</tt>s. 
+    For <strong>listChildren</strong>, the same rules as before apply
+    for ordering output by nodes and edges, except that edges are now ordered
+    numerically instead of lexicographically.
+  </li>
+ -->public
+	void createNewGraph(String filename)</strong> is the same. It
+	creates a brand new graph and populates the graph from <i>filename</i>,
+	where <i>filename</i> is a data file of the format for <tt class="western">marvel.csv</tt>
+	and is located in <tt class="western">hw6/data</tt>. As in Homework
+	5, relative paths should begin at <tt class="western">hw6/...</tt>.
+	Consult Section <a href="../../hw5/docs/hw5.html#File-Paths">Paths
+	to files</a> in Homework 5 if you are having trouble making Eclipse
+	work with these relative paths. 
+	</p>
+	<li/>
+<p><strong>public String findPath(String CHAR1, String CHAR2)</strong>
+	searches with Dijkstra's algorithm instead of BFS and returns its
+	output in the form: 
+	</p>
+	<pre class="western">path from <em>CHAR1</em> to <em>CHARN</em>:
+<em>CHAR1</em> to <em>CHAR2</em> with weight <em>w1</em>
+<em>CHAR2</em> to <em>CHAR3</em> with weight <em>w2</em>
+...
+<em>CHARN-1</em> to <em>CHARN</em> with weight <em>wN-1</em>
+total cost: <em>W</em></pre><p>
+	where <em>W</em> is the sum of <em>w1, w2, ..., wN-1</em>.</p>
+	<p>In other words, the only changes in output from Homework 5 are
+	the way the edge labels are printed and the addition of a &quot;total
+	cost&quot; line at the bottom. The output should remain the same as
+	before when no path is found or the characters are not in the graph:
+	in particular, do not print the &quot;total cost&quot; line in those
+	cases. 
+	</p>
+	<p>If there are two minimum-cost paths between <em>CHAR1</em> and
+	<em>CHARN</em>, it is undefined which one is printed. 
+	</p>
+	<p>What if the user asks for a path from a character to itself in
+	the dataset? We offer the same advice as in Homework 5: revisit the
+	pseudocode algorithm. What value does it say to return in this case,
+	and how would this return value be handled by findPath? (A
+	well-written solution requires no special handling of this case.) 
+	</p>
+	<li/>
+<p>For readability, the output of <tt class="western">findPath</tt>
+	should print numeric values with exactly 3 digits after the decimal
+	point, rounding to the nearest value if they have more digits. The
+	easiest way to specify the desired format of a value is using format
+	strings. For example, you could create the String &quot;Weight of
+	1.760&quot; by writing: 
+	</p>
+	<p><tt class="western">String.format(&quot;Weight of %.3f&quot;,
+	1.759555555555);</tt></p>
+	<p>In <tt class="western">findPath</tt>, the total cost should be
+	computed by summing the full values of the individual weights, not
+	the rounded values. 
+	</p>
+	<li/>
+<p>As in Homework 5, a path from a character to itself should
+	be treated as a trivially empty path. Because this path contains no
+	edges, it has a cost of zero. (Think of the path as a list of edges.
+	The sum of an empty list is conventionally defined to be zero.) So
+	your findPath should produce the usual output for a path but without
+	any edges, i.e.: 
+	</p>
+	<pre class="western">path from <em>C</em> to <em>C</em>:
+total cost: 0.000</pre><p>
+	This only applies to characters in the dataset: a request for a path
+	from a character that is not in the dataset to itself should print
+	the usual &quot;unknown character C&quot; output.</p>
+	<li/>
+<p>Also as in Homework 5, if the user gives two valid node
+	arguments <em>CHAR1</em> and <em>CHAR2</em> that have no path in the
+	specified graph, output:</p>
+	<pre class="western">path from <em>CHAR1</em> to <em>CHARN</em>:
+no path found</pre>
+</ul>
+<h3 class="western"><a name="Problem3"></a>Problem 3: Testing Your
+Solution</h3>
+<p>Just as with Homework 5, create smaller <tt class="western">*.csv</tt>
+files to test your graph building and findPaths. Write tests in JUnit
+class. Just as in Homework 4 and 5, run EclEmma to measure your code
+coverage. 
+</p>
+<p>The tests do not directly test the property that your graph is
+generic. However, the Homework 4 and Homework 5 tests use String edge
+labels, while Homework 6 uses numeric values. Supporting all three
+test drivers implicitly tests the generic behavior of your graph. 
+</p>
+<h3 class="western"><a name="reflection"></a>Reflection [0.5 point]</h3>
+<p>Please answer the following questions in a file named
+<tt class="western">reflection.txt</tt> in your <tt class="western">answers/</tt>
+directory. Answer briefly, but in enough detail to help you improve
+your own practice via introspection and to enable the course staff to
+improve Principles of Software in the future.</p>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in">In retrospect, what could you
+	have done better to reduce the time you spent solving this
+	assignment? 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">What could the course staff have
+	done better to improve your learning experience in this assignment? 
+	</p>
+	<li/>
+<p>What do you know now that you wish you had known before
+	beginning the assignment? 
+	</p>
+</ol>
+<h3 class="western"><a name="collaboration"></a>Collaboration [0.5
+point]</h3>
+<p>Please answer the following questions in a file named
+<tt class="western">collaboration.txt</tt> in your <tt class="western">answers/</tt>
+directory.</p>
+<p>The standard integrity policy applies to this assignment. 
+</p>
+<p>State whether or not you collaborated with other students. If you
+did collaborate with other students, state their names and a brief
+description of how you collaborated. 
+</p>
+<h2 class="western"><a name="breakdown"></a>Grade Breakdown</h2>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in">Instructor hw4 tests: 5pts
+	(auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Instructor hw5 tests: 5pts
+	(auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Quality of hw6 test suite,
+	percent of your tests passed: 5pts (auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Quality of hw6 test suite,
+	percent coverage: 5pts (auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Instructor MarvelPaths2 tests:
+	16pts (auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Code quality (Code organization,
+	Genericity, Rep invarians, Abstraction functions, Specifications):
+	13 
+	</p>
+	<li/>
+<p>Collaboration and reflection: 1pt 
+	</p>
+</ul>
+<h2 class="western"><a name="Hints"></a>Hints</h2>
+<h3 class="western"><a name="Documentation"></a>Documentation</h3>
+<p>When you add generic type parameters to a class, make sure to
+describe these type parameters in the class's Javadoc comments so the
+client understands what they're for. 
+</p>
+<p>As usual, include an abstraction function, representation
+invariant, and checkRep in all classes that represent an ADT. If a
+class does not represent an ADT, place a comment that explicitly says
+so where the Abstraction function and Rep invariant would normally
+go. (For example, classes that contain only static methods and are
+never constructed usually do not represent an ADT.) Please come to
+office hours if you feel unsure about what counts as an ADT and what
+doesn't. 
+</p>
+<h3 class="western"><a name="Organization"></a>Code Organization</h3>
+<p>In deciding how to organize your code, remember that you may need
+to reuse Dijkstra's algorithm in future homeworks. These homeworks
+have nothing to do with Marvel and, depending on your implementation,
+might use a different generic type for nodes. How can you structure
+your code so that your implementation of Dijkstra's algorithm is
+convenient to use for other applications? 
+</p>
+<h2 class="western"><a name="Turnin"></a>What to Turn In</h2>
+<p>You should add and commit the following files to SVN:</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw6/MarvelPaths2.java</tt>
+		</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw6/*.java</tt>
+	<em>[Other classes you create, if any]</em> 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw6/data/*.csv</tt>
+	<em>[Your .csv test files. Do not commit marvel.csv]</em> 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw6/test/*.java</tt>
+	<em>[JUnit test classes you create]</em> 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw6/answers/reflection.txt</tt>
+		</p>
+	<li/>
+<p><tt class="western">hw6/answers/collaboration.txt</tt> 
+	</p>
+</ul>
+<p>Additionally, be sure to commit any updates you make to the
+following files:</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw4/*</tt>
+	<em>[Your graph ADT and test classes]</em> 
+	</p>
+	<li/>
+<p><tt class="western">hw5/*</tt> <em>[Your Marvel Paths and
+	test classes]</em> 
+	</p>
+</ul>
+<h2 class="western"><a name="errata"></a>Errata</h2>
+<p>None yet. Check out the Announcements page regularly. As usual, we
+will announce errors there.</p>
+<div id="footer" dir="ltr">
+	<p>Parts of this homework are copied from Mike Enrst's Software
+	Design and Implementation course.</p>
+</div>
+<p><!-- LocalWords:  11pm H5 MarvelPaths Returnin ADT Char1 Char2 hw5 tsv p' 9em
+ --><!-- LocalWords:  MarvelParser parseData BOOK1 CHAR3 BOOK2 java hw5 BFS img H6
+ --><!-- LocalWords:  neighbors' dest worklist txt IMs returnin returnin331 192px
+ --><!-- LocalWords:  attu 11pm Homeworks hw4 hw6 xml cse331 removeMin minPath w1
+ --><!-- LocalWords:  PriorityQueue minDest newPath HW6TestDriver FindPath w2 wN
+ --><!-- LocalWords:  ImplementationTests LoadGraph unweighted ListNodes
+ --><!-- LocalWords:  ListChildren Djikstra's nonnegative
+ --></p>
+</body>
+</html>

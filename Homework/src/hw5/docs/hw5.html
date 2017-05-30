@@ -1,0 +1,661 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=windows-1252"/>
+	<title>CSCI 2600 Homework 5: The Marvel Comics Universe</title>
+	<meta name="generator" content="LibreOffice 5.2.5.1 (Windows)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="2017-03-28T13:53:23.472000000"/>
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-10-29T08:41:38.948000000">
+	<style type="text/css">
+		h2.cjk { font-family: "SimSun" }
+		h2.ctl { font-family: "Lucida Sans" }
+		h3.cjk { font-family: "SimSun" }
+		h3.ctl { font-family: "Lucida Sans" }
+		pre.cjk { font-family: "NSimSun", monospace }
+		tt.cjk { font-family: "NSimSun", monospace }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<div id="header" dir="ltr">
+	<p>CSCI 2600 Principles of Software</p>
+	<h1><!-- omit from toc -->Homework 5: The Marvel Comics Universe 
+	</h1>
+	<h2 class="western"><!-- omit from toc -->Due: April 10 <b>@ </b><b>1</b><b>1:59pm</b>
+		</h2>
+</div>
+<h2 class="western"><a name="Introduction"></a><img src="data:" name="Image1" alt="Marvel Comics #1" align="right" hspace="5" width="75" height="38" border="0"/>
+Introduction</h2>
+<p>Like Homework 4, this homework has two parts. In the first part
+(Problem 1), you will practice concepts we discussed in class. In the
+second part, you will put the graph you designed in Homework 4 to use
+by modeling the Marvel Comics universe. By trying out your ADT in a
+client application, you will be able to test the usability of your
+design as well as the correctness, efficiency, and scalability of
+your implementation.</p>
+<p>The application builds a graph containing thousands of nodes and
+edges. At this size, you may discover performance issues that weren't
+revealed by your unit tests on smaller graphs. With a well-designed
+implementation, your program will run in a matter of seconds. Bugs or
+less ideal choices of data structures can increase the runtime to
+anywhere from several minutes to 30 minutes or more. If this is the
+case you may want to go back and revisit your graph implementation
+from Homework 4. Remember that different graph representations have
+widely varying time complexities for various operations and this, not
+a coding bug, may explain the slowness.</p>
+<p>This Marvel dataset was also used by researchers, who published a
+<a href="http://arxiv.org/abs/cond-mat/0202174">research paper</a>
+showing that the graph is strikingly similar to &quot;real-life&quot;
+social networks. 
+</p>
+<h3 class="western"><a name="Problem1"></a>Problem 1: Written
+Exercises [10 points]</h3>
+<p>This part is designed to improve your understanding of function
+subtyping and true subtyping from lecture. Place your answers to the
+questions below in file <tt class="western">hw5/answers/problem1.txt</tt>.</p>
+<ol>
+	<li/>
+<p>Which of the <tt class="western">B.m</tt> methods below are
+	function substypes of <tt class="western">A.m</tt>.<!--Assume that 
+        <tt>Y</tt> and <tt>Z</tt> are subclasses and true subtypes of <tt>X</tt>. -->
+	For each of the <tt class="western">B.m</tt> methods answer whether
+	the method would overload or override <tt class="western">A.m</tt>
+	in Java. 
+	</p>
+	<pre class="western">      class A {
+        Object m(X y, String s);
+      }
+
+      class B extends A {
+        X m(X y, String s);
+        Y m(Object y, Object s);
+        Object m(X y, String s) throws RuntimeException;
+        Z m(Y y, String s);        
+      }
+      </pre>
+	<li/>
+<p style="margin-bottom: 0in">Given the specifications below,
+	answer whether the extending class is a true subtype of its
+	superclass. Explain your answer. 
+	</p>
+	<ol>
+		<li/>
+<pre class="western">    class Triangle {
+       // modifies: this
+       // effects: this_post.a=a, this_post.b=b, this_post.c=c
+       void setSides(int a, int b, int c);
+    }  
+
+    class IsoscelesTriangle extends Triangle {
+       // modifies: this
+       // effects: this_post.a=a, this_post.b=b, this_post.c=b
+       void setSides(int a, int b, int c);
+    }
+    </pre>
+		<li/>
+<pre class="western">    abstract class Vertebrate extends Animal {   
+       // returns: an integer &gt; 0 
+       int neckBones();
+    }
+    class Squid extends Vertebrate {
+       // returns: 0 neck bones
+       int neckBones();
+    }
+    class Human extends Vertebrate {
+       // returns: 7 neck bones
+       int neckBones();
+    }
+    </pre>
+		<li/>
+<pre class="western">    class Bicycle {
+       int cadence;
+       int speed;
+       int gear;
+
+       // effects: creates a new Bicycle
+       Bicycle(int startCadence, int startSpeed, int startGear);
+
+       // modifies: this
+       // effects: this_post.cadence=newCadence, this_post.speed=newSpeed, this_post.gear=newGear
+       void setParameters(int newCadence, int newSpeed, int newGear);
+    }
+
+    class MountainBike extends Bicycle {
+       int height;
+       
+       // effects: creates a new MountainBike
+       MountainBike(int startCadence, int startSpeed, int startGear, int startHeight);
+
+       // modifies: this
+       // effects: this_post.height=newHeight
+       void setHeight(int newHeight);
+    }
+    </pre>
+		<li/>
+<pre class="western">    class Account {
+       // modifies: this
+       // effects: this_post.amount = this_pre.amount + d;
+       void deposit(int d);
+    }
+
+    /* An account that works safely when multiple transactions attempt deposits simultaneously */
+    class ConcurrentAccount extends Account {
+       // modifies: this
+       // effects: this_post.amount = this_pre.amount + d;
+       // throws: AbortException if another transaction is in the process of depositing money
+       void deposit(int d);
+    }
+    </pre>
+	</ol>
+</ol>
+<h2 class="western"><a name="MarvelPaths"></a>The MarvelPaths
+Application</h2>
+<p>In this application, your graph models a social network among
+characters in Marvel comic books. Each node in the graph represents a
+character, and an edge <tt class="western">&#10216;Char1,Char2&#10217;</tt>
+indicates that Char1 appeared in a comic book that Char2 also
+appeared in. There should be a separate edge for every comic book,
+labelled with the name of the book. For example, if Zeus and Hercules
+appeared in (say) five issues of a given series, then Zeus would have
+five edges to Hercules, and Hercules would have five edges to Zeus. 
+</p>
+<p>Your graph should not store reflexive edges from characters to
+themselves. 
+</p>
+<p>You will write a class <tt class="western">hw5.MarvelPaths</tt>
+(in file <tt class="western">MarvelPaths.java</tt> in package <tt class="western">hw5</tt>)
+that reads the Marvel data from a file (<tt class="western">marvel.csv</tt>),
+builds a graph, and finds paths between characters in the graph. You
+are not required to write a main method as a driver for your
+application; nevertheless, we encourage you to do so, both for your
+own convenience and for the satisfaction that comes with creating a
+complete, standalone application. 
+</p>
+<p>As you complete this assignment, you may need to modify the
+implementation and perhaps the public interface of your Graph ADT
+from Homework 4. Briefly document any changes you made and why in
+<tt class="western">hw5/answers/changes.txt</tt> (no more than 1-2
+sentences per change). If you made no changes, state that explicitly.
+You don't need to track and document cosmetic and other minor
+changes, such as renaming a variable; we are interested in
+substantial changes to your API or implementation, such as adding a
+public method or using a different data structure. Describe logical
+changes rather than precisely how each line of your code was altered.
+For example, &quot;I switched the data structure for storing all the
+nodes from a ___ to a ___ because ___&quot; is more helpful than &quot;I
+changed line 27 from <tt class="western">nodes = new ___();</tt> to
+<tt class="western">nodes = new ____();</tt>.&quot; 
+</p>
+<p>Leave your graph in the <tt class="western">hw4</tt> package where
+it was originally written, even if you modify it for this assignment.
+There is no need to copy files nor duplicate code! You can just
+<tt class="western">import hw4</tt> and use it in Homework 5. If you
+do modify your <tt class="western">hw4</tt> code, be sure to commit
+your changes to your repository. (Subclipse easily takes care of
+this.) 
+</p>
+<h3 class="western"><a name="Problem2"></a>Problem 2: Getting the
+Marvel Universe Data</h3>
+<p>Before you get started, obtain the Marvel Universe dataset.
+Download the file from
+<a href="http://www.cs.rpi.edu/~thompw4/CSCI-2600/Spring2017/Homework/marvel.csv">http://www.cs.rpi.edu/~thompw4/CSCI-2600/Spring2017/Homework/marvel.csv</a>.
+Store the file in <tt class="western">hw5/data/marvel.csv</tt>. 
+</p>
+<p><font color="#ff0000"><b>IMPORTANT</b>: Do not commit the
+marvel.csv into your repository! There is a limit on each repository
+and committing such a large file may break this limit. This is easily
+taken care of in Subclipse, you can exclude marvel.csv simply by
+removing the check mark during the commit. </font>
+</p>
+<p><!-- This file is a cleaned-up
+version of a TSV ("tab-separated value") file  Instead,
+<a href="http://www.infochimps.com/datasets/marvel-universe-social-graph">download
+the data</a> from Infochimps, unzip the download, and copy and rename the
+<tt>labeled_edges.tsv</tt> file inside to <tt>hw5/data/marvel.tsv</tt>. (Note
+that although the download page encourages you to create an account, it does
+allow you to bypass that step.)
+</p>
+-->Take
+a moment to inspect the file. A CSV (&quot;comma-separated value&quot;)
+file consists of human-readable data delineated by commas, and can be
+opened in your favorite text editor or Eclipse. (If you don't have a
+favorite text editor, <a href="http://notepad-plus-plus.org/">Notepad++</a>
+is a simple, free, easy-to-use option for Windows.) Each line in
+<tt class="western">marvel.csv</tt> is of the form 
+</p>
+<pre class="western" style="margin-bottom: 0.2in"><em>&quot;character&quot;</em>,<em>&quot;book&quot;</em></pre><p>
+where <em>character</em> is the name of a character, <em>book</em> is
+the title of a comic book that the character appeared in, and the two
+fields are separated by a comma. 
+</p>
+<h3 class="western"><a name="Problem3"></a>Problem 3: Building the
+Graph [27 points with Problem 4]</h3>
+<p>The first step in your program is to construct your graph of the
+Marvel universe from a data file. We have written a class
+<tt class="western">MarvelParser</tt> to help you. <tt class="western">MarvelParser</tt>
+has one static method, <tt class="western">readData()</tt>, which
+reads data from <tt class="western">marvel.csv</tt>, or any file
+structured in the same format. <tt class="western">readData()</tt>
+creates in-memory data structures: a <tt class="western">Set</tt> of
+all characters and a <tt class="western">Map</tt> from each book to a
+<tt class="western">Set</tt> of the characters in that book. These
+are not the data structures you want, however; you want a Graph. 
+</p>
+<p>I have also included a main method which takes the file name as a
+command-line argument and then calls <tt class="western">readData()</tt>.
+To add <tt class="western">marvel.csv</tt> as a command-line argument
+in Eclipse, go to Run-&gt;Run Configurations. In the Run
+Configurations window, choose the &quot;Arguments&quot; tab. In
+&quot;Program Arguments&quot;, type <tt class="western">hw5/data/marvel.csv</tt>.
+</p>
+<p><font color="#ff0000">Later on when measuring coverage, you can
+comment out the main method. (As it is never called from the test
+cases.) If you choose not to use my parser code, you can get rid of
+the file altogether. You do need to substitute with your own parser
+code. </font>
+</p>
+<p>You may modify <tt class="western">MarvelParser</tt> however you
+wish to fit your implementation. You may change the method signature
+(parameters and return value) of <tt class="western">parseData()</tt>,
+or you might leave <tt class="western">parseData()</tt> as is and
+write code that processes its output. The only constraint is that
+your code needs to take a filename as a parameter so the parser can
+be reused with any file. 
+</p>
+<p>At this point, it's a good idea to test the parsing and
+graph-building operation in isolation. Verify that your program
+builds the graph correctly before you go on. The assignment formally
+requires this in <a href="#Problem5">Problem 5</a>. 
+</p>
+<h3 class="western"><a name="Problem4"></a>Problem 4: Finding Paths
+[27 points with Problem 3]</h3>
+<p>The real meat (or tofu) of <tt class="western">MarvelPaths</tt> is
+the ability to find paths between two characters in the graph. Given
+the name of two characters, <tt class="western">MarvelPaths</tt>
+searches for and returns a path through the graph connecting them.
+How the path is subsequently used, or the format in which it is
+printed out, depends on the requirements of the particular
+application using <tt class="western">MarvelPaths</tt>. 
+</p>
+<p>Your program should return the shortest path found via
+breadth-first search (BFS). A BFS from node u to node v visits all of
+u's neighbors first, then all of u's neighbors' neighbors', then all
+of u's neighbors' neighbors', and so on until v is found or all nodes
+with a path from u have been visited. Below is a general BFS
+pseudocode algorithm to find the shortest path between two nodes in a
+graph G. For readability, you should use more descriptive variable
+names in your actual code than are needed in the pseudocode:</p>
+<pre class="western">    start = starting node
+    dest = destination node
+    Q = queue, or &quot;worklist&quot;, of nodes to visit: initially empty
+    M = map from nodes to paths: initially empty.
+        // Each key in M is a visited node.
+        // Each value is a path from start to that node.
+        // A path is a list; you decide whether it is a list of nodes, or edges,
+        // or node data, or edge data, or nodes and edges, or something else.
+    
+    Add start to Q
+    Add start-&gt;[] to M (start mapped to an empty list)
+    while Q is not empty:
+        dequeue next node n
+        if n is dest
+            return the path associated with n in M
+        for each edge e=&#10216;n,m&#10217;:
+            if m is not in M, i.e. m has not been visited:
+                let p be the path n maps to in M
+                let p' be the path formed by appending e to p
+                add m-&gt;p' to M
+                add m to Q
+            
+    If the loop terminates, then no path exists from start to dest.
+    The implementation should indicate this to the client.</pre><p>
+Here are some facts about the algorithm. 
+</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in">It is a loop invariant that
+	every element of Q is a key in M 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">If the graph were not a
+	multigraph, the for loop could have been equivalently expressed as
+	<tt class="western">for each neighbor m of n:</tt> 
+	</p>
+	<li/>
+<p>If a path exists from start to dest, then the algorithm
+	returns a shortest path. 
+	</p>
+</ul>
+<p>Many character pairs will have multiple paths. <strong>For grading
+purposes, your program should return the lexicographically
+(alphabetically) least path. </strong>More precisely, it should pick
+the lexicographically first character at each next step in the path,
+and if those characters appear in several comic books together, it
+should print the lexicographically lowest title of a comic book that
+they both appear in. The BFS algorithm above can be easily modified
+to support this ordering: in the for-each loop, visit edges in
+increasing order of <em>m</em>'s character name, with edges to the
+same character visited in increasing order of comic book title. This
+is <em>not</em> meant to imply that your graph should store data in
+this order; it is merely a convenience for grading. 
+</p>
+<p>Because of this application-specific behavior, you should
+implement your BFS algorithm in <tt class="western">MarvelPaths</tt>
+rather than directly in your graph, as other hypothetical
+applications that might need BFS probably would not need this special
+ordering. Further, other applications using the graph ADT might need
+to use a different search algorithm, so we don't want to hard-code a
+particular search algorithm in the graph ADT. 
+</p>
+<p>Using the full Marvel dataset, your program must be able to
+construct the graph and find a path in just a couple of seconds on
+your PC/laptop and on the Homework Server. When running tests we will
+set a 60 second timeout for each test suite. Note that if your
+solution exceeds the limit on the Homework Server, your process is
+cut then the output file is cut as well resulting in a grade of 0 and
+an Error message complaining about incorrect formatting of the output
+file. 
+</p>
+<p>Similarly to Homework 4, add an instance field that stores a Graph
+in <tt class="western">MarvelPaths</tt>. For testing purposes, we
+require that you implement the following public methods in
+<tt class="western">MarvelPaths</tt>. Otherwise, design class
+<tt class="western">MarvelPaths</tt> as you wish and add operations
+as you wish. 
+</p>
+<dl>
+	<dt style="margin-bottom: 0.2in"><tt class="western">public void
+	createNewGraph(String filename)</tt> 
+	</dt></dl>
+<p>
+The method creates a brand new graph in the instance field in
+<tt class="western">MarvelPaths</tt> and populates the graph from
+<i>filename</i>, where <i>filename</i> is a data file of the format
+defined for <tt class="western">marvel.csv</tt> and is located in the
+<tt class="western">hw5/data</tt> directory of your project. 
+</p>
+<dl>
+	<dt style="margin-bottom: 0.2in"><tt class="western">public String
+	findPath(String </tt><tt class="western"><i>node1</i></tt><tt class="western">,
+	String </tt><tt class="western"><i>node2</i></tt><tt class="western">)</tt>
+		</dt></dl>
+<p>
+Find the shortest path from <i>node1</i> to <i>node2</i> in the graph
+using your breadth-first search algorithm. 
+</p>
+<p>Paths should be chosen using the lexicographic ordering described
+above. If a path is found, the returned String should contain the
+path in the format below. That is,
+<tt class="western">System.out.println(mp.findPath(&quot;CHAR1&quot;,&quot;CHARN&quot;)</tt>
+where <tt class="western">mp</tt> refers to an instance of
+<tt class="western">MarpvelPaths</tt>, prints the following: 
+</p>
+<pre class="western">path from <em>CHAR1</em> to <em>CHARN</em>:
+<em>CHAR1</em> to <em>CHAR2</em> via <em>BOOK1</em>
+<em>CHAR2</em> to <em>CHAR3</em> via <em>BOOK2</em>
+...
+<em>CHARN-1</em> to <em>CHARN</em> via <em>BOOKN-1</em></pre><p>
+where <em>CHAR1</em> is the first node listed in the arguments to
+findPath, <em>CHARN</em> is the second node listed in the arguments,
+and <em>BOOKK</em> is the title of a book that <em>CHARK</em> and
+<em>CHARK+1</em> appeared in. 
+</p>
+<p>For example, <tt class="western">mp.findPath(&quot;Zena&quot;,&quot;Zeus&quot;)</tt>
+will construct and return the String <tt class="western">&quot;path
+from Zena to Zeus:\nZena to Hercules via Book1\nHercules to Zeus via
+Book2\n&quot;</tt>. (I'm just making this up to illustrate the
+placement of newline characters, there is no such a path in the
+Marvel universe.) 
+</p>
+<p>Not all characters may have a path between them. If the user gives
+two valid node arguments that have no path in the specified graph,
+output the following as String:</p>
+<pre class="western">path from <em>CHAR 1</em> to <em>CHAR N</em>:
+no path found</pre><p>
+If a character name <em>CHAR</em> was not in the original dataset,
+simply output:</p>
+<pre class="western" style="margin-bottom: 0.2in">unknown character <em>CHAR</em></pre><p>
+If neither character is in the original dataset, output the line
+twice: first for the first node, then for the second one. These
+should be the only lines your program produces in this case &mdash;
+i.e., do not output the regular &quot;path from ...&quot; or &quot;path
+not found&quot; output too. 
+</p>
+<p>What if the user asks for the path from a character in the dataset
+to itself? A trivially empty path is different from no path at all,
+so the &quot;no path found&quot; output isn't appropriate here. But
+there are no edges to print, either. So you should output the header
+line 
+</p>
+<pre class="western" style="margin-bottom: 0.2in">path from <em>C</em> to <em>C</em>:</pre><p>
+but nothing else. (Hint: a well-written solution requires no special
+handling of this case.) 
+</p>
+<p>This only applies to characters in the dataset: a request for a
+path from a character that is not in the dataset to itself should
+have the the usual &quot;unknown character <em>C</em>&quot; output.</p>
+<p>In all cases the string should end with <tt class="western">\n</tt>
+(newline), just like in the first case.</p>
+<h3 class="western"><a name="Problem5"></a>Problem 5: Testing Your
+Solution [12 points]</h3>
+<p>Because the Marvel graph contains literally thousands of nodes and
+hundreds of thousands of edges, using it for correctness testing is
+probably a bad idea. By contrast, using it for scalability testing is
+a great idea, but should come after correctness testing has been
+completed using much smaller graphs. In addition, it is important to
+be able to test your parsing/graph-building and BFS operations in
+isolation, separately from each other.<!-- For these reasons,
+you will use a test driver to verify the correctness of both your parser and BFS
+algorithm on much smaller graphs, as you did in Homework 4.
+-->
+</p>
+<p>You should first write <tt class="western">*.csv</tt> files in the
+<a href="#Problem2">format</a> defined for <tt class="western">marvel.csv</tt>
+to test your <tt class="western">MarvelPaths</tt>. All these files
+will go in the <tt class="western">hw5/data</tt> directory. 
+</p>
+<p>Write tests in the regular JUnit test class. Make sure that you
+handle the edge cases. You will have to specify data files to load in
+your implementation tests, <font color="#ff0000"><b>so make sure you
+read the <a href="#File-Paths">File Paths</a> section for information
+about specifying filenames very carefully.</b></font> 
+</p>
+<p>As in Homework 4, run EclEmma and measure coverage of your tests.
+We will be measuring coverage in the Homework Server. 
+</p>
+<h3 class="western"><a name="reflection"></a>Reflection [0.5 point]</h3>
+<p>Please answer the following questions in a file named
+<tt class="western">reflection.txt</tt> in your <tt class="western">answers/</tt>
+directory. Answer briefly, but in enough detail to help you improve
+your own practice via introspection and to enable us to improve PoS
+in the future.</p>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in">In retrospect, what could you
+	have done better to reduce the time you spent solving this
+	assignment? 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">What could have we done better
+	to improve your learning experience in this assignment? 
+	</p>
+	<li/>
+<p>What do you know now that you wish you had known before
+	beginning the assignment? 
+	</p>
+</ol>
+<h3 class="western"><a name="collaboration"></a>Collaboration [0.5
+point]</h3>
+<p>Please answer the following questions in a file named
+<tt class="western">collaboration.txt</tt> in your <tt class="western">answers/</tt>
+directory.</p>
+<p>The standard integrity policy applies to this assignment. 
+</p>
+<p>State whether or not you collaborated with other students. If you
+did collaborate with other students, state their names and a brief
+description of how you collaborated. 
+</p>
+<h2 class="western"><a name="breakdown"></a>Grade Breakdown</h2>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in">Quality of test suite, percent
+	of your tests passed: 6pts (auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Quality of test suite, percent
+	coverage: 6pts (auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Instructor MarvelPaths small
+	tests: 7pts (auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Instructor MarvelPaths large
+	tests: 8pts (auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Answers to Problem 1 questions
+	(<tt class="western">hw5/answers/problem1.txt</tt>): 10pts 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Changes
+	(<tt class="western">hw5/answers/changes.txt</tt>): 5pts 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Code quality (<tt class="western">hw5/*.java</tt>,
+	specs, rep invariants, AFs, etc.): 7pts 
+	</p>
+	<li/>
+<p>Collaboration and reflection: 1pt 
+	</p>
+</ul>
+<h2 class="western"><a name="File-Paths"></a>Paths to Files</h2>
+<p>When you use test files in <tt class="western">hw5/data</tt>,
+hardcode the relative path in your tests. For example, if you use
+file <tt class="western">testfile1.csv</tt> in directory <tt class="western">hw5/data</tt>,
+you can load the file using <tt class="western">BufferedReader reader
+= new BufferedReader(new FileReader(&quot;hw5/data/testfile1.csv&quot;))</tt>.
+</p>
+<p><font color="#ff0000"><b>Do not use </b></font><tt class="western"><font color="#ff0000"><b>src/hw5/data/testfile1.csv</b></font></tt><font color="#ff0000">
+</font><font color="#ff0000"><b>because the Homework Server assumes
+relative path </b></font><tt class="western"><font color="#ff0000"><b>&quot;hw5/data/testfile1.csv&quot;</b></font></tt><font color="#ff0000">
+</font><font color="#ff0000"><b>and prepending </b></font><tt class="western"><font color="#ff0000"><b>src/</b></font></tt><font color="#ff0000">
+</font><font color="#ff0000"><b>will result in FileNotFoundException
+and a grade of 0.</b></font><font color="#ff0000"> Because Eclipse
+searches for files relative from your project directory (which is the
+default Working Directory), the default compilation configuration
+does require prepending </font><tt class="western"><font color="#ff0000">src/</font></tt><font color="#ff0000">
+to the path. To run without having to prepend </font><tt class="western"><font color="#ff0000">src</font></tt><font color="#ff0000">,
+go to Run Configuration -&gt; Arguments, then in Working Directory,
+click Other, then append </font><tt class="western"><font color="#ff0000">src</font></tt><font color="#ff0000">
+to whatever shows in the Default box. E.g., in my case, I typed
+</font><tt class="western"><font color="#ff0000">${workspace_loc:csci2600}/src</font></tt><font color="#ff0000">,
+where </font><tt class="western"><font color="#ff0000">${workspace_loc:csci2600}</font></tt><font color="#ff0000">
+was the default Working Directory. Relative paths
+</font><tt class="western"><font color="#ff0000">&quot;hw5/data/testfile1.csv&quot;</font></tt><font color="#ff0000">
+should work with this configuration. </font>
+</p>
+<p>Behavior may vary from one version of Eclipse to another. As long
+as you hardcode your relative paths starting at <tt class="western">hw5/data</tt>
+you will be fine on the Homework Server. 
+</p>
+<h2 class="western"><a name="Hints"></a>Hints</h2>
+<h3 class="western"><a name="Performance"></a>Performance</h3>
+<p>If your program takes an excessively long time to construct the
+graph for the full Marvel dataset, first make sure that it parses the
+data and builds the graph correctly for a very small dataset. If it
+does, here are a few questions to consider: 
+</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in">What data structures are you
+	using in your graph? What is their &quot;big-O&quot; runtime? Are
+	there others that are better suited to the purpose? 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Did you remember to correctly
+	override <tt class="western">hashCode()</tt> if you overrode
+	<tt class="western">equals()</tt>? 
+	</p>
+	<li/>
+<p>What is the &quot;big-O&quot; runtime of your <tt class="western">checkRep()</tt>
+	function? Does performance improve if you comment it out? 
+	</p>
+</ul>
+<h3 class="western"><a name="Miscellaneous"></a>Miscellaneous</h3>
+<p>As always, remember to:</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in">Use descriptive variables names
+	(especially in the BFS algorithm) and inline comments as
+	appropriate. 
+	</p>
+	<li/>
+<p>Include an abstraction function, representation invariant,
+	and checkRep in all classes that represent an ADT. If a class does
+	not represent an ADT, place a comment that explicitly says so where
+	the AF and RI would normally go. (For example, classes that contain
+	only static methods and are never constructed usually do not
+	represent an ADT.) Please come to office hours if you feel unsure
+	about what counts as an ADT and what doesn't. 
+	</p>
+</ul>
+<h2 class="western"><a name="Turnin"></a>What to Submit</h2>
+<p>You should add and commit the following files to SVN:</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw5/MarvelPaths.java</tt>
+		</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw5/*.java</tt>
+	<em>[Other classes you create, if any (there may be none!)]</em> 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw5/answers/problem1.txt</tt>
+		</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw5/answers/changes.txt</tt>
+		</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw5/answers/reflection.txt</tt>
+		</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw5/answers/collaboration.txt</tt>
+		</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw5/data/*.csv</tt>
+	[Your .csv test files. <font color="#ff0000"><b>Don't commit
+	marvel.csv</b></font>.] 
+	</p>
+	<li/>
+<p><tt class="western">hw5/test/*Test.java</tt> <em>[JUnit
+	tests classes you create]</em> 
+	</p>
+</ul>
+<p>Additionally, be sure to commit any updates you may have made to
+the following files, so the staff has the correct version for this
+assignment:</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw4/*.java</tt>
+	<em>[Your graph ADT]</em> 
+	</p>
+	<li/>
+<p><tt class="western">hw5/MarvelParser.java</tt> 
+	</p>
+</ul>
+<h2 class="western"><a name="errata"></a>Errata</h2>
+<p>None yet. Check the Announcements page regularly.</p>
+<div id="footer" dir="ltr">
+	<p>Parts of this homework were copied from the University of
+	Washington Software Design and Implementation class by Michael
+	Ernst.</p>
+</div>
+<p><!-- LocalWords:  11pm H5 MarvelPaths Returnin ADT Char1 Char2 hw5 tsv p'
+ --><!-- LocalWords:  MarvelParser parseData BOOK1 CHAR3 BOOK2 java hw5 BFS
+ --><!-- LocalWords:  neighbors' dest worklist txt IMs returnin returnin331
+ --><!-- LocalWords:  attu
+ --></p>
+</body>
+</html>

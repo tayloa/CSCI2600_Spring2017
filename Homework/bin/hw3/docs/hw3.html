@@ -1,0 +1,497 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=windows-1252"/>
+	<title>CSCI 2600 Homework 3: Java and Coding to Specifications</title>
+	<meta name="generator" content="LibreOffice 5.2.0.4 (Windows)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="2017-02-26T05:45:26.609000000"/>
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="00:00:00">
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-10-05T09:42:54.590000000">
+	<style type="text/css">
+		h2.cjk { font-family: "SimSun" }
+		h2.ctl { font-family: "Lucida Sans" }
+		h3.cjk { font-family: "SimSun" }
+		h3.ctl { font-family: "Lucida Sans" }
+		pre.cjk { font-family: "NSimSun", monospace }
+		tt.cjk { font-family: "NSimSun", monospace }
+		code.cjk { font-family: "NSimSun", monospace }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<div id="header" dir="ltr">
+	<p>CSCI 2600 Principles of Software</p>
+	<h1><!-- omit from toc -->Homework 3: Java and Coding to
+	Specification 
+	</h1>
+	<h2 class="western"><!-- omit from toc -->Due: March 9 <b>@ </b><b>1</b><b>1:59pm</b>
+		</h2>
+</div>
+<p>As always, we recommend that you read the entire homework before
+you begin work. As always, you must commit to your SVN repository,
+then submit through the Homework server.</p>
+<h2 class="western"><a name="Introduction"></a>Introduction</h2>
+<p>This homework focuses on reading and interpreting specifications,
+and reading and writing Java source code. Additionally, you will be
+given an introduction to using <tt class="western">checkRep</tt>
+methods and testing strategies. You will implement one class that
+will complete the implementation of a polynomial with rational
+coefficients, and you will answer questions about both the code you
+are given and the code you are going to write.</p>
+<p>To complete this homework, you will need to know:</p>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in">Basic algebra (rational and
+	polynomial arithmetic) and polynomial arithmetic 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">How to read and write basic Java
+	code 
+	</p>
+	<ul>
+		<li/>
+<p style="margin-bottom: 0in">code structure and layout
+		(class and method definition, field and variable declaration) 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in">method calls 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in">operators for: 
+		</p>
+		<ul>
+			<li/>
+<p style="margin-bottom: 0in">object creation: <tt class="western">new</tt>
+						</p>
+			<li/>
+<p style="margin-bottom: 0in">field and method access: <tt class="western">.</tt>
+						</p>
+			<li/>
+<p style="margin-bottom: 0in">assignment: <tt class="western">=</tt>
+						</p>
+			<li/>
+<p style="margin-bottom: 0in">comparison: <tt class="western">==</tt>,
+			<tt class="western">!=</tt>, <tt class="western">&lt;</tt>, <tt class="western">&gt;</tt>,
+			<tt class="western">&le;</tt>, <tt class="western">&ge;</tt> 
+			</p>
+			<li/>
+<p style="margin-bottom: 0in">arithmetic: <tt class="western">+</tt>,
+			<tt class="western">-</tt>, <tt class="western">*</tt>, <tt class="western">/</tt>
+						</p>
+		</ul>
+		<li/>
+<p style="margin-bottom: 0in">control structure: loops (<tt class="western">while</tt>
+		and <tt class="western">for</tt>) and conditional branches (<tt class="western">if</tt>,
+		<tt class="western">else</tt>)<!-- <li>numeric type casts (the <tt>(double)</tt> operator) -->
+				</p>
+	</ul>
+	<li/>
+<p>How to read procedural specifications in the PoS convention
+	(requires, modifies, effects, returns and throws) 
+	</p>
+</ol>
+<h2 class="western"><a name="Problems"></a>Problems</h2>
+<p>You should have files <tt class="western">RatNum.java</tt> and
+<tt class="western">RatPoly.java</tt> in directory hw3, and files
+<tt class="western">RatNumTest.java</tt>, <tt class="western">RatPolyTest.java</tt>
+and <tt class="western">RatPolyDivideTest.java</tt> in directory
+hw3.test. (<tt class="western">RatPolyDivideTest.java</tt> is only
+needed for the extra credit problem which asks for polynomial
+division. It shows errors because the division operation has not been
+added yet to <tt class="western">RatPoly.java</tt>.) Read through the
+spcifications in <tt class="western">RatNum.java</tt> and
+<tt class="western">RatPoly.java</tt> to help you work through the
+problems below. 
+</p>
+<h3 class="western"><a name="Problem-1"></a>Problem 1: RatNum (5pts)</h3>
+<p>For this first problem you don't have to write any code, but you
+do have to answer written questions. Read the specifications and
+provided implementation in <tt class="western">RatNum.java</tt>, a
+class representing rational numbers. 
+</p>
+<p>You may want to look at the code in <tt class="western">RatNumTest.java</tt>
+to see example usages of the RatNum class (albeit in the context of a
+test driver, rather than application code).</p>
+<p>Answer the following questions, writing your answers in the file
+<tt class="western">hw3/answers/problem1.txt</tt>. <strong>Two or
+three sentences should be enough to answer each question. For full
+credit your answers should be short and to the point. Points will be
+deducted for answers that are excessively long or contain irrelevant
+information.</strong></p>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in">Classify each public method of
+	RatNum as a <i>creator</i>, <i>observer</i>, <i>producer</i> or
+	<i>mutator</i>. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">What is the point of the
+	one-line comments inside the <tt class="western">add</tt>, <tt class="western">sub</tt>,
+	<tt class="western">mul</tt>, and <tt class="western">div</tt>
+	methods? 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">add</tt>,
+	<tt class="western">sub</tt>, <tt class="western">mul</tt>, and <tt class="western">div</tt>
+	all require that &quot;arg != null&quot;. This is because all of the
+	methods access fields of 'arg' without checking if 'arg' is null
+	first. But the methods also access fields of 'this' without checking
+	for null; why is &quot;this != null&quot; absent from the
+	requires-clause for the methods? 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">RatNum.div(RatNum)</tt>
+	checks whether its argument is NaN (not-a-number).
+	<tt class="western">RatNum.add(RatNum)</tt> and <tt class="western">RatNum.mul(RatNum)</tt>
+	do not do that. Explain. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Why is <tt class="western">RatNum.valueOf(String)</tt>
+	a static method? What alternative to static methods would allow one
+	to accomplish the same goal of generating a RatNum from an input
+	String? 
+	</p>
+	<li/>
+<p>Imagine that the representation invariant were weakened so
+	that we did not require that the <tt class="western">numer</tt> and
+	<tt class="western">denom</tt> fields be stored in reduced form.
+	This means that the method implementations could no longer assume
+	this invariant held on entry to the method, but they also no longer
+	would be required to enforce the invariant on exit. The new rep
+	invariant would then be: 
+	</p>
+	<pre class="western" style="margin-right: 0.39in; margin-bottom: 0.2in">// Rep Invariant for every RatNum r: ( r.denom &gt;= 0 )</pre><p>
+	List the method or constructor implementations that would have to
+	change. For each changed piece of code, describe the changes
+	informally, and indicate how much more or less complex (in terms of
+	code clarity and/or execution efficiency) the result would be. Note
+	that the new implementations must still adhere to the given spec; in
+	particular, <tt class="western">RatNum.toString()</tt> needs to
+	output fractions in reduced form.<!--(Hint: also, <tt>2/4</tt> must still equal
+<tt>1/2</tt>.)-->
+		</p>
+	<li/>
+<p><tt class="western">add</tt>, <tt class="western">sub</tt>,
+	<tt class="western">mul</tt>, and <tt class="western">div</tt> all
+	end with a statement of the form <code class="western">return new
+	RatNum ( numerExpr , denomExpr);</code>. Imagine an implementation
+	of the same function except the last statement is: 
+	</p>
+	<pre class="western" style="margin-right: 0.39in">this.numer = numerExpr;
+this.denom = denomExpr;
+return this;</pre><p>
+	For this question, pretend that the <tt class="western">this.numer</tt>
+	and <tt class="western">this.denom</tt> fields are not declared as
+	<tt class="western">final</tt> so that these assignments compile
+	properly. How would the above changes fail to meet the
+	specifications of the function (Hint: take a look at the <tt class="western">@requires</tt>
+	and <tt class="western">@modifies</tt> statements, or lack thereof.)
+	and fail to meet the specifications of the RatNum class?</p>
+	<li/>
+<p>Calls to <tt class="western">checkRep</tt> are supposed to
+	catch violations in the classes' invariants. In general, it is
+	recommended that one call <tt class="western">checkRep</tt> at the
+	beginning and end of every method. In the case of <tt class="western">RatNum</tt>,
+	why is it sufficient to call <tt class="western">checkRep</tt> only
+	at the end of the constructors? (Hint: could a method ever modify a
+	<tt class="western">RatNum</tt> such that it violates its
+	representation invariant? Could a method change a <tt class="western">RatNum</tt>
+	at all? How are changes to instances of <tt class="western">RatNum</tt>
+	prevented?) 
+	</p>
+</ol>
+<h3 class="western"><a name="Problem-2"></a>Problem 2: RatPoly
+(45pts: Code: 40pts autograded, Answers: 5pts)</h3>
+<p>Read over the specifications for the <tt class="western">RatPoly</tt>
+class, making sure you understand the overview for RatPoly and the
+specifications for the given methods. Read through the provided
+skeletal implementation of <tt class="western">RatPoly.java</tt>. 
+</p>
+<p>Fill in an implementation for all methods.<!-- except for 
+<code>differentiate()</code>, <code>antiDifferentiate(RatNum integrationConstant)</code>
+and <code>integrate(double lowerBound, double upperBound)</code>. If implement you
+these three methods you will earn 10 points extra credit for the assignment.
+-->
+</p>
+<p>You may define new private helper methods as you like.<!--; we have suggested
+a few ourselves, complete with specifications, but you are not obligated
+to use them. (We believe that doing so will simplify
+your implementation.)-->
+You may not add public methods; the external interface must remain
+the same. (If you implement the Extra credit question you will have
+to add one specific public method.) If you define new methods, you
+must specify them completely. You can consider the specifications of
+existing methods (where you fill in the body) to be adequate. You
+should comment any code you write, as needed; please do not
+over-comment. 
+</p>
+<p>We have provided a <tt class="western">checkRep()</tt> method in
+RatPoly that tests whether or not a RatPoly instance violates the
+representation invariants. We highly recommend you use <tt class="western">checkRep()</tt>
+where appropriate in the code you write. Think about the issues
+discussed in the last question of problem 1 when deciding where
+<tt class="western">checkRep</tt> should be called. 
+</p>
+<p><!--<p>Take a look
+at the RatPoly.degree() function for a simple way to include
+<tt>checkRep()</tt> in your code.  Simply place the entire main body
+of your code inside a <tt>try { ... }</tt> block, and append <pre>
+finally {
+    checkRep();
+}</pre>
+to your code.</p>
+-->There
+is a fairly rigorous test suite in <tt class="western">RatPolyTest.java</tt>.
+You can run the given test suite with JUnit to evaluate your progress
+and the correctness of your code. It is probably a good idea to run
+tests individually rather than runnning the entire suite at once.</p>
+<p>Answer the following questions, writing your answers in the file
+<tt class="western">hw3/answers/problem2.txt</tt>. <strong>Remember,
+keep your answers to 2-3 sentences.</strong></p>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in">We have chosen the array
+	representation of a polynomial: <code class="western">RatNum[]
+	coeffs</code>, where <code class="western">coeffs[i]</code> stores
+	the coefficient of the term of exponent <code class="western">i</code>.
+	An alternative data representation is the list-of-terms
+	representation: <code class="western">List&lt;Term&gt; terms</code>,
+	where each Term object stores the term's RatNum coefficient and
+	integer exponent. The beauty of the ADT methodology is that we can
+	switch from one representation to the other without affecting the
+	clients of our RatPoly! Briefly list the advantages and
+	disadvantages of the array representation versus the list-of-terms
+	representation. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Where did you include calls to
+	<tt class="western">checkRep</tt> (at the beginning of methods, the
+	end of methods, the beginning of constructors, the end of
+	constructors, some combination)? Why? 
+	</p>
+	<li/>
+<p>Imagine that the representation invariant of <tt class="western">RatPoly</tt>
+	was weakened so that we did not require the last element of <code class="western">coeffs</code>
+	to be non-0. This means that the method implementations could no
+	longer assume this invariant held on entry to the method, but they
+	also no longer were required to enforce the invariant on exit. Which
+	method or constructor implementations will change? Please list them.
+	For each changed piece of code, describe the changes informally, and
+	indicate how much more or less complex (in terms of code clarity
+	and/or execution efficiency) the result would be. Note that the new
+	implementations must still adhere to the given spec. 
+	</p>
+</ol>
+<h3 class="western"><a name="Problem 3"></a>Problem 3: Polynomial
+division (10pts EXTRA CREDIT: Pseudocode and invariant: 5pts, Java
+code: 5pts autograded)</h3>
+<p>Write a pseudocode algorithm for division. State the loop
+invariant for the main loop. You do not need to prove partial
+correctness, just give the right invariant. Write your answer in the
+file <tt class="western">hw3/answers/problem3.txt</tt>. 
+</p>
+<p>The following is the definition of polynomial division: 
+</p>
+<blockquote>Division of polynomials is defined as follows:</blockquote>
+<blockquote>Given two polynomials u and v, with v != &quot;0&quot;,
+we can divide u by v to obtain a quotient polynomial q and a
+remainder polynomial r satisfying the condition u = &quot;q * v + r&quot;,
+where the degree of r is strictly less than the degree of v, the
+degree of q is no greater than the degree of u, and r and q have no
+negative exponents.</blockquote>
+<blockquote>For the purposes of this class, the operation &quot;u /
+v&quot; returns q as defined above.</blockquote>
+<blockquote>The following are examples of div's behavior:</blockquote>
+<ul>
+	<li/>
+<blockquote style="margin-bottom: 0in">(x^3-2*x+3) / (3*x^2) =
+	1/3*x (with r = &quot;-2*x+3&quot;). 
+	</blockquote>
+	<li/>
+<blockquote style="margin-bottom: 0in">(x^2+2*x+15) / (2*x^3)
+	= 0 (with r = &quot;x^2+2*x+15&quot;). 
+	</blockquote>
+	<li/>
+<blockquote>(x^3+x-1) / (x+1) = x^2-x+2 (with r = &quot;-3&quot;).
+		</blockquote>
+</ul>
+<blockquote>Note that this truncating behavior is similar to the
+behavior of integer division on computers.</blockquote>
+<p>For this question, you do not need to handle division by zero;
+however, you will need to do so for the Java programming exercise. 
+</p>
+<p>Next, add a public method <tt class="western">public RatPoly
+div(RatPoly p)</tt> with appropriate specification to the <tt class="western">RatPoly</tt>
+class and transfer your pseudocode algorithm into <tt class="western">div</tt>.
+You may assume that the divisor <tt class="western">p</tt> is
+non-null. If <tt class="western">p</tt> is zero <tt class="western">div</tt>
+returns some <tt class="western">q</tt> such that <tt class="western">q.isNaN</tt>.
+As with the other operations (e.g., <tt class="western">mul</tt>), if
+<tt class="western">this.isNaN</tt> or <tt class="western">p.isNaN</tt>,
+<tt class="western">div</tt> returns some <tt class="western">q</tt>
+such that <tt class="western">q.isNaN</tt>. 
+</p>
+<p>There is an extensive test suite for division in
+<tt class="western">RatPolyDivideTest.java</tt>. You can run this
+test suite to evaluate your progress and the correctness of your
+code.</p>
+<h3 class="western"><a name="collaboration"></a><!-- Will include in futre iters. of PoS!!!
+<h3 id="Problem-6">Problem 6: Invariant detection (4 points)</h3>
+
+<p> Daikon is a software engineering tool that reports properties
+about programs similar to representation invariants and method pre-
+and postconditions.  Please read the <a
+href="../../tools/daikon.html">introduction to Daikon</a>.  </p>
+
+<p> For this problem, you will generate and analyze the results of
+running Daikon on the <tt>RatNum</tt> class using two different test suites:
+<tt>RatNumTest</tt>, the original test suite, and
+<tt>RatNumSmallTest</tt>, a reduced test suite that does not provide as much coverage.</p>
+
+<p> To ease your work, we have provided you with <tt>ant</tt> targets
+to run Daikon with the correct arguments for this particular problem.
+Like most of the other targets (e.g. "build"), these targets can be run from
+either <a href="../../tools/editing-compiling.html#ant-eclipse">Eclipse</a> or the command line.
+</p>
+
+<p>First, run Daikon from your hw3 directory using the original RatNum test suite (<tt>RatNumTest</tt>):</p>
+<pre>
+ant daikon-RatNumTest
+</pre>
+
+<p>This command will place Daikon's results in
+<tt>daikon-RatNumTest.inv.txt</tt> in your <tt>hw3</tt> directory.
+If you are using Eclipse, you will need to refresh the <tt>hw3</tt> directory
+to see the results file in the <b>Package Browser</b>.</p>
+
+<p> Next, run Daikon on the reduced RatNum test suite (<tt>RatNumSmallTest</tt>):</p>
+<pre>
+ant daikon-RatNumSmallTest
+</pre>
+
+<p>This command will place Daikon's results in
+<tt>daikon-RatNumSmallTest.inv.txt</tt> in the <tt>hw3</tt> directory.
+If you are using Eclipse, you will need to refresh the <tt>hw3</tt> directory
+to see the results file in the <b>Package Browser</b>.</p>
+
+<p>Please answer the following questions in the file
+<tt>hw3/answers/problem6.txt</tt>:</p>
+
+<ol>
+  <li>Examine the representation invariants Daikon generates for
+  <tt>RatNum</tt> using the original test suite.  These can be found at
+  the top of the <tt>daikon-RatNumTest.inv.txt</tt> file under the
+  heading <tt>hw3.RatNum:::OBJECT</tt>.  Does Daikon generate the same
+  invariants that are recorded in the representation invariant of
+  <tt>RatNum</tt>?  How do they differ?</li>
+
+  <li>Compare the invariants generated by Daikon at the
+  entrance of the <tt>RatNum.sub</tt> method (found under the heading <tt>hw3.RatNum.sub(hw3.RatNum):::ENTER</tt>), using the two different test suites.
+  How are the invariants generated by the two test suites different?
+  What do the differences tell you about the test cases that are
+  missing from the reduced test suite for <tt>RatNum.sub</tt>?
+  That is, what case is the reduced test suite not testing?
+  </li>
+</ol>
+
+<p>
+You should not commit any of the Daikon-generated files to your Subversion
+repository.
+</p>
+-->Collaboration</h3>
+<p>Please answer the following questions in a file named
+<tt class="western">collaboration.txt</tt> in your <tt class="western">answers/</tt>
+directory.</p>
+<p>The standard <a href="http://www.cs.rpi.edu/~milanova/csci2600/syllabus.htm">academic
+integrity policy</a> applies to this homework. 
+</p>
+<p>State whether or not you collaborated with other students. If you
+did collaborate with other students, state their names and a brief
+description of how you collaborated. 
+</p>
+<h3 class="western"><a name="reflection"></a>Reflection</h3>
+<p>Please answer the following questions in a file named
+<tt class="western">reflection.txt</tt> in your <tt class="western">answers/</tt>
+directory. Answer briefly, but in enough detail to help you improve
+your own practice via introspection and to enable the course staff to
+improve PoS in the future.</p>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in">In retrospect, what could you
+	have done better to reduce the time you spent solving this homework?
+		</p>
+	<li/>
+<p style="margin-bottom: 0in">What could the PoS staff have
+	done better to improve your learning experience in this homework? 
+	</p>
+	<li/>
+<p>What do you know now that you wish you had known before
+	beginning the homework? 
+	</p>
+</ol>
+<h3 class="western"><a name="submit"></a>What to submit</h3>
+<p>By the end of the homework, you should have the following files
+committed to SVN in your hw3 directory:</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">answers/problem1.txt</tt>
+		</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">answers/problem2.txt</tt>
+		</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">answers/problem3.txt</tt>(Extra
+	credit) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">RatPoly.java</tt>
+		</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">answers/collaboration.txt</tt>
+		</p>
+	<li/>
+<p><tt class="western">answers/reflection.txt</tt> 
+	</p>
+</ul>
+<p>All of the unfinished methods in RatPoly throw <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/RuntimeException.html">RuntimeException</a>s.
+When you implement a method, you should be sure to remove the <code class="western">throw
+new RuntimeException();</code> statement. For those of you who use
+Eclipse, we have also added a <tt class="western">TODO:</tt> comment
+in each of these methods. The &quot;Tasks&quot; window will give you
+a list of all <tt class="western">TODO:</tt> comments, which will
+help you find and complete these methods. 
+</p>
+<p>Think before you code! The polynomial arithmetic functions are not
+difficult, but if you begin implementation without a specific plan,
+it is easy to get yourself into a terrible mess. Fortunately, you did
+write pseudocode for most of the polynomial arithmetic algorithms in
+Homework 2. 
+</p>
+<p>The provided test suites in this homework are the same ones we
+will use to grade your implementation; in later homeworks the staff
+will not provide such a thorough set of test cases to run on your
+implementations, but for this homework you can consider the provided
+set of tests to be rigorous enough that <b>you do not need to write
+your own tests</b>.</p>
+<h2 class="western"><a name="errata"></a>Errata</h2>
+<p>None yet. Check the Announcements page regularly.</p>
+<h2 class="western"><a name="q-and-a"></a>Q &amp; A</h2>
+<p>None yet.</p>
+<div id="footer" dir="ltr">
+	<p>This homework was significantly modified from Mike Ernst's
+	<a href="http://courses.cs.washington.edu/courses/cse331/13sp/">Software
+	Design and Implementation Course at the UW.</a></p>
+</div>
+<p><!-- LocalWords:  RatNum RatTerm RatPoly RatPolyStack PolyCalc Returnin isZero
+ --><!-- LocalWords:  toString Javadoc hws ps java foreach div div's RatNumTest
+ --><!-- LocalWords:  mul arg NaN valueOf numer denom numerExpr denomExpr coeff
+ --><!-- LocalWords:  RatTermTest isNaN expt RatPolyTest RatPolyStackTest daikon
+ --><!-- LocalWords:  CalculatorFrame RatNumSmallTest txt returnin RuntimeException
+ --><!-- LocalWords:  TODO javadoc NaN's Exp XHTML scaleCoeff 11pm H3 hw3 pre
+ --><!-- LocalWords:  checkRep 2x 3x 4x 5x src SVN 'arg' 'this' classes' IMs
+ --><!-- LocalWords:  returnin331 attu sortedInsert
+ --></p>
+</body>
+</html>

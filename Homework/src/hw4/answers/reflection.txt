@@ -1,0 +1,8 @@
+1. In retrospect, what could you have done better to reduce the time you spent solving this assignment?
+2. What could the Principles of Software staff have done better to improve your learning experience in 
+this assignment?
+3. What do you know now that you wish you had known before beginning the assignment? 
+
+1. I could have started the assignment earlier.
+2. I wish some instructions for the assignment and expected output were described in a better way.
+3. A little more about how Java testing works. It wasn't heard to understand, but having more knowledge of it would have got me through the assignment faster.

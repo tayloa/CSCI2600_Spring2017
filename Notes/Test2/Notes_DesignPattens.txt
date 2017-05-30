@@ -1,0 +1,124 @@
+Slide: 3
+UML has sequence diagrams as well, which are concerned with the dynamics of the system. 
+Sequence diagrams are less useful in general.
+
+Slide: 4
+There is space for the attributes and space for the operations. I only show the operations. 
+
+Slide: 5
+Is_a relationship
+
+Slide: 6
+Note: usually UML classes show both fields (attributes) and methods (operations). But you can skip one part if you want.
+
+Has-a relationships.
+
+Slide: 8
+ObjectAid from Eclipse marketplace was used to draw these.
+
+Slide: 19
+Static method, user calls 
+SparseMatrix s = MatrixFactory.createMatrix()
+
+
+Slide: 24
+Problem with this code:
+Code duplication: createRace is very similar among the 3 classes, why not have a single createRace in Race?
+
+Slide: 25
+Where is the Factory Method?
+this.createBicycle calls appropriate method
+
+Race t = new TourDeFrance();
+t.createRace();  // calls Race.createRace()
+
+Slide: 26
+In our case, Client doesn't need access to the Bicycle interface. 
+We can create a new bicycle type and a new kind of race by subclassing bicycle and race.
+For example, we could create a TriCycle bike and a TriCycle race without modifying the superclasses.
+
+Subtype polymorphism --- subtyping in Races and subtyping in Bicycles. 
+
+Slide: 28
+createDocument is the Factory method. 
+
+Problem: There are several concrete Application classes, which have a lot in common, but each Application class works on its own Document. Who creates the Document object.
+
+Solution: Having a Factory method create the documents allows Application to have the common functionality. These methods call factory method "createDocument" which creates the right kind of Document object. The client of these hierarchies (Document, Application) works against the interfaces of Document and Applications. Thus, this client is open to extensions (with different documents and different applications), while it is closed to modification, since it works with the common interfaces.
+
+Different applications can return different documents by calling the appropriate Document factory.
+
+Slide: 29
+Where are the Factory methods: createRoom, createWall, createDoor.
+
+Slide: 30
+An Enchanted Maze Game defines its own implementation for the products (Rooms, Walls, Doors).
+There will also be a Wall interface and subtype EnchantedWall
+
+Slide: 31
+An Bombed Maze Game defines its own implementation for the products (Rooms, Walls, Doors).
+
+
+Slide: 32
+The examples I used so far conform with the GoF definition of Factory method: we have the parallel hierarchy of Objects and their Products and each Object class creates its own product. 
+
+The term "factory method" is used outside of this context. In general "Factory method" refers to any method that can return a Product (maybe a subtype), depending on the context.
+
+DateFormat.getDateInstance(); returns an object that can create the appropriate type of date, i.e. a factory.
+
+Slide: 33
+We can extend this idea and encapsulate the creation of bicycles.
+
+Slide: 34
+Calls appropriate bfactory to create a bicycle
+
+Slide: 36
+With Factory Class/Object, the MazeGame is no longer responsible for creating the products. It "outsources" creation to a Factory object.
+
+Slide: 37
+Where is the Factory Method?
+
+Slide: 38
+MazeGame will be passed the appropriate type of factory to create a MazeGame, e.g. MazeGame(new EnchantedMazefactory()). The appropriate createRoom() methods will be called.
+
+Slide: 42
+What's the advantages of this Factory Class design over Factory Method? 
+Answer: Now Races and Bikes can vary independently: We can crate a Cyclocross with Trycicles etc. With FactoryMethod each Product was tied to a particular Race. TourDeFrance -> RoadBikes, Cyclocross -> MountainBikes. 
+
+
+Easy to extend with new Races and New Bikes. Easy to make change in client code without affecting most of the existing code. 
+
+
+
+Slide: 46
+String factory = // String read from file
+Class factoryClazz = Class.forName(factory);
+BikeFactory bfactory = (BikeFactory) factoryClazz.newInstance();
+
+Slide: 47
+Read "TricycleFactory" from file
+
+Slide: 52
+Object.clone() returns a copy of the object.
+Note that Shape implements the Cloneable interface.
+
+Slide: 57
+The private constructor means that clients cannot directly create Bank objects.
+
+Slide: 63
+The two string-segment objects reuse the String objects with same value.
+
+Slide: 64
+Why not a HashSet?
+
+HashSet only stores names, we may want other info stored
+Similar to memoization.
+
+Slide: 67
+Why not a HashSet?
+
+Slide: 68
+valueOf is just like canonicalName on the previous slide, it returns the canonical TRUE or FALSE, as requested. 
+
+
+

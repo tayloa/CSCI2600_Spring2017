@@ -1,0 +1,32 @@
+1.
+Abstraction Function
+    // IntPriorityQueue, q, is represented by a max heap in which each element has 
+    // priority over another.
+    // If there are is one element in the heap, there is only a root, heap[0] .
+    
+Representation Invariant
+heap[0] = int.MAX_VALUE
+heap.min == heap[0]
+size = heap.size - 1
+foreach i, 0<=i<heap.length: heap[i] != null:
+	// if i != 0
+    //      heap[(i-1)/ 2] > heap[i]
+    // if heap[2i + 1] != null
+    //      heap[2i + 1] < heap[i]
+    // if heap[2i + 2] != null
+    //      heap[2i + 2] < heap[i]
+    // else
+    //      size = heap.length - 1 &&
+    //      heap[size] != 0
+    
+2. External access to the rep can come from the size and remove methods. They are public methods that could give the user access to private variables. They
+   can be fixed by returning copies instead of the actual variables
+3. checkRep() should be called at the end of every method that creates or mutates the rep.
+4.
+They have the same ADT but different implementations.
+a.heap = [Integer.MAX_VALUE,4,2,3,2,4] and size = 3
+b.heap = [Integer.MAX_VALUE,4,2,3] and size = 3      
+c.heap = [Integer.MAX_VALUE,4,3,2] and size = 3    
+d.heap = [Integer.MAX_VALUE,5,4,3,3,1] and size = 5
+
+b, c, and d are all the same ADT but have different implementations. a is the only one that doesn't have a max heap as a representation.

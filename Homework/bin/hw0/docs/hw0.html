@@ -1,0 +1,742 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=windows-1252"/>
+	<title>CSCI 2600 Homework 0: Setup and Java Introduction</title>
+	<meta name="generator" content="LibreOffice 5.2.0.4 (Windows)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="2017-01-19T17:52:22.281000000"/>
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2017-01-19T16:18:14.758000000">
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-12-26T13:56:41.158000000">
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-12-26T11:37:27.961000000">
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-08-25T16:10:20.650000000">
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-08-08T15:43:19.946000000">
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-08-08T12:05:45.595000000">
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-08-08T12:04:09.506000000">
+	<style type="text/css">
+		h2.cjk { font-family: "SimSun" }
+		h2.ctl { font-family: "Lucida Sans" }
+		pre.cjk { font-family: "NSimSun", monospace }
+		h3.cjk { font-family: "SimSun" }
+		h3.ctl { font-family: "Lucida Sans" }
+		tt.cjk { font-family: "NSimSun", monospace }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<div id="header" dir="ltr">
+	<p>CSCI 2600 Principles of Software</p>
+	<h1><!-- omit from toc -->Homework 0: Setup and Java Introduction 
+	</h1>
+	<h2 class="western"><!-- omit from toc -->Due: Monday January 30 @
+	11:59 AM</h2>
+</div>
+<p>The purpose of this assignment is to help you set up your
+development environment, get acquainted with Java, and introduce your
+with tools you will use for the rest of the course. 
+</p>
+<p>If you would like to get more practice with Java, then we
+recommend walking through Oracle's Java tutorials described under
+<a href="#Problem4">Problem 4</a>. Try to complete Homework 0 first
+so you can use the tools we describe here when doing the examples in
+Oracle's tutorial. 
+</p>
+<p>You are free to get help from anyone, on any portion of this
+problem set; that is, the <a href="http://www.cs.rpi.edu/~thompw4/CSCI-2600/Spring2017/Documents/syllabus_CSCI_2600.pdf" target="_blank">academic
+integrity policy</a> does not apply to this homework. 
+</p>
+<p>If you are having trouble with this assignment, get in touch with
+us immediately so we can try to get you back on track.<!-- (Not true in 11wi.)
+<p>
+The first section will consist of the staff in the lab making
+sure people get a solid start on this assignment.
+</p>
+--><!-- *********************GETTING STARTED*********************** -->
+</p>
+<h2 class="western"><a name="getting_started"></a>Getting Started</h2>
+<p><!-- TODO: Double check this paragraph. Is there more? -->You must
+have Eclipse and Subclipse properly installed and must have checked
+out project csci2600 with package hw0 through SVN. 
+</p>
+<p>Throughout the course you will receive starter code and submit
+your assignments through Subversion (SVN). SVN is a version control
+system that allows software engineers to backup, manage, and
+collaborate on large software projects (you will learn more about SVN
+throughout the course).</p>
+<p>Follow the instructions in the <a href="http://www.cs.rpi.edu/~thompw4/CSCI-2600/Spring2017/Documents/VersionControl.pdf">Verision
+Control handout</a>, which outlines the basics of SVN.</p>
+<h2 class="western"><a name="Problem1"></a><!-- ************************PROBLEM 1****************************** -->Problem
+1: Your first Java class&mdash;RandomHello</h2>
+<p>Create your Java class with a <tt class="western">main</tt> method
+that will randomly choose, and then print to the console, one of five
+possible greetings that you define.</p>
+<p><a href="http://www.cs.rpi.edu/~thompw4/CSCI-2600/Spring2017/Documents/EditingCompilingWithEclipse.pdf#new">Create
+the file</a> <tt class="western">RandomHello.java</tt>, which will
+define a Java class named <tt class="western">RandomHello</tt> that
+will reside in the Java package <tt class="western">hw0</tt>; that
+is, assuming your project csci2600, its file name would be
+<tt class="western"><em>YourWorkspaceDirectory</em></tt><tt class="western">/csci2600/src/hw0/RandomHello.java</tt>.
+</p>
+<p>Java requires every runnable class to contain a <tt class="western">main</tt>
+method whose signature is <tt class="western">public static void
+main(String[] args)</tt> (for example, the <tt class="western">main</tt>
+methods in <tt class="western">HelloWorld</tt>). 
+</p>
+<p>A code skeleton for the <tt class="western">RandomHello</tt> class
+is shown below. Eclipse will generate some of this skeleton for you
+when you create the new <tt class="western">RandomHello</tt> class. 
+</p>
+<p><tt class="western">RandomHello.java</tt>:</p>
+<pre class="western">package hw0;
+/**
+ * RandomHello selects a random greeting to display to the user.
+ */
+public class RandomHello {
+    /**
+     * Uses a RandomHello object to print
+     * a random greeting to the console.
+     */
+    public static void main(String[] argv) {
+        RandomHello randomHello = new RandomHello();
+        System.out.println(randomHello.getGreeting());
+    }
+    /**
+     * @return a random greeting from a list of five different greetings.
+     */
+    public String getGreeting() {
+        // YOUR CODE GOES HERE
+    }
+}</pre><p>
+This skeleton is meant only to serve as a starting point; you are
+free to organize it as you see fit. 
+</p>
+<h3 class="western"><a name="wheel-reinvention"></a>No Need to
+Reinvent the Wheel</h3>
+<p>Don't write your own random number generator to decide which
+greeting to select. Instead, take advantage of Java's <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Random.html">Random</a>
+class. (This is a good example of the adage &quot;Know and Use the
+Libraries&quot; as described in Chapter 7 of Joshua Bloch's <i>Effective
+Java</i>. Learning the libraries will take some time, but it's worth
+it!)</p>
+<p>Type the following into the body of your <tt class="western">getGreeting()</tt>
+method: 
+</p>
+<pre class="western" style="margin-bottom: 0.2in">Random randomGenerator = new Random();</pre><p>
+This line creates a random number generator. (Not a <i>random number</i>,
+which comes later, but a Java object that can <i>generate</i> random
+numbers. In Eclipse, your code may be marked as an error by a red
+underline. This is because the <tt class="western">Random</tt> class
+is defined in a package that has not yet been imported (<tt class="western">java.lang</tt>
+and <tt class="western">hw0</tt> are the only packages that are
+implicitly imported). Java libraries are organized as packages and
+you can only access Java classes in packages that are imported. To
+import <tt class="western">java.util.Random</tt>, add the following
+line under the line <tt class="western">package hw0;</tt> at the top
+of your file (after the <tt class="western">package hw0;</tt>
+declaration):</p>
+<pre class="western" style="margin-bottom: 0.2in">import java.util.Random;</pre><p>
+This will import the class <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Random.html">Random</a>
+into your file. To automatically add all necessary imports and remove
+unused imports, Eclipse lets you type <b>CTRL-SHIFT-O</b> to <i><b>O</b></i><i>rganize</i>
+your imports. Because there is only one class named <tt class="western">Random</tt>,
+Eclipse will figure out that you mean to import <tt class="western">java.util.Random</tt>
+and will add the above line of code automatically. (If the name of
+the class that needs to be imported is ambiguous &mdash; for example,
+there is a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html">java.util.List</a>
+as well as a <a href="http://docs.oracle.com/javase/7/docs/api/java/awt/List.html">java.awt.List</a>
+&mdash; then Eclipse will prompt you to choose the one to import.) 
+</p>
+<h3 class="western"><a name="using-random"></a>Using java.util.Random</h3>
+<p>Read the documentation for <tt class="western">Random</tt>'s
+<tt class="western">nextInt(int n)</tt> method by going to the <a href="http://docs.oracle.com/javase/7/docs/api/">Java
+API</a> and selecting <tt class="western">Random</tt> from the list
+of classes in the left-hand frame. Many classes also allow you to
+pull up documentation directly in Eclipse. Just hover over the class
+or method name and press SHIFT+F2. 
+</p>
+<p>Use the <tt class="western">nextInt(int n)</tt> method to choose
+your greeting. You don't have to understand all the details of its
+behavior specification, only that it returns a random number from 0
+to n-1. 
+</p>
+<p>One way to choose a random greeting is using an array. This
+approach might look something like: 
+</p>
+<pre class="western">String[] greetings = new String[5];
+greetings[0] = &quot;Hello World&quot;;
+greetings[1] = &quot;Hola Mundo&quot;;
+greetings[2] = &quot;Bonjour Monde&quot;;
+greetings[3] = &quot;Hallo Welt&quot;;
+greetings[4] = &quot;Ciao Mondo&quot;;</pre><p>
+The <tt class="western">main</tt> method in the skeleton code above
+prints the value returned by <tt class="western">getGreeting</tt>. So
+if you insert code in <tt class="western">getGreeting</tt> to select
+a greeting randomly, when the class is run it will will print that
+greeting. 
+</p>
+<p>When you are finished writing your code and it compiles, <a href="http://www.cs.rpi.edu/~thompw4/CSCI-2600/Fall2016/Documents/EditingCompilingWithEclipse.pdf#running">run</a>
+it several times to ensure that all five greetings can be displayed. 
+</p>
+<p>Again, now it would be a good idea to add and commit your new
+class to <a href="http://www.cs.rpi.edu/~thompw4/CSCI-2600/Spring2017/Documents/VersionControl.pdf#Commit">SVN
+</a>. 
+</p>
+<h2 class="western"><a name="Problem2"></a><!-- ************************PROBLEM 2****************************** -->Problem
+2: Testing Java Code with JUnit</h2>
+<p><!-- <div style="float:right; margin-left:10px;"><img src="junit_failure.png" alt="Screenshot: Run Junit from Eclipse" /></div>-->Part
+of your job as a software engineer is to verify that the software you
+produce works according to its specification. One form of
+verification is testing. <a href="http://junit.sourceforge.net/">JUnit</a>
+is a framework for creating <em>unit</em> tests in Java. A unit test
+is a test for verifying that a given method in a class conforms to
+its specification. In this problem, we will provide you with a quick
+overview and simple example of how JUnit works. (Later homeworks will
+look more deeply into unit testing.) 
+</p>
+<p>Open both <tt class="western">../hw0/Fibonacci.java</tt> and
+<tt class="western">../hw0/test/FibonacciTest.java</tt>. From the
+comments, you can see that <tt class="western">FibonacciTest</tt> is
+a test of the <tt class="western">Fibonacci</tt> class. 
+</p>
+<p>Now <a href="http://www.cs.rpi.edu/~thompw4/CSCI-2600/Spring2017/Documents/EditingCompilingWithEclipse.pdf#junit">run
+the JUnit test</a> <tt class="western">FibonacciTest</tt>. 
+</p>
+<p>A window or panel with a menacing red bar will appear, indicating
+that some of the tests in <tt class="western">FibonacciTest</tt> did
+not complete successfully (see screenshot at right). The top pane
+displays the list of tests that failed, while the bottom pane shows
+the Failure Trace for the highlighted test. The first line in the
+Failure Trace should display an error message that explains why the
+test failed (it is the responsibility of the author of the test code
+to produce this error message).</p>
+<p>If you click on the failure <tt class="western">testThrowsIllegalArgumentException()</tt>,
+the bottom pane will switch to the appropriate error message. In this
+example, the first line of the failure trace shows that
+<tt class="western">Fibonacci.java</tt> improperly threw an
+<tt class="western">IllegalArgumentException</tt> when tested with
+zero (0) as its argument. (You may have to scroll the pane to the
+right to see this). If you double-click on the name of a test in the
+top pane, Eclipse will jump to the line where the failure occurred in
+the editor pane. Figure out the problem in <tt class="western">Fibonacci.java</tt>,
+fix it, and rerun the JUnit test. Eclipse will automatically rebuild
+when you make changes, but if you are running Junit from the command
+line, you must manually rebuild (compile) <tt class="western">Fibonacci.java</tt>
+before you rerun JUnit. In Eclipse, this can be done by following the
+<a href="http://www.cs.rpi.edu/~thompw4/CSCI-2600/Spring2017/Documents/EditingCompilingWithEclipse.pdf#compiling">compiling
+instructions</a> and then clicking the &quot;Run&quot; button. 
+</p>
+<p>Use the information in the Failure Trace box to help you continue
+debugging <tt class="western">Fibonacci</tt>. Keep a record of what
+you did to debug <tt class="western">Fibonacci</tt> as you will have
+to answer questions about your debugging experience in the next
+problem. After you have fixed all the problems in <tt class="western">Fibonacci</tt>,
+you should see a bright green bar instead of a red one when you run
+<tt class="western">FibonacciTest</tt>. 
+</p>
+<h2 class="western"><a name="Problem3"></a><!-- TODO: Figure out what to do with this!
+<p> Now look at
+the JUnit tests that we wrote for <tt>HolaWorld</tt> and
+<tt>RandomHello</tt> in <a href="#Problem5">Problem 5</a> earlier. They are called
+<tt>HolaWorldTest</tt> and <tt>RandomHelloTest</tt>,
+respectively. Ensure that your modified code passes these tests
+before you turn in your homework.</p>
+--><!-- ***********************PROBLEM 6******************************** -->Problem
+3: Answering Questions About the Code</h2>
+<p>In a newly created text file, answer some questions about the
+<tt class="western">Fibonacci</tt> class. Most programming homeworks
+that you will be assigned will require you to submit some sort of
+response or write-up in addition to your code. Follow these
+<a href="http://www.cs.rpi.edu/~thompw4/CSCI-2600/Spring2017/Documents/EditingCompilingWithEclipse.pdf#new">instructions</a>
+to create a text file, named <tt class="western">hw0/answers/problem3.txt</tt>,
+with answers to the following questions: 
+</p>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in">Why did Fibonacci fail the
+	<b>testThrowsIllegalArgumentException</b> test? What did you have to
+	do to fix it? 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Why did Fibonacci fail the
+	<b>testBaseCase</b> test? What (if anything) did you have to do to
+	fix it? 
+	</p>
+	<li/>
+<p>Why did Fibonacci fail the <b>testInductiveCase</b> test?
+	What (if anything) did you have to do to fix it? 
+	</p>
+</ol>
+<h2 class="western"><a name="Problem4"></a><!-- ***************************PROBLEM 4**************************** -->Problem
+4: Getting a Real Taste of Java&mdash;Balls and Boxes</h2>
+<p>Until now, we have only been introducing tools. In this problem,
+we will delve into a real programming exercise. If you are not
+familiar with Java, we recommend working through the Oracle's
+<a href="http://docs.oracle.com/javase/tutorial/java/index.html">Learning
+the Java Language tutorial</a>. (Skip the section on generics for
+now.) Fragments of Oracle's <a href="http://docs.oracle.com/javase/tutorial/">other
+tutorials</a> may also be useful, specifically &quot;Getting
+Started&quot;, &quot;Essential Java Classes&quot;, and &quot;Collections&quot;.
+</p>
+<p>This problem is intended to give you a better sense of what Java
+programming entails. This problem can be somewhat challenging. Don't
+be discouraged, we're here to help. And we expect that time spent now
+will pay off significantly during the rest of the course. 
+</p>
+<p>As you work on this problem, record your answers to the various
+questions in <tt class="western">problem4.txt</tt> in the project's
+<tt class="western">hw0/answers/</tt> directory.</p>
+<ol>
+	<li/>
+<p><b>Warm-Up: Creating a Ball</b>: 
+	</p>
+	<p>Take a look at <tt class="western">../hw0/Ball.java</tt>. A <tt class="western">Ball</tt>
+	is a simple object that has a volume.</p>
+	<ul>
+		<li/>
+<p>What is wrong with <tt class="western">Ball.java</tt>?
+		Please fix the problems with <tt class="western">Ball.java</tt> and
+		document your work in <tt class="western">problem4.txt</tt>. 
+		</p>
+	</ul>
+	<p>We have included a JUnit test called <tt class="western">../hw0/test/BallTest.java</tt>
+	to help you out. In Eclipse, one of its warnings should help you
+	find at least one of the bugs without referring to the JUnit
+	results.</p>
+	<li/>
+<p><b>Using Pre-Defined Data Structures</b>: 
+	</p>
+	<p>Next, we want to create a class called <tt class="western">BallContainer</tt>.
+	As before, skeleton code is provided (see <tt class="western">BallContainer.java</tt>).
+	A BallContainer is a container for Balls. BallContainer must support
+	the following methods and your task is to fill in the code that will
+	implement all these methods correctly:</p>
+	<ul>
+		<li/>
+<p style="margin-bottom: 0in"><tt class="western">add(Ball)</tt>
+				</p>
+		<li/>
+<p style="margin-bottom: 0in"><tt class="western">remove(Ball)</tt>
+				</p>
+		<li/>
+<p style="margin-bottom: 0in"><tt class="western">getVolume()</tt>
+				</p>
+		<li/>
+<p style="margin-bottom: 0in"><tt class="western">size()</tt>
+				</p>
+		<li/>
+<p style="margin-bottom: 0in"><tt class="western">clear()</tt>
+				</p>
+		<li/>
+<p style="margin-bottom: 0in"><tt class="western">contains(Ball)</tt>
+				</p>
+	</ul>
+	<p>The specifications for these methods are found in the code
+	<tt class="western">BallContainer.java</tt>. 
+	</p>
+	<p>In BallContainer, we use a <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html">java.util.Set</a>
+	to keep track of the balls. This is a great example of using a
+	predefined Java data-structure to save yourself significant work. 
+	</p>
+	<p>Before implementing each method, read the documentation for <tt class="western">Set</tt>.
+	Some of your methods will be as simple as calling the appropriate
+	predefined methods for <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Set.html">Set</a>.
+	To help you out, we have included a JUnit test called
+	<tt class="western">../hw0/test/BallContainerTest.java</tt>.</p>
+	<p>Before you start coding, please take time to think about the
+	following question (which you need to answer in the text file):</p>
+	<blockquote style="margin-bottom: 0in">There are two obvious
+	approaches for implementing <tt class="western">getVolume()</tt>: 
+	</blockquote>
+	<ul>
+		<li/>
+<blockquote style="margin-bottom: 0in">Every time <tt class="western">getVolume()</tt>
+		is called, go through all the Balls in the <tt class="western">Set</tt>
+		and add up the volumes. (<b>Hint:</b> one solution might use a
+		<a href="http://docs.oracle.com/javase/7/docs/technotes/guides/language/foreach.html">for-each
+		loop</a> to extract <tt class="western">Ball</tt>s from the <tt class="western">Set</tt>.)
+				</blockquote>
+		<li/>
+<blockquote>Keep track of the total volume of the Balls in
+		<tt class="western">BallContainer</tt> whenever Balls are added and
+		removed. This eliminates the need to perform any computations when
+		<tt class="western">getVolume</tt> is called. 
+		</blockquote>
+	</ul>
+	<blockquote>Which approach do you think is the better one? Why?</blockquote>
+	<li/>
+<p><b>Implementing a Box</b>: 
+	</p>
+	<p>In this problem, you will do a little more design and thinking
+	and a little less coding. You will implement the <tt class="western">Box</tt>
+	class. A Box is also a container for Balls. The key difference
+	between a <tt class="western">Box</tt> and a <tt class="western">BallContainer</tt>
+	is that a Box has only finite volume. Once a box is full, we cannot
+	put in more Balls. The size (volume) of a Box is defined when the
+	constructor is called:</p>
+	<pre class="western" style="margin-bottom: 0.2in">public Box(double volume);</pre><p>
+	Since a <tt class="western">Box</tt> is in many ways similar to a
+	<tt class="western">BallContainer</tt>, we internally keep track of
+	many things in the <tt class="western">Box</tt> with a
+	<tt class="western">BallContainer</tt>, allowing us to reuse code.
+	Many of the methods in <tt class="western">Box</tt> can simply
+	&quot;delegate&quot; to the equivalent in <tt class="western">BallContainer</tt>;
+	for example, removing from a <tt class="western">Box</tt> cannot
+	cause it to exceed its volume limit. This design of having one class
+	contain an object of another class and reusing many of the latter
+	class's methods is called <b>composition</b>. 
+	</p>
+	<p>(<b>Optional Note</b>: If you are familiar with Java, you may
+	wonder why we did not simply make <tt class="western">Box</tt>
+	extend <tt class="western">BallContainer</tt> via &quot;inheritance&quot;;
+	that is, why did we not make <tt class="western">Box</tt> a subclass
+	of <tt class="western">BallContainer</tt>. We will discuss this much
+	more deeply later in the course, but the key idea is that <tt class="western">Box</tt>
+	is not what we call a true subtype of <tt class="western">BoxContainer</tt>
+	because it is in fact more limited than <tt class="western">BallContainer</tt>
+	(a <tt class="western">Box</tt> can only hold a limited amount);
+	hence, a user who uses a <tt class="western">BallContainer</tt> in
+	his code can not simply substitute that <tt class="western">BallContainer</tt>
+	with a <tt class="western">Box</tt> and assume the same behavior in
+	his program. (The code may cause the Box to fill up, but he did not
+	have this concern when using a <tt class="western">BallContainer</tt>).
+	For this reason, it is not a good idea to make <tt class="western">Box</tt>
+	extend <tt class="western">BallContainer</tt>.) 
+	</p>
+	<p>In addition to the constructor described above, you will need to
+	implement the following new methods in <tt class="western">Box</tt>:
+		</p>
+	<ul>
+		<li/>
+<p style="margin-bottom: 0in"><tt class="western">add(Ball)</tt>
+				</p>
+		<li/>
+<p><tt class="western">getBallsFromSmallest()</tt> 
+		</p>
+	</ul>
+	<p>The specifications for these methods can be found in the code
+	<tt class="western">Box</tt>. 
+	</p>
+	<p>A few things to consider before you start writing code: 
+	</p>
+	<ul>
+		<li/>
+<p style="margin-bottom: 0in">You shouldn't need to implement
+		your own sorting algorithm. Instead, take advantage of the Java API
+		(remember: &quot;Know and Use the Libraries&quot;). 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in">Also, you shouldn't need to
+		change your implementation of <tt class="western">BallContainer</tt>
+		or <tt class="western">Ball</tt> for this problem. In particular,
+		you should not implement the <tt class="western"><a href="http://download.oracle.com/javase/7/docs/api/java/lang/Comparable.html">Comparable</a></tt>
+		interface. If you are tempted to do so, consider using <tt class="western"><a href="http://docs.oracle.com/javase/7/docs/api/java/util/Comparator.html">Comparator</a></tt>
+		instead. <tt class="western">Comparator</tt> is a companion
+		interface to <tt class="western">Comparable</tt> and is used
+		throughout the Java libraries: check out the sort methods in
+		<tt class="western"><a href="http://download.oracle.com/javase/7/docs/api/java/util/Collections.html">java.util.Collections</a></tt>
+		as an example. 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in">If you do make any changes to
+		<tt class="western">BallContainer</tt> or <tt class="western">Ball</tt>
+		for this problem, then explicitly document what changes you made
+		and why in <tt class="western">problem4.txt</tt>. 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in">Be cautious if you plan on
+		using Java's <tt class="western">TreeSet</tt>; remember that
+		<tt class="western">TreeSet</tt> does not store duplicates, and if
+		you provide a <tt class="western">TreeSet</tt> with a <tt class="western">Comparator</tt>,
+		it will use that <tt class="western">Comparator</tt> to determine
+		duplication. See the <a href="http://docs.oracle.com/javase/7/docs/api/java/util/TreeSet.html">TreeSet</a>
+		API documentation for more details. 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in">Before you start working on
+		<tt class="western">getBallsFromSmallest()</tt>, we recommend
+		strongly that you consider using <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Iterator.html">Iterator</a>.
+				</p>
+		<li/>
+<p style="margin-bottom: 0in">The JUnit test
+		<tt class="western">../hw0/test/BoxTest.java</tt> should help you
+		out. However, we do not guarantee that the tests we provide will
+		catch all bugs in your program. 
+		</p>
+		<li/>
+<p>Oh yeah, don't forget to <a href="http://www.cs.rpi.edu/~thompw4/CSCI-2600/Spring2017/Documents/VersionControl.pdf#Commit">commit</a>
+		your code more than occasionally. 
+		</p>
+	</ul>
+	<p>Also, take some time to answer the following questions in your
+	text file: 
+	</p>
+	<ul>
+		<li/>
+<p style="margin-bottom: 0in">There are many ways to
+		implement <tt class="western">getBallsFromSmallest()</tt>. Briefly
+		describe at least two different ways. Your answers should differ in
+		the implementation of <tt class="western">Box</tt>, not in
+		lower-level implementation (for example, using an insertion sort
+		instead of a selection sort is a lower-level implementation because
+		it does not affect how <tt class="western">Box</tt> is
+		implemented). Hint: think about different places in the <tt class="western">Box</tt>
+		class where you could add code to achieve the desired
+		functionality. 
+		</p>
+		<li/>
+<p>Which of the above ways do you think is the best? Why? 
+		</p>
+	</ul>
+	<p>There is no one <b>correct</b> answer. Our intent is to help you
+	fight that urge to code up the first thing that comes to mind.
+	Remember: <b>More thinking, less coding</b>. 
+	</p>
+</ol>
+<h2 class="western"><a name="Problem5"></a><!-- *****************************PROBLEM 5**************************** -->Problem
+5: Turning In Your Homework</h2>
+<p>You will turn in the solutions for the problem sets, including
+this one, by checking them into your SVN repository. All the relevant
+files should be included, for example:</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in">Java source files we provide
+	that you change. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Java source code you write. 
+	</p>
+	<li/>
+<p>Text files, drawings, or documentation of your code. 
+	</p>
+</ul>
+<p>Each homework will indicate exactly what you need to turn in a
+Section entitled &ldquo;<a href="#turnin">What to Turn In</a>&rdquo;.</p>
+<p><!-- <p>If you add a new file, you must explicitly add it to your SVN
+repository. This means that you need to tell SVN to "track this file"
+as part of the repository. In addition, you need
+to <b><a href="http://www.cs.rpi.edu/~milanova/csci2600/EditingCompilingWithEclipse.html#Commit">commit</a></b>
+the file to actually put the contents in the repository. Make sure
+that, when you're done, your working copy is committed to the
+repository so that we get and grade your most up-to-date version.
+</p>
+
+<p>Since files like <tt>RandomHello.java</tt>, <tt>problem3.txt</tt>
+and <tt>problem4.txt</tt> are not in your SVN repository, you must add
+them. You also want to commit the changes you made to
+<tt>Fibonacci.java</tt>, <tt>Ball.java</tt>,
+<tt>BallContainer.java</tt>, and <tt>Box.java</tt>. </p>
+-->In
+Eclipse, usually all you'll need to do is right-click on the hw0
+folder in Package Explorer, then select <b>Team &raquo; Commit</b>.
+You don't need to worry about files you have added (e.g.,
+<tt class="western">RandomHello.java</tt>, <tt class="western">problem3.txt</tt>).
+Eclipse will automatically ask you if you want to include these files
+in the commit. 
+</p>
+<p>After completing the above steps, all your code and materials to
+turn in should be in your SVN repository. Proceed to the <a href="https://submitty.cs.rpi.edu/index.php?semester=s17&amp;course=csci2600">Homework
+Server</a> to complete the submition of the assignment! 
+</p>
+<p><b>Very Important! </b><span style="font-weight: normal">You </span><font color="#cc0000"><b>must
+click the Grade SVN button</b></font> <span style="font-weight: normal">for
+your homework to be submitted for grading. Committing the files is
+not enough. If you don&rsquo;t click the Grade SVN button to submit
+the files, your homework will not be graded.</span></p>
+<p><b>IMPORTANT:</b> Make sure that you have the correct directory
+structure. If you break the structure, compilation on the Homework
+Server will fail resulting in a grade of 0. At this point, you must
+have project <tt class="western">csci2600</tt> with subdirectory <tt class="western">src</tt>.
+Directory <tt class="western">src</tt> must have subdirectory <tt class="western">hw0</tt>
+and <tt class="western">hw0</tt> must have subdirectories <tt class="western">answers</tt>,
+<tt class="western">docs</tt> and <tt class="western">test</tt>.
+These show as <tt class="western">hw0</tt>, <tt class="western">hw0.answers</tt>,
+<tt class="western">hw0.docs</tt> and <tt class="western">hw0.test</tt>
+subfolders of <tt class="western">src</tt> in Project Explorer. The
+Java classes (e.g., <tt class="western">Ball.java</tt>) must be in
+<tt class="western">hw0</tt>, your text files (<tt class="western">problem3.txt</tt>
+and <tt class="western">problem4.txt</tt>) must be in <tt class="western">answers</tt>
+and the JUnit test classes (e.g., <tt class="western">BallTest.java</tt>)
+must be in <tt class="western">test</tt>.</p>
+<h2 class="western"><a name="turnin"></a>What to Turn In</h2>
+<p>We should be able to find the following directories and files in
+your <tt class="western">src</tt> directory:</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw0/RandomHello.java</tt>
+	that prints out one of five random messages when its <tt class="western">main</tt>
+	method is executed. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw0/Fibonacci.java</tt>
+	that passes the three tests in <tt class="western">hw0/test/FibonacciTest.java</tt>.
+	(Note that you should <b>NOT</b> edit <tt class="western">hw0/test/FibonacciTest.java</tt>
+	to accomplish this task.) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw0/Ball.java</tt>,
+	<tt class="western">hw0/BallContainer.java</tt> and <tt class="western">hw0/Box.java</tt>
+	that pass their respective JUnit tests. (Again, you should not
+	modify the JUnit tests, though you are most welcome to read the
+	source code to understand what they test for). 
+	</p>
+	<li/>
+<p><tt class="western">hw0/answers/problem3.txt</tt> and
+	<tt class="western">hw0/answers/problem4.txt</tt> containing answers
+	to the questions in Problems 3 and 4. 
+	</p>
+</ul>
+<h2 class="western"><a name="turnin1"></a>Grade Breakdown</h2>
+<p>This homework is worth 50 points. The Homework Server runs the
+provided JUnit tests (plus a few additional tests). Test and debug
+your code in Eclipse before before committing and submitting on the
+Homework Server! If your code passes the tests in Eclipse, then it
+should pass them on the Homework Server too. 
+</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in">Compilation: 4pts (auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">FibonacciTest</tt>
+	JUnit tests: 4pts (each test 1pt, auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">BallTest</tt>:
+	1pt (auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">BallContainerTest</tt>:
+	8pts (auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">BoxTest</tt>:
+	16pts (each test 2pts, auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Instructor <tt class="western">Box</tt>
+	tests: 4pts (auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Answers to Problem 3 questions:
+	3pts 
+	</p>
+	<li/>
+<p>Answers to Problem 4 questions: 10pts 
+	</p>
+</ul>
+<p><!-- <p>Please include your first and last name in every text file you turn
+in (i.e., files ending with <tt>.txt</tt>).</p>
+--><!-- TODO. Figure this out! Activate in fugure.
+<h2 id="optional-problems">Optional Tutorial Problems</h2>
+<p>
+If you have not had much experience with Java, we recommend that you do
+these extra <a href="optional-problems.html">Optional Problems</a>
+(source code for these problems can be found in the <tt>hw0.optional</tt>
+package that came with your <tt>hw0</tt> checkout).
+If you do not know Java well, and we are going too fast, 
+the optional problems will help you become more comfortable with Java.
+</p>
+--><!-- <h2 id="debugger">Optional Debugger Tutorial</h2>
+<p>
+In this part, you will learn to Eclipse's built-in debugger. As the name
+suggests, a debugger helps you debug your program by allowing you to "watch"
+your program as it executes, one line at a time, and inspect the state of
+variables along the way.  In the past, you may have
+used <tt>System.out.println()</tt> to probe the state of a variable or find out
+whether a particular line is reached. In that sense, debuggers are like an
+ultra-super-powerful <tt>System.out.println()</tt>.
+</p>
+
+<p>One of the most useful features of a debugger is the ability to
+set <em>breakpoints</em> in your program. When you run your program through the
+debugger, it will pause when it reaches a line with a breakpoint. You can
+inspect the current state of variables, then continue running your program
+normally or step through one line at a time to watch the variables change.</p>
+<ul>
+  <li>Open Adder.java. This simple program is supposed to print the sum of two
+  user-provided integers. Try running it a few times (or reading the source
+  code) and you'll see that it doesn't behave as expected.</li>
+  <li>Double-click in the left-hand margin of the class next to the
+  line <code>return x - y;</code> A blue circle should appear, indicating a
+  breakpoint. (Double-clicking again removes the breakpoint.)</li>
+  <li>Run the program in debug mode by using F11, <code>Run >> Debug</code>, or
+  the green bug icon in the toolbar. As before, enter two ints (say, 3 and 4) in
+  the console when prompted. When your program hits the breakpoint, Eclipse asks
+  if you want to open the Debug perspective. Choose yes.</li>
+  <li>The debug perspective looks overwhelming at first, but don't worry! In the
+  top-right panel, select the "Variables" tab and you'll see the names and
+  values of all variables in the current context. The top-left panel ("Debug")
+  shows where the program is currently paused, where the current method was
+  called, and so on. (This is called the stack trace). Double-click on a method
+  name to see the corresponding line in the panel below, where you can view and
+  edit your source code. Finally, the bottom-left panel shows the console
+  window.
+  <p><em>What are all the names and values listed in the "Variables" panel? What
+  does the "Debug" panel list as the current method and line number? (Write down
+  the text that was highlighted when the Debug perspective first
+  opened.)</em></p></li>
+  <li>Immediately above the "Debug" panel are several buttons for running your
+  program. Mouse over each one for a description. "Resume" (green arrow) causes
+  your program to continue executing normally until it finishes or hits another
+  breakpoint. If you want to monitor what happens shortly after the breakpoint,
+  use "Step Into" and "Step Over" (yellow arrows). "Step Over" executes the
+  current line and pauses on the next line. "Step Into" enters any method called
+  on the current line so you can execute that method line-by-line. (To finish
+  the current method and jump back to the caller, use "Step Out.") Hit "Step
+  Over" once to execute the <code>return</code> statement and
+  exit <code>computeSum</code>. Hit "Step Over" again to progress to the next
+  line.
+  <p><em>What are all the names and values listed in the "Variables" panel after
+  EACH of the two step overs?</em></p></li>
+  <li>Hit "Resume" to allow the program to finish executing. Return to the
+  default Java perspective by clicking "Java" in the top-right corner or by
+  going to <code>Windows >> Open Perspective >> Other...</code> and selecting
+  Java (default).</li>
+</ul>
+
+<h2 id="hints">Hints</h2>
+<p>We strongly encourage you to use the
+<a href="../../forum.html">LMS Discussion Board</a>.
+</p>
+
+<h2 id="errata">Errata</h2>
+<p>None yet.</p>
+
+<h2 id="q-and-a">Q &amp; A</h2>
+<p>
+This section will list clarifications and answers to common questions
+about homeworks. We'll try to keep it as up-to-date as possible, so
+this should be the first place to look (after carefully rereading the
+homework handout and the specifications) when you have a problem.
+</p>
+--><!-- Here's the format for a Q/A
+<div class="example">
+<ul>
+<li><b>Q:</b> Do I have to use the Allen Center software labs? Can I work at home?</li>
+<li><b>A:</b> You can do either. You should look at the
+<a href="../../tools/WorkingAtHome.html">Working At Home</a> guide.</li>
+</ul>
+</div>
+-->Parts
+of this homework are copied from <a href="http://courses.cs.washington.edu/courses/cse331/13sp/">University
+of Wanshington's Software Design and Implementation course</a><!-- LocalWords:  SVN screenshots filesystem JUnit username javadoc reacquaint
+ --><!-- LocalWords:  RandomHello HolaWorld XP javac psets java ps argv IWS WebQ
+ --><!-- LocalWords:  RandomHelloTest spanishGree crossmark HelloWorld randomHello
+ --><!-- LocalWords:  getGreeting randomGenerator lang CTRL rganize nextInt int cd
+ --><!-- LocalWords:  Hola Mundo Monde Hallo Mondo FibonacciTest HolaWorldTest txt
+ --><!-- LocalWords:  testThrowsIllegalArgumentException IllegalArgumentException
+ --><!-- LocalWords:  testBaseCase testInductiveCase BallTest Pre BallContainer
+ --><!-- LocalWords:  getVolume pre LinkedList BallContainerTest BoxTest buildfile
+ --><!-- LocalWords:  BoxContainer getBallsFromSmallest xml pset mkdir dir dev cse
+ --><!-- LocalWords:  junit sec SunBlade IntelliStation BBEdit html Exp attu impl
+ --><!-- LocalWords:  XHTML YourWorkspaceDirectory classpath cleancopy src
+ -->
+</p>
+</body>
+</html>

@@ -1,0 +1,21 @@
+Problem 4
+
+Ball.Java
+In Ball(), the initialization function, set this.volume to volume instead of volume to volume.
+In getVolume(),return this.volume instead of 0.
+
+Which approach do you think is the better one? Why?
+Method 2 was more efficient. This way you wouldn't have to iterate through the entire set each time
+you wanted to know the volume of the container.
+
+
+There are many ways to implement getBallsFromSmallest(). Briefly describe at least two 
+different ways.Which of the above ways do you think is the best? Why? 
+
+1. Add a private TreeSet variable to hold the balls. Each time a ball is added, add it to the Ball Container and TreeSet. In 
+   getBallsFromSmallest(),return an iterator to the set.
+2. Create a private sorted ArrayList in the Box class. Each time a ball is added,it goes in the Ball Container and the AarrayList.
+   The ArrayList is ordered smallest to largest and readjusted with the addition of each ball. getBallsfromSmallest() will then 
+   return the iterator to the start of the ArrayList.
+
+I think method 1 would be better. You wouldn't need to call a sort each time you added a ball like you would in method 2.

@@ -1,0 +1,3 @@
+1.Start earlier
+2.Gave a little more help with Dafny errors
+3.Understand Dafny better

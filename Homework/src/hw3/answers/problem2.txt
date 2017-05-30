@@ -1,0 +1,11 @@
+1. List Representation: easier to add and remove terms and coefficients, more functionality, more memory, possibly longer runtime
+   Array Representation: easier to get objects from, harder to modify, easier to deal with fractions as constants
+2. I added them at the end of constructors. This way if any result of the methods break the rep invariant, an error will be thrown. Also this preevents objects that violate
+   the invariant upon setting memeber variables from being created.
+3. Assume that coeff[degree] can equal 0, 0 polynomials allowed
+   -less checks in general for 0 polinomials
+   RatPoly(): doesn't check if c is 0 anymore (less complex)
+   RatPoly(coeffs): has to check where the last non zero coefficient is to set an accurate degree (more complex)
+   getCoeff(): 
+   degree(): iterate backwards through the array and return the first index without a zero coefficient (more complex)
+   formatTerm(): must check 0 coefficients and return an empty string (more complex)

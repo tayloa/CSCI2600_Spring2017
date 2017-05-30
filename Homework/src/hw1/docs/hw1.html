@@ -1,0 +1,378 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=windows-1252"/>
+	<title>CSCI 2600 Homework 1</title>
+	<meta name="generator" content="LibreOffice 5.2.0.4 (Windows)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="2017-01-28T14:21:49.690000000"/>
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-09-12T11:02:11.144000000">
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-09-11T11:20:08.608000000">
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-09-10T14:37:39.802000000">
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-09-10T10:04:04.199000000">
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-08-11T10:19:41.441000000">
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-08-10T16:16:27.252000000">
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-08-10T11:02:43.217000000">
+	<style type="text/css">
+		h2.cjk { font-family: "SimSun" }
+		h2.ctl { font-family: "Lucida Sans" }
+		h3.cjk { font-family: "SimSun" }
+		h3.ctl { font-family: "Lucida Sans" }
+		pre.cjk { font-family: "NSimSun", monospace }
+		tt.cjk { font-family: "NSimSun", monospace }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<div id="header" dir="ltr">
+	<p>CSCI 2600 Principles of Software</p>
+	<h1><!-- omit from toc -->Homework 1: Reasoning About Code 
+	</h1>
+	<h2 class="western"><!-- omit from toc -->Due: February 9 @ 11:59pm 
+	</h2>
+</div>
+<h2 class="western"><a name="turnin"></a><!-- ********************TURNIN INSTRUCTIONS********************** -->Submission
+Instructions</h2>
+<ul>
+	<li/>
+<p>Submit your answers by adding and committing a single .TXT
+	file named <tt class="western">hw1_answers.txt</tt> to the
+	<tt class="western">src/hw1/answers/</tt> directory of your
+	repository. Follow the directions in the version control handout for
+	adding and committing files. 
+	</p>
+</ul>
+<h2 class="western"><a name="Problems"></a>Problems</h2>
+<p><strong>Directions:</strong> 
+</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in">Assume that all numerical values
+	are integers, and that integer overflow will never occur. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">In your answers, you may use any
+	standard symbols for &ldquo;and&rdquo; and &ldquo;or&rdquo; (&amp;
+	and |, &and; and &or;, etc.). 
+	</p>
+	<li/>
+<p>If no precondition is required for a code sequence, simply
+	write {true} to denote the trivial precondition. 
+	</p>
+</ul>
+<h3 class="western"><a name="Problem6"></a><!-- ************************PROBLEM 1  ************************** -->Problem
+1 (6pts, 1pt each): Condition Strength</h3>
+<ol>
+	<li/>
+<p>Indicate the <b>weakest</b> condition in each set. Note:
+	write &quot;None&quot; if the conditions are unrelated by
+	implication. Assume x is an int.</p>
+</ol>
+<p style="margin-bottom: 0in">1. { x is divisible by 10 } 
+</p>
+<p style="margin-bottom: 0in">    { x is divisible by 20 } 
+</p>
+<p style="margin-bottom: 0in"><br/>
+
+</p>
+<p style="margin-bottom: 0in">2. { 0 &le; x &le; 5 } 
+</p>
+<p style="margin-bottom: 0in">    { 0 &le; x &le; 3 } 
+</p>
+<p style="margin-bottom: 0in">    { x = 1 } 
+</p>
+<p style="margin-bottom: 0in"><br/>
+
+</p>
+<p style="margin-bottom: 0in">3. { x &gt; 0 &amp;&amp; y &gt; 0 } 
+</p>
+<p style="margin-bottom: 0in">    { x &gt; 0 || z &gt; 0 } 
+</p>
+<p style="margin-bottom: 0in"><br/>
+
+</p>
+<p style="margin-bottom: 0in">4. { x = 5 &amp;&amp; y % 2 = 0 } 
+</p>
+<p style="margin-bottom: 0in">    { x = 5 &amp;&amp; y % 4 = 2 } 
+</p>
+<p style="margin-bottom: 0in"><br/>
+
+</p>
+<p style="margin-bottom: 0in">5. { x is prime } 
+</p>
+<p style="margin-bottom: 0in">    { x is odd } 
+</p>
+<p style="margin-bottom: 0in"><br/>
+
+</p>
+<p>6. Assume the following class hierarchy: C is a subclass of B and
+B is a subclass of A.</p>
+<p style="margin-bottom: 0in">{ x is an object of type A } 
+</p>
+<p style="margin-bottom: 0in">{ x is an object of type C } 
+</p>
+<p style="margin-bottom: 0in">{ x is an object of type B } 
+</p>
+<h3 class="western"><a name="Problem2"></a><!-- ************************PROBLEM 2  ************************** -->Problem
+2 (8pts, 2pts each): Hoare Triples</h3>
+<p>State whether each Hoare triple is valid. If it is invalid,
+explain why and show how you would modify the precondition or
+postcondition to make it valid.</p>
+<pre class="western">1. { x &lt; -1 }
+   y = 2 * x;
+   { y &lt; -1 }
+
+2. { x &ge; y }  
+   z = x &ndash; y;
+   { z &ge; 0 }
+</pre><p style="margin-bottom: 0in">
+3. { true }</p>
+<p style="margin-bottom: 0in">   if (x % 2 == 0)</p>
+<p style="margin-bottom: 0in">      y = x; 
+</p>
+<p style="margin-bottom: 0in">  else 
+</p>
+<p style="margin-bottom: 0in">      y = x + 1; 
+</p>
+<p style="margin-bottom: 0in">  { y is even }</p>
+<p style="margin-bottom: 0in"><br/>
+
+</p>
+<p style="margin-bottom: 0in">4. P, S, T, and U are logical
+conditions (logical formulae).</p>
+<p style="margin-bottom: 0in">    S =&gt; T (S implies T, i.e. S is
+stronger than T)</p>
+<p style="margin-bottom: 0in">    T=&gt; U</p>
+<p style="margin-bottom: 0in">   {Q} code {T} is a valid Hoare
+triple. Which of the following is true?</p>
+<p style="margin-bottom: 0in">   {Q} code {S}</p>
+<p style="margin-bottom: 0in">   {Q} code {U}</p>
+<p>If you cannot assert true, then give a counterexample. That is,
+give concrete values of Q, S, T, U and code that lead to an invalid
+triple.</p>
+<h3 class="western"><a name="Problem3"></a><!-- ************************PROBLEM 3  ************************** -->Problem
+3 (10pts, 2pts each): Forward reasoning with assignment statements</h3>
+<p>Find the strongest postcondition of each code sequence by
+inserting the appropriate condition in each blank. The first
+condition in part (a) is supplied as an example. Please simplify your
+answers as much as possible.</p>
+<ol>
+	<li/>
+<pre class="western">{ x &gt; 0 }
+x = 10;</pre>
+	<ol>
+		<pre class="western"><font color="#ff0000">{ x = 10 }</font></pre>
+	</ol>
+	<pre class="western">y = 2 * x;</pre>
+	<ol>
+		<pre class="western">{_______________________________}</pre>
+	</ol>
+	<pre class="western">z = y + 4;</pre>
+	<ol>
+		<pre class="western">{_______________________________}</pre>
+	</ol>
+	<pre class="western">x = z / 2;</pre>
+	<ol>
+		<pre class="western">{_______________________________}</pre>
+	</ol>
+	<pre class="western">y = 0;</pre>
+	<ol>
+		<pre class="western" style="margin-bottom: 0.2in">{_______________________________}</pre>
+	</ol>
+	<li/>
+<pre class="western">{ x &gt; 0 }
+y = x;</pre>
+	<ol>
+		<pre class="western">{_______________________________}</pre>
+	</ol>
+	<pre class="western">y = y + 2;</pre>
+	<ol>
+		<pre class="western" style="margin-bottom: 0.2in">{_______________________________}</pre>
+	</ol>
+	<li/>
+<pre class="western">{ |x| &gt; 10 }
+x = -x;</pre>
+	<ol>
+		<pre class="western">{_______________________________}</pre>
+	</ol>
+	<pre class="western">x = x / 2;</pre>
+	<ol>
+		<pre class="western">{_______________________________}</pre>
+	</ol>
+	<pre class="western">x = x + 1;</pre>
+	<ol>
+		<pre class="western" style="margin-bottom: 0.2in">{_______________________________}</pre>
+	</ol>
+	<li/>
+<pre class="western">{ y is odd }
+z = y * y;</pre>
+	<ol>
+		<pre class="western">{_______________________________}</pre>
+	</ol>
+	<pre class="western">w = z mod 4; // x mod y divides x by y and returns the integer remainder. </pre>
+	<ol>
+		<pre class="western" style="margin-bottom: 0.2in">{_______________________________}</pre>
+	</ol>
+	<li/>
+<pre class="western" style="line-height: 100%">{ y &gt; 2x }
+y = y + 2;</pre>
+	<ol>
+		<pre class="western" style="line-height: 100%">{_______________________________}</pre>
+	</ol>
+	<pre class="western" style="line-height: 100%">x = x + 1;
+      {_______________________________}</pre>
+</ol>
+<h3 class="western"><a name="Problem4"></a><!-- ************************PROBLEM 4  ************************** -->Problem
+4 (8pts, 2pts each): Backward reasoning with assignment statements</h3>
+<p>Find the weakest precondition of each code sequence by inserting
+the appropriate condition in each blank. Please simplify your answers
+as much as possible</p>
+<ol>
+	<li/>
+<pre class="western">     {___________________________}
+x = x + 5;
+     {___________________________}
+y = 2 * x;
+     { y &gt; 10 }</pre>
+	<li/>
+<pre class="western">     {___________________________}
+x = y - 10;
+     {___________________________}
+z = x + y;
+     { z &le; 0 }</pre>
+	<li/>
+<pre class="western">     {___________________________}
+y = 2*w + 10;
+     {___________________________}
+x = 2*x;
+     { x &gt; y }</pre>
+	<li/>
+<pre class="western" style="margin-bottom: 0.04in">     {___________________________}</pre>
+</ol>
+<pre class="western">      t = 2 * s;
+           {___________________________}
+      r = w + 4;
+           {___________________________}
+      s = 2*s + w;
+           { r &gt; s &amp;&amp; s &gt; t}</pre><h3 class="western">
+<a name="Problem5"></a><!-- ************************PROBLEM 5  ************************** -->Problem
+5 (2pts): Backward reasoning with if/else statements</h3>
+<p>Find the weakest precondition for the conditional statement below
+using backward reasoning, inserting the appropriate condition in each
+blank. Please simplify your answers as much as possible.</p>
+<pre class="western">{___________________________}
+if (x &ge; 0)
+    {___________________________}
+    z = x;
+    {___________________________}
+else
+    {___________________________}
+    z = x + 1;
+    {___________________________}
+{z &ne; 0 }</pre><h3 class="western">
+<a name="Problem7"></a><!-- ************************PROBLEM 7  ************************** -->Problem
+6 (4pts, 2pts each): Verifying Correctness</h3>
+<p>For each block of code, fill in the intermediate conditions, then
+use them to state whether the precondition is sufficient to guarantee
+the postcondition. If the precondition is insufficient, explain why
+and indicate where the conditions don't match up.</p>
+<p>Hint: for assignment statements, use backward reasoning to find
+the weakest precondition that guarantees the postcondition, then see
+if the given precondition is weaker than the weakest precondition.
+For if/else statements, you may find a combination of forward and
+backward reasoning most useful. Follow the rules given in class for
+what condition to insert at each point. We strongly encourage that
+you verify your answers with Dafny. (Submission of Dafny code is not
+required for this problem.)</p>
+<ol>
+	<li/>
+<pre class="western">{ x &gt; 0 }
+z = x - 1;
+{___________________________}
+w = 2 * z;
+{___________________________}
+w = w + 1;
+{w &gt; 1}</pre>
+	<li/>
+<pre class="western">{ y &ge; w }
+x = w + 2;
+{___________________________}
+y = y + 2;
+{___________________________}
+z = y;
+{ z &ge; x }</pre>
+</ol>
+<h3 class="western"><a name="Problem8"></a><!-- ************************PROBLEM 8  ************************** -->Problem
+7 (10pts, 5pts each): Loops</h3>
+<ol>
+	<li/>
+<p>For the loop below, state a suitable loop invariant and
+	decrementing function. Verify your answer with Dafny. Show your
+	Dafny code.</p>
+	<pre class="western">{ x &ge; 0 &amp;&amp; y &ge; <font face="Liberation Mono, monospace">0</font> }
+int s = x;
+int i = y;
+while (i != 0) {
+  s = s - 1;
+  i = i - 1; 
+}
+{s = x - y}</pre>
+	<li/>
+<p>Write a loop that computes the minimal value in a non-empty
+	array of integers. 
+	</p>
+	<pre class="western">{ arr != null &and; arr.Length &gt; 0 } /* Precondition using Dafny syntax */ 
+i = 0;
+z = arr[i];
+while ( ... ) {
+
+  ...
+
+}</pre><p>
+	What is your loop invariant? What is your decrementing function?
+	Verify your answer with Dafny. Show your Dafny code.</p>
+</ol>
+<h3 class="western"><a name="collaboration"></a><!-- ***************Collaboration Reflection and Time spent**************** -->Collaboration
+(1pt) 
+</h3>
+<p>Please answer the following questions in a file named
+<tt class="western">collaboration.txt</tt> in your <tt class="western">hw1/answers/</tt>
+directory.</p>
+<p>The standard <a href="http://www.cs.rpi.edu/~milanova/csci2600/syllabus.htm">academic
+integrity policy</a> applies to this homework. 
+</p>
+<p>State whether or not you collaborated with other students. If you
+did collaborate with other students, state their names and a brief
+description of how you collaborated. 
+</p>
+<h3 class="western"><a name="reflection"></a>Reflection (1pt)</h3>
+<p>Please answer the following questions in a file named
+<tt class="western">reflection.txt</tt> in your <tt class="western">hw1/answers/</tt>
+directory. Answer briefly, but in enough detail to help you improve
+your own practice via introspection and to enable me to improve
+Principles of Software in the future.</p>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in">In retrospect, what could you
+	have done better to reduce the time you spent solving this homework?
+		</p>
+	<li/>
+<p style="margin-bottom: 0in">What could I (the instructor)
+	have done better to improve your learning experience in this
+	homework? 
+	</p>
+	<li/>
+<p>What do you know now that you wish you had known before
+	beginning the homework? 
+	</p>
+</ol>
+<h2 class="western"><a name="errata"></a>Errata</h2>
+<p>None yet.</p>
+</body>
+</html>

@@ -1,0 +1,19 @@
+1.
+class A {
+ 	Object m(X y, String s);
+ }
+class B extends A {
+ 	X m(X y, String s);      // overrides A (new implementation for child class)                        
+ 	Y m(Object y, Object s); // overloads A (parameters change)
+ 	Object m(X y, String s) throws RuntimeException; // overrides A (new implementation for child class) 
+ 	Z m(Y y, String s);     // overloads A (parameters change)
+ }
+
+
+2.
+True Subtype: If the subclass has similar behavior of the superclass, even if it is not using extends or implements keywords, it is a True Subtype.
+	1. IsocelesTriangle is a True Subtype: has the same behavior as the Triangle class
+	2. Squid is a Java Subtype: Doesn't have the same behavior as Vertebrate, neckBones() returns 0
+	   Human is a True Subtype: Has the same behavior as Vertebrate, neckBones() returns int > 0
+	3. MountainBike is a True Subtype: Doesn't modify anything in Bicycle while strengthening and adding properties.
+	4. ConcurrentAccount is a Jave Subtype: It requires more than the superclass Account.

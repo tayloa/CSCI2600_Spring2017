@@ -1,0 +1,59 @@
+Graph() Represents a mutable directed labeled multi-graph. This is a graph with edges that have distance values.
+@specfield nodes : HashMap<String> // HashMap of all nodes in the graph. Each key is a node, values are the edges connected to the node.
+@specfield edges : Set<Edge> // List of all edges in the graph. Each edge is represented by an Edge object. 
+
+Abstract Invariant:
+A Graph can have no nodes, in other words nodes.size() == 0.
+There can't be an edge in the graph if the nodes that make it aren't in the graph.
+There can be no duplicate edges or nodes in a Graph.
+There can be no null objects in the private data structures.
+
+// Specifications for Graph Methods
+@param none
+@requires none
+@effects Constructs a new empty directed labeled graph with no nodes or edges
+public Graph()  	
+
+Checks that the representation invariant holds.
+@throws a new RuntimeException if the representation invariant is violated.
+private void checkRep()
+
+@param node : a string that represents a node that will be added to the graph
+@requires node != null
+@effects Graph.nodes : adds a new node to the list
+public void addNode(String node)
+
+@param parent : a string that represents the 1st node in the edge
+@param child : a string that represents the 2nd node in the edge
+@param label : a label for the edge
+@requires parent != null
+@requires child != null
+@requires label != null
+@effects Graph.nodes : creates an edge object and adds it to the edge list
+@throws a runtime exception if any parameters are null
+public void addEdge(String parent, String child, String label)
+  	
+@param none
+@requires none
+@effects none
+@returns a copy of the node HashMap in the graph 
+public ArrayList<String> getNodes()
+  	
+@param none
+@requires none
+@effects none
+@returns a copy of the set of all the edges in the graph
+public Set<Edge> getEdges()
+
+@param node : a string that represents a node
+@requires none
+@effects none
+@returns a boolean indicating whether or not the node is in the graph
+public boolean isNode(String node)
+  	
+@param edge : an Edge that represents an edge in the graph
+@requires none
+@effects none
+@returns a boolean indicating whether or not the edge is in the graph
+public boolean isEdge(String parent)
+

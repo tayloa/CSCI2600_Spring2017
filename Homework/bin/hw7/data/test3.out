@@ -1,0 +1,35 @@
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from Pittsburgh Building to Carnegie Building:
+	Walk South to (Carnegie Building)
+Total distance: 78.588 pixel units.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from Warren Hall to Hall Hall:
+	Walk East to (Intersection 122)
+	Walk NorthWest to (Hall Hall)
+Total distance: 146.368 pixel units.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from Commons Dining Hall to Russell Sage Dining Hall:
+	Walk West to (Intersection 103)
+	Walk NorthWest to (Public Safety)
+	Walk West to (Intersection 141)
+	Walk North to (Russell Sage Dining Hall)
+Total distance: 418.793 pixel units.
+First building id/name, followed by Enter: Second building id/name, followed by Enter: Path from Field House Houston to EMPAC:
+	Walk West to (Intersection 113)
+	Walk West to (Intersection 111)
+	Walk West to (Intersection 117)
+	Walk West to (Intersection 112)
+	Walk SouthWest to (2021 Peoples Avenue)
+	Walk West to (Beman Park Firehouse)
+	Walk West to (Alumni House)
+	Walk SouthWest to (H Building)
+	Walk South to (North Hall)
+	Walk SouthWest to (Intersection 132)
+	Walk SouthWest to (Troy Building)
+	Walk SouthWest to (Intersection 133)
+	Walk SouthWest to (Intersection 134)
+	Walk SouthWest to (Lally Hall)
+	Walk South to (Folsom Library)
+	Walk SouthWest to (EMPAC)
+Total distance: 1473.118 pixel units.
+Menu Options:
+	b: List all buildings
+	r: Shortest route between two buildings
+	q: quit the program

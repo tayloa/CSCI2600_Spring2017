@@ -1,0 +1,164 @@
+Homework 1: Reasoning About Code 
+------------------------------------------------------------------------------------------------------------------
+Problem 1 (6pts, 1pt each): Condition Strength
+
+1. { x is divisible by 10 } 
+2. { 0 <= x <= 5 }
+3. None
+4. { x is odd }
+5. { x=5 && y%2 = 0 } 
+6. { x is an object of type C }
+------------------------------------------------------------------------------------------------------------------
+Problem 2 (8pts, 2pts each): Hoare Triples
+
+1. True
+2. False. There is no condition preventing x and y from being negative. 
+   The precondition should be { x >= y >= 0 }.
+3. True
+4. From the previous statements we know S is stronger than T, and T is 
+   stronger than U. We also know Q is stronger than T. 
+   {Q} code {U} is true.
+   {Q} code {S} is not necessarily true. If {Q} code {T} was {x <= -1} y=2*x {y < -1}, which is
+   a valid triple, and the condition stronger than T, S, is {y = -2}, we can't guarantee the post
+   condition for {Q} code {S}. For example {x <= -1} y=2*x {y = -2} is not guaranteed. y can end
+   up being any even negative number less than -1.
+   
+------------------------------------------------------------------------------------------------------------------
+Problem 3 (10pts, 2pts each): Forward reasoning with assignment statements
+
+1.
+{y=20} => {z=24} => {x=12} => {y=0}
+Strongest Post-Condition: {x=12 && y=0 && z=24}
+2.Strongest Post-Condition: {y=x+2}
+3.Strongest Post-Condition: {y=x+2}
+4.Strongest Post-Condition: {z mod2=1 && w mod4=1}
+5.
+{x >= 11 || x <= -11} => {x > 10 || x < -10} => {x > 5 || x < -5} => {x > 6 || x < -6}
+Strongest Post-Condition: {x >= 6 || x <= -6}
+------------------------------------------------------------------------------------------------------------------
+Problem 4 (8pts, 2pts each): Backward reasoning with assignment statements
+
+1.
+Condition: {y > 10}
+Backward Reasoning:
+{y > 10}
+2*x > 10 => x > 5
+2*(x+5) > 10
+2*x + 10 > 10 => x > 0
+Solution:{x > 0}, {x > 5}
+
+2. 
+Condition: {z <= 0}
+Backward Reasoning:
+{z <= 0}
+x+y <= 0 => x <= 0
+y-10+y <= 0
+2y-10 <= 0 => y <= 5
+Solution: {y <= 5}, { x <= 0}
+
+3. 
+Condition:
+Backward Reasoning:
+x > y =>
+2 * x > y =>
+2*x > 2*w+10 =>
+x > w+5
+Solution:{w > 0}, {x > w+5}
+
+4. 
+Condition: {r > s && s > t}
+Backward Reasoning: {r > s}
+{r > s} =>
+w+4 > (2*s)+w => 
+4 > 2*s => 
+2 > s => s < 2
+Backward Reasoning: {s > t}
+{s > t} =>
+(2*s)+w > 2*s => w > 1
+Solution: {s < 2 && w > 1}, {t > s}, {r > t}
+-------------------------------------------------------------------------------------------------------------------
+Problem 5 (2pts): Backward reasoning with if/else statements
+
+1. 
+The conditions are:
+wp{(x!=-1 && x<-1) || (x!=0 && x>0)}
+{x != 0} for the if condition
+{x != -1} for the else. 
+
+Condition: {z != 0}
+Backward Reasoning for if:
+{z != 0} =>
+z = x =>
+x != 0 => x can't be equal to 0 and x > 0
+Backward Reasoning for else:
+{z != 0} => 
+x+1 != 0 =>
+x != -1 => x can't be equal to -1 and x < -1
+The weakest pre-condition at the start is a combination of the conditions:
+wp{(x!=-1 && x<-1) || (x!=0 && x>0)}
+-------------------------------------------------------------------------------------------------------------------
+Problem 6 (4pts, 2pts each): Verifying Correctness
+
+1. 
+Condition: {w > 1}
+Backward Reasoning:
+{w > 1} => 
+w+1 > 1 => 
+(2*z)+1 > 1 => 
+{2*(x-1))+1 > 1 => 
+(2x-2)+1 > 1 =>
+2x-1 > 1 =>
+2x > 2 => x > 1, x must be greater than 1
+The intermediate conditions should be {z >= 1} {w > 1}. The weakest pre-condition must be {x > 1}. 
+If x is 1, w will be equal to 1 instead of greater. 
+
+2.
+Condition: { z >= x }
+Backward Reasoning:
+{ z >= x } =>
+y >= x =>
+y+2 >= x =>
+y >= w+2 => y-2 >= w, this is a stronger pre-condition
+The intermediate conditions should be {x >= y} and {y >= x}. With the given pre-condition, the 
+post-condition is guaranteed. 
+-------------------------------------------------------------------------------------------------------------------
+Problem 7 (10pts, 5pts each): Loops
+
+1.
+Loop Invariant: s == x - y
+Decrementing Function: D = i
+Dafny Code:
+	method temp2(x: int, y: int) returns(s: int)
+	requires x >= 0 && y >= 0 
+	ensures s == x - y
+	{
+	  s := x;
+	  var i := y;
+	  while i != 0 
+	    invariant s - i == x - y 
+        decreases i 
+	  {
+	     s := s - 1;
+	     i := i - 1;
+	  }
+	}
+
+2.
+Loop Invariant: small <= arr[i]
+Decrementing Function: D = i
+Dafny Code:
+	method Find(arr: array<int>) returns (small: int)
+	   requires arr != null && arr.Length > 0
+	   ensures small <= arr[0]
+	{
+	  small := arr[0];
+	  var i := arr.Length - 1;
+	  while i > arr.Length
+	  invariant small <= arr[0] // loop invariant
+	  decreases i
+	  {
+	    if arr[i] < small
+	      { small := arr[i]; }
+	    i := i - 1;
+	  }
+	}

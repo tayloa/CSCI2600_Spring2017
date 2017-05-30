@@ -1,0 +1,17 @@
+***MODEL***
+Class MapParser: collects map data from a file
+  readNodes(): Pulls locations, coordinates, ids, and intersections from the file and stores them in a map
+  readEdges(): Pulls edges from the file and stores them in the map.
+Class CampusMap: Turns map data into a graph and stores it
+  CampusMap() : creates a new CampusMap object with a private Graph
+  createNewCampusMap() : populates Graph Map with Location objects as keys and sets of location objects as edges
+  findShortestPath() : find the shortest path between two buildings in the map
+  getAllBuildings() : returns a list of all the buildings and their ids in string format
+
+***VIEW***
+***CONTROLLER***
+Class CampusPaths: Combination of view and controller, takes input and returns data
+  main() : takes user input, processes commands, and returns requested data to System.out 
+
+***OTHER***
+Class Location: represents a location on the map, it has behavior similar to a node

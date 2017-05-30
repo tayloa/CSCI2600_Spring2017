@@ -1,0 +1,385 @@
+Slide: 5
+But how to we write specifications? How do we prove that the program obeys the specification?
+
+Slide: 14
+{ x=0 } x++ { x>1 } is a logical formula, just like "x+y = z" or "1 + 2 = 3". The meaning of "{ x=0 } x++ { x>1 }" is "If x>=0 and we execute x++, then x>1 will hold". But this statement is false because when x=1, x++ will be 1 (and hence x>1 won't hold).
+
+true
+False
+True
+False
+
+
+
+Slide: 15
+
+Q = {x >= 0};
+T = {y > 0};
+P = {x > 0};
+R = {x >= -1};
+S = {y = 1}
+U = {y >= 0}
+code = y = x + 1
+
+{Q} code {T} = {x >= 0} y = x+1 {y > 0}
+
+{P} code {Q}
+{ P } code { T } is true because P => Q and { Q } code { T } is true.
+Intuitively, if Q and code imply T, then certainly P and code will imply T.
+P => Q
+let P = {x > 0}
+{x > 0} => {x >=0}
+{x > 0} y = x+1 {y > 0} is still true
+
+{R} code {Q}
+{ R } code { T } is not necessarily true. This is because Q is stronger than R,
+i.e., Q gives us more guarantees than R. Some of these extra guarantees might be
+crucial in making { Q } code { T } true.
+Q => R,
+let R = {x >= -1};
+{x >= 0} => {x >= -1}
+{x >= -1} y = x + 1 {y > 0}  not true if x = -1
+
+{Q} code {S}
+S => T means S is stronger
+let S = {y = 1}
+{y=1} => {y > 0}
+e.g {x>=0} y=x+1 {y=1} not necessarily true, false if x = 1
+can't necessarily substitute stronger condition
+
+{Q} code {U}
+T => U; U is weaker,
+let U = {y >= 0}
+{y > 0} => {y >= 0}
+{x >= 0} y = x + 1 {y >= 0} is still true
+can substitute weaker condition
+
+
+
+
+Slide: 16
+The "weakest precondition" means there exist no condition P' such that P' is weaker than the "wp("x=expression;", Q)" and P' ensures Q.  
+
+Slide: 17
+Precondition is {true}, which is the weakest preconditions of all. This means the code imposes no restrictions at all. 
+
+Slide: 19
+{x < 0 && x <= 0} || {x >= 0 && x >= 0} = {x < 0 || x>=0} = {true}
+if (x < 0) {
+   wp(y=-x, y = |x|) = {-x = |x|} = {x <= 0}
+   y = -x; 
+} 
+else {
+   wp(y=x, y = |x|) = {x = |x|} = {x >= 0}
+   y = x;
+} 
+{ y = |x| }
+
+
+Slide: 20
+wp(y = x + 4, {x=1 || x<=0 && y=-x}) = {x=1 || x <= 0 && x+4 = -x} 
+                                     = {x=1 || x <= 0 && x = -2)
+				     = {x = 1 || x = -2} 
+y = x + 4;
+    {x>0 && (x=1 || x=-1)} || {x <= 0 && y = -x} = {x = 1} || {x <= 0 && y = -x}      
+if (x > 0) {
+        wp(y =x*x-1, y = 0) = {x*x-1 = 0} = {x = 1 || x = -1}
+   y = x*x - 1; 
+} 
+else {
+       wp(y = y + x, y=0) = {y+x=0} = {y = -x}
+   y = y + x; 
+}
+{ y = 0 }
+
+
+Slide: 22
+Invariant: i + z = x
+
+Slide: 24
+LI: n = x^(y-i)
+
+base case:
+i=y
+n = x^(y-i) = x*0 = 1
+base case holds
+
+assume: n_k = x^(y - i_k)
+n_k+1 = x_k * x
+i_k+1 = i_k - 1
+try
+n_k+1 = x^(y-i_k+1)
+n_k*x = x^(y - (i_k - 1))
+n_k*x = x^(y-i_k)*x
+n_k = x^(y - i_k)
+
+Alternately
+n_k = (n_k+1)/x
+i_k = i_k+1 + 1
+(n_k+1)/x = x^(y-(i_k+1 + 1))
+n_k+1 = x^(y-i_k+1)
+
+D = i
+at termination:
+i = 0
+n = x^(y-i) = n^y
+
+
+Slide: 26
+conditions: constraints on values  
+
+1. From now on, I will use the term "method" which is common Java terminology, as opposed to function, the preferred nomenclature in C++.
+
+Slide: 27
+conditions: constraints on values  
+
+1. From now on, I will use the term "method" which is common Java terminology, as opposed to function, the preferred nomenclature in C++.
+
+Slide: 30
+More concise and precise! 
+
+Slide: 31
+Modifies: none
+Effects: none
+Returns: a list of Integers. The ith element is the sum of the ith elements of lst1 and lst2
+
+Is there a problem if lst2 is shorter than lst1? Should we add to the requirements or throw a exception? 
+Modify the loop so that it uses the minimum length of lst1 and lst2? Then we have to change the requirements.
+
+Slide: 32
+Same problem as the previous slide?
+
+Modifies: lst1
+effects.:  the ith element of lst1 is changed to the sum of lst1[i]_old + lst2[1]
+Returns: none
+
+Slide: 33
+A weaker specification is easier to satisfy! And thus implement.
+A stronger specification is easier to use by clients.
+
+Example: spec A requires x > -1, spec B requires x > 0, A is stronger all else being the same.
+Client satisfies B, satisfies A.
+
+
+Slide: 35
+It is all about abstraction and modularity!
+
+What would be a stronger spec for Y.foo? Any condition that is weaker than index >= 0 will be fine as far as the precondition is concerned. Any condition that is stronger than X.foo's postcondition will be fine!
+
+Slide: 36
+Comparison using logical formulas is precise but can be difficult to carry out.
+It is often difficult to express all preconditions and postconditions with precise logical formulas!
+
+
+
+Slide: 39
+Comparison by hand is somewhat informal but most practical.
+Comparison using logical formulas is precise but can be difficult to carry out.
+It is often difficult to express all preconditions and postconditions with precise logical formulas!
+
+
+Slide: 40
+C is stronger than B is stronger than A is stronger than D.
+
+Slide: 41
+Think of parameters and return as part of the method specification (not including behavior).
+As we discussed some time ago.
+
+
+Slide: 42
+Think of return type as part of the postcondition of the spec. 
+
+Slide: 43
+Y m(Object y, Object s);
+Parameters can be replaced by supertypes
+Returns can be replaced by subtypes
+
+Slide: 45
+Can read fromc
+
+Slide: 46
+Comparator must be able to cast to type T, i.e. down cast/
+We can add to PriorityQueue
+
+Slide: 49
+Assume lei is list of Integers
+
+The purpose of the wildcard is to allow for subtyping!
+
+The type declaration List<? extends Integer> means that every List<Type> such that Type extends Integer, is a subtype of List<? extends Integer> (and thus can be used where List<? extends Integer> is expected)
+
+Compiler knows that lei is a subtype of Lits<Integer>, but it doesn't know which subtype, so it restricts add(). Add is like an assignment.
+
+Here: covariant subtyping must be restricted to immutable lists. lei can be read, but can't be written into (because writing is not safe).
+
+Slide: 50
+And here: contravariant subtyping must be restricted to (mainly) write-only lists. lsi can be written, but reading is problematic (basically, we can only read into object variables). So if we used it for reading, we'll have to typecast at the get site.
+
+Compiler knows that li is a supertype of List<integer> but not which one. Can't add subertypes because at runtime Java won't know lsi supertype. It also woon't know what runtime of return form get is. 
+
+Slide: 52
+MORE HERE!
+
+Slide: 54
+We will talk about abstract fields (aka specification fields) next time.
+
+Slide: 55
+But how do we know that our implementation is correct?
+
+Slide: 58
+Why is it that we are not interested in a function in the opposite direction: i.e., abstract Value -> Object?
+
+Slide: 59
+If we take a concrete object, apply AF, get Abstract value. 
+
+Slide: 60
+If we take a concrete object, apply AF, get Abstract value. 
+
+Slide: 62
+Push: rep inv holds beforehand, size is increased by 1, put adds a new element with key size, so rep holds intuitively
+Pop: element size is removed and size is decremented, so re holds intitively
+
+Slide: 64
+Rep exposure
+
+Slide: 71
+a = 15; b=6
+True branch
+a = 3; b = 6 
+False branch
+a = 3; b = 3 
+Return
+100%
+
+
+Slide: 73
+What is polymorphism? In programming languages, (very roughly!) polymorphism refers to the fact that the same variable can hold entities of different types and this one variable can be used uniformly through a common interface, regardless of actual type.
+
+Another important notion (in addition to subtype polymorphism) is parametric polymorphism, which you know of as "templates" in C++ and generics in Java.
+
+Slide: 77
+This is why we needed to reason about which specification is stronger! Most of the time though you won't need formal reasoning, you can do by-hand reasoning!
+
+Slide: 90
+d1.equals(d2)
+Compile time type of d1 = object; locate equals in object, find equals in inherited method; the blue lines are method family.
+Actual parameter d2 Duration is a subtype of object
+
+Runtime type = Duration
+Start looking in Duration for matching member of method family
+
+Slide: 91
+Compile time type of d1 is object
+Look in object and children for equals methods
+
+Runtime type is Duration, look in Duration for match
+
+
+Slide: 92
+Compile time type is Duration, look in Duration for matching equals
+Actual parameter is object (object is a subtype of itself) - choose equals(object)
+
+Runtime - look in Duration
+
+
+Slide: 93
+What are the method families?
+
+Two method families: red and blue
+
+What are the method families? X m(Object), X m(Z) 
+1st case A's m is called
+In B Z is not a supertype of Object
+
+Compile time - a is of type A
+Start in A and look for match of arguments.
+Actual parameter is objects - only match is red m
+Runtime - look B for match, none
+Look in superclass A
+A's m is called
+
+2nd case A's X is called
+In C, m() overrides B's m but not A's
+
+Compile time - a is of type A
+Start in A and look for match of arguments
+Actual argument type is object - match is red
+Runtime start looking in C, look in supertypes
+A's m is called
+
+ 
+
+Slide: 94
+1st case A's m
+in B X m(W w), W is not a superclass of Z. This is not an override of A's X m()
+
+Compile time a is an A
+Look in A for match. Actual parameter is W which is a subtype of Z, so it's a match
+Chose red family
+Runtime, start in B, look in superclasses
+
+2nd case C's m
+C's X m(W w) is an override
+
+Compile time - b is type B
+Look in B and inherited classes for match, actual parameter type is W
+Blue family
+
+Runtime - start looking in C
+Choose m in C
+
+
+Slide: 97
+Singleton
+Factory, Prototype
+Interning, Singleton
+
+Slide: 98
+No (well, it could be but then you lose the whole purpose of interning)
+Could be, but not necessarily a good idea depending on circumstances
+
+Slide: 103
+With Factory Class/Object, the MazeGame is no longer responsible for creating the products. It "outsources" creation to a Factory object.
+
+
+Slide: 107
+Why not a HashSet?
+
+Slide: 108
+Composite
+Adapter
+Decorator
+
+
+Slide: 109
+Proxy, maybe wrapper depending on how it's used, maybe  adapter
+Object adapter works through delegation, class adapter works through subclassing 
+facade
+
+Slide: 114
+Can we have myClass work with NonScalableRectangle? I.e., can we adapt NonScalableRectangle to the Interface of Rectangle?
+
+Slide: 127
+Advantage: easy to add operations (just add a new Visitor class), hard to add new objects.
+Disadvantage: difficult to add new operations, easy to add new Elements of the hierarchy. Good when we can anticipate the operations per hierarchy. 
+
+Slide: 133
+What can be a problem?
+
+Slide: 137
+
+Smells make code error-prone, difficult to understand and maintain
+
+
+
+Slide: 141
+Safety: are errors few and recoverable?
+
+Slide: 143
+Software lifecycle is a term used in software engineering, to describe the process of building and maintaining a software system.
+
+Slide: 150
+Software lifecycle is a term used in software engineering, to describe the process of building and maintaining a software system.
+
+
+

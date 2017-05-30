@@ -1,0 +1,254 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=windows-1252"/>
+	<title>CSCI 2600 Homework 2</title>
+	<meta name="generator" content="LibreOffice 5.1.4.2 (Windows)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="2017-02-15T16:15:01.711000000"/>
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2017-02-15T15:38:06.981000000">
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-09-24T13:30:09.366000000">
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-09-24T13:26:55.199000000">
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-09-24T10:24:09.042000000">
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-08-15T13:17:37.954000000">
+	<style type="text/css">
+		h2.cjk { font-family: "SimSun" }
+		h2.ctl { font-family: "Lucida Sans" }
+		h3.cjk { font-family: "SimSun" }
+		h3.ctl { font-family: "Lucida Sans" }
+		pre.cjk { font-family: "NSimSun", monospace }
+		tt.cjk { font-family: "NSimSun", monospace }
+		code.cjk { font-family: "NSimSun", monospace }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<div id="header" dir="ltr">
+	<p>CSCI 2600 Principles of Software</p>
+	<h1><!-- omit from toc -->Homework 2: Reasoning About Loops 
+	</h1>
+	<h2 class="western"><!-- omit from toc -->Due: Feb. 27 @ 11:59pm 
+	</h2>
+</div>
+<h2 class="western"><a name="introduction"></a><!-- ************************INTRODUCTION************************** -->Introduction</h2>
+<p>In this assignment you will prove correctness of loops using the
+techniques we discussed in class. Write your answers to problems 1-4
+in a <strong>text</strong> file <tt class="western">hw2/answers/hw2_answers.txt</tt>.
+</p>
+<h2 class="western"><a name="Problems"></a>Problems</h2>
+<h3 class="western"><a name="Problem1"></a><!-- ************************PROBLEM 1  ************************** -->Problem
+1 (8pts): Computing the Sum of an Integer Array</h3>
+<p>In lecture, we gave an example of an algorithm to find the sum of
+the integer elements of an array <code class="western">a[0..len-1]</code>.
+Our loop had the following as part of its invariant: 
+</p>
+<pre class="western" style="margin-bottom: 0.2in">sum = arr[0]+arr[1]+...+arr[i-1]</pre><p>
+Suppose we decide to use the following slightly different invariant
+instead: 
+</p>
+<pre class="western" style="margin-bottom: 0.2in">sum = arr[0]+arr[1]+...+arr[i]</pre><p>
+(The difference is that the upper bound of the array section is <code class="western">i</code>
+instead of <code class="western">i-1</code>.) 
+</p>
+<p>Rework the code in the example to use this new invariant instead
+of the original one and show that the modified code is correct. (You
+have to use computation induction as we did in class: 1) show
+invariant holds before loop, 2) show if it held after k-th iteration
+and execution takes a (k+1)-st iteration, invariant still holds, and
+3) show that your loop exit condition and the loop invariant imply
+the poscondition, namely that sum = arr[0] + arr[1] + ... +
+arr[arr.length-1].) You do not need to argue termination. 
+</p>
+<p>After solving this problem, give a brief description of how this
+change to the invariant affected the algorithm. What were the major
+changes? Did this change make the code easier or harder to write or
+prove compared to the original version? Why? (You should keep your
+answers brief and to the point.)</p>
+<h3 class="western">Problem 2 (15pts) The Dutch National Flag Problem</h3>
+<p>Given an array arr[0..N-1] where each of the elements can be
+classified as <font color="#cc0000">red</font> or <font color="#0066cc">blue,
+</font><font color="#000000">write pseudocode to rearrange the
+elements of arr so that all occurrences of </font><font color="#0066cc">blue
+c</font><font color="#000000">ome after all occurrences of</font><font color="#0066cc">
+</font><font color="#cc0000">red</font><font color="#000000"> and the
+variable k indicates the boundary between the regions. Assume the
+existence of a function swap(arr, i, j) which swaps the ith and jth
+elements of arr.</font></p>
+<p style="margin-bottom: 0in"><font color="#000000">The following
+picture illustrates the desired postcondition:</font></p>
+<p style="margin-bottom: 0in"><br/>
+
+</p>
+<pre class="western"><font color="#000000">          </font><font color="#000000"><font face="Courier New, monospace">0                    k                 N</font></font>
+         +--------------------+-----------------+
+<font color="#000000">     arr |   all </font><font color="#cc0000">red</font><font color="#0066cc"> </font><font color="#000000">         | all </font><font color="#0000cc">blue</font><font color="#000000">        |</font>
+         +--------------------+-----------------+</pre><p>
+Write an expression for the postcondition.</p>
+<p style="margin-bottom: 0in"><font color="#000000">Write a suitable
+loop invariant for any loops in your pseudocode.</font></p>
+<p style="margin-bottom: 0in"><br/>
+
+</p>
+<h3 class="western"><!-- ************************PROBLEM 2  ************************** -->Problem
+3 (10pts): Exponentiation by squaring</h3>
+<p>Below is the pseudocode for exponentiation by squaring. 
+</p>
+<pre class="western">Precondtion: n &gt;= 0
+int power(int m, int n) {
+  int x = m;
+  int y = n;
+  int result = 1;
+  while (y != 0) {
+    if (y is even) {
+      x = x*x;
+      y = y/2; 
+    }
+    else {
+      result = result*x;
+      y = y-1;
+    }
+  }
+  return result;
+}
+Postcondition: result = m^n</pre><p>
+Assume that the loop invariant is m^n = result*x^y. Show that 1) the
+invariant holds before the loop (base case), 2) assuming invariant
+holds after k-th iteration, and execution takes a k+1-st iteration,
+the invariant still holds (inductive step), 3) the loop exit
+condition and the loop invariant imply the postcondition result =
+m^n. 
+</p>
+<h3 class="western" style="font-weight: normal"><font size="3" style="font-size: 12pt">Find
+a suitable decrementing function. Prove that the function is indeed a
+decrementing function. </font>
+</h3>
+<h3 class="western"><!-- ************************PROBLEM 3  ************************** -->Problem
+4 (15pts): Additive Factorial</h3>
+<p>Below we give, in Dafny, the factorial function and a method with
+loops, which should be computing the factorial of a number as well. 
+</p>
+<p>Fill the annotations at the designated places. As in the example
+in class you can use the function (Factorial) in the annotations.
+Fill the two loop invariants and the assertion (the assertion states
+the postcondition that holds if the inner loop terminates; this
+postcondition can help prove partial correctness). 
+</p>
+<p>Next, use computation induction to prove partial correctness. 
+</p>
+<pre class="western">function Factorial(n: int): int
+  requires n &gt;= 0
+{
+  if n == 0 then 1 else n * Factorial(n-1)
+}
+
+method LoopyFactorial(n: int) returns (u: int)
+  requires n &gt;= 0
+  ensures u == Factorial(n)
+  {
+    u := 1;
+    var r := 0;
+    while (r &lt; n) 
+      invariant ? YOUR ANSWER HERE
+    {
+      var v := u;
+      var s := 1;
+      while (s&lt;=r) 
+        invariant ? YOUR ANSWER HERE
+      {
+        u:=u+v;
+        s:=s+1;
+      }
+      assert ? YOUR ANSWER HERE 
+      r:=r+1;
+    }
+  }</pre><p>
+Use Dafny to check your answer.</p>
+<h3 class="western"><a name="Problem4"></a><a name="collaboration"></a>
+<!-- <h3 id="Problem3">Problem 3 (15pts): Insertion Sort</h3>
+<p>
+Give an implementation of the algorithm <em>insertion sort</em> and a proof of its correctness. 
+The algorithm should sort an array <code>a</code> containing  <code>n &ge; 0</code> integer values. 
+The precondition is that the array contains  <code>n &ge; 0</code>  integer values in some unknown order. 
+The postcondition is that the array holds a permutation of the original values such that <code>a[0] &le; a[1] &le; ... &le; a[n-1]</code>. 
+Use operation <code>swap(a,i,j)</code> which swaps the i-th and j-th elements of array <code>a</code>. The code for this opeartion, if needed, is in the lecture slides from Tuesday, Feb. 10th.  
+</p>
+
+<p>
+Insertion sort is a well-known sorting method. It starts at the second elment, <code>a[1]</code>. If <code>a[1] < a[0]</code>,
+insertion sort swaps <code>a[1]</code> and <code>a[0]</code>. It looks then at <code>a[2]</code>. If <code>a[2] < a[1]</code>, it swaps <code>a[2]</code> and <code>a[1]</code>; next, if the new <code>a[1]</code> (which was previously <code>a[2]</code>) is <code> < a[0]</code>, insertion sort
+swaps it with <code>a[0]</code>. It then looks at <code>a[3]</code>, etc. The algorithm considers the elements in order, inserting each 
+element into its proper place into the already-sorted array on the left.  
+</p>
+
+<p>Write pseudocode for insertion sort, then annotate the code with precondition, postcondition and suitable invariants for 
+both the inner loop and the outer loop. Show the conditions in curly braces throughout the code as you did in Homework 1. 
+You do not need to carry out the formal proof, however, it should be clear from your annotations that the postcondition
+of insertion sort holds. To help you get started, I have written the sketch of the proof for selection sort, which like insertion
+sort is a popular elementary sorting algorithm: <a href=http://www.cs.rpi.edu/~milanova/csci2600/selection.pdf>here</a>. You can find many 
+useful examples in the University of Washington handout.
+</p>
+--><!-- ***************Collaboration Reflection and Time spent**************** -->Collaboration
+(1pt)</h3>
+<p>Please answer the following questions in a file named
+<tt class="western">collaboration.txt</tt> in your <tt class="western">hw2/answers/</tt>
+directory.</p>
+<p>The standard <a href="http://www.cs.rpi.edu/~milanova/csci2600/syllabus.htm">academic
+integrity policy</a> applies to this homework. 
+</p>
+<p>State whether or not you collaborated with other students. If you
+did collaborate with other students, state their names and a brief
+description of how you collaborated. 
+</p>
+<h3 class="western"><a name="reflection"></a>Reflection (1pt)</h3>
+<p>Please answer the following questions in a file named
+<tt class="western">reflection.txt</tt> in your <tt class="western">hw2/answers/</tt>
+directory. Answer briefly, but in enough detail to help you improve
+your own practice via introspection and to enable me to improve
+Principles of Software in the future.</p>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in">In retrospect, what could you
+	have done better to reduce the time you spent solving this homework?
+		</p>
+	<li/>
+<p style="margin-bottom: 0in">What could the Principles of
+	Software staff have done better to improve your learning experience
+	in this homework? 
+	</p>
+	<li/>
+<p>What do you know now that you wish you had known before
+	beginning the homework? 
+	</p>
+</ol>
+<h2 class="western"><a name="Turnin"></a>Submission</h2>
+<p>You should add and commit the following files to SVN: 
+</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw2/answers/hw2_answers.txt</tt>
+		</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw2/answers/reflection.txt</tt>
+		</p>
+	<li/>
+<p><tt class="western">hw2/answers/collaboration.txt</tt> 
+	</p>
+</ul>
+<h2 class="western"><a name="hints"></a>Hints</h2>
+<p>When trying to come up with a loop invariant for prewritten code,
+it often helps to trace through the execution of the code on paper.
+Choose a few different starting values of variables defined outside
+the block of code (such as method arguments), and write down the
+values of all the variables used in the loop for each iteration. 
+</p>
+<h2 class="western"><a name="errata"></a>Errata</h2>
+<p>Check the course Announcements page regularly. I'll announce
+corrections to the homework text on the Announcements page, if they
+arise. 
+</p>
+</body>
+</html>

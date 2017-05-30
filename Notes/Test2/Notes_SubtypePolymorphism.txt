@@ -1,0 +1,206 @@
+Slide: 4
+What is polymorphism? In programming languages, (very roughly!) polymorphism refers to the fact that the same variable can hold entities of different types and this one variable can be used uniformly through a common interface, regardless of actual type.
+
+Another important notion (in addition to subtype polymorphism) is parametric polymorphism, which you know of as "templates" in C++, or generics in Java.
+
+Slide: 6
+Maintenance problem. What if we add a Triangle? We need to change DrawAll to include a switch that accounts for drawing a Triangle. 
+Adding a new shape requires changes to client code.
+
+Slide: 18
+Maintenance problem
+
+Slide: 19
+An alternative to SaleProduct extends Product would have been composition!
+
+    
+
+Slide: 20
+Disadvantage: may break equality. 
+
+If we implement equality for SaleProduct in the most intuitive way, equality won't be symmetric when comparing a SaleProduct and a Product! 
+
+Slide: 23
+We want Square's spec to be stronger than Rectangle's.
+
+Slide: 24
+Choice 1 requires more of client.
+
+Slide: 25
+Choice 4 throws new exception for values in domain. See Specifications.pdf It shouldn't throw an exception for values that clients of Rectangle know are OK.
+
+Slide: 26
+In other words, Square cannot be substituted for a Rectangle!
+Building inheritance hierarchies can be tricky
+
+Slide: 27
+This is why we needed to reason about which specification is stronger! Most of the time though you won't need formal reasoning, you can do by-hand reasoning!
+
+Slide: 29
+http://www.ckode.dk/programming/solid-principles-part-3-liskovs-substitution-principle/
+
+An invariant is a condition which must hold true BOTH before and AFTER running a method. You have to be sure when you override a method anything unchangeable must remain unchanged after your overridden method executed.  This can be hard to do because the invariant may not be explicit.
+
+History Constraint: When overriding a method you are not allowed to modify an un-modifiable property in the base class. 
+
+Slide: 33
+So, is Box a true subtype of BallContainer? No. Client is justified writing this code: BallContainer c; . i=0; while (i++<100) { c.add(new Ball(20)); } assert(c.getVolume() == 2000)
+Can't substitute BallBox for BallContainer. It guarantees less. 
+
+
+
+Slide: 34
+Choice 1 is weaker than Rectangle.setSize(). Precondition stronger, postcondition the same.
+
+
+Slide: 39
+Think of parameters and return as part of the method specification (not including behavior).
+Think of the arguments as a precondition.
+
+Slide: 40
+Think of return type as part of the postcondition of the spec. 
+
+Slide: 42
+Properties.put(String,String) is the substituting "subtype" method. Substitutabiltiy requires that Properties.put has stronger signature: parameters that are supertypes of Hashtable.put's parameters and return result that is subtype of Hashtable.put's result. String is NOT A SUPERTYPE OF Object, thus substitutability requirement is not met. 
+
+Substituting Properties.put might violate clients expectations. Requiring String is a stronger @requires statement, weaker spec.
+
+Similar reasoning for Properties.get(String). The argument is NOT a supertype of Object. The return is (as required) a subtype of Object.
+
+ 
+
+Slide: 48
+Overriding 
+
+Slide: 49
+Now Properties has 4 methods:
+void put(Object key, Object key) // inherited from Hashtable
+Object get(Object key) // inherited from Hashtable
+void put(String key, String key) // overloaded put
+String get(String key) // overloaded get
+
+Suppose we have 
+Properties p = .
+String s1, s2;
+Integer i1, i2;
+p.put(s1,s2); // Which put is called here? put(String s1, String s2), it is a better match!
+p.put(s1,i2); // put(Object,Object)!
+
+
+
+
+
+
+
+Slide: 51
+https://www.cs.cmu.edu/~aldrich/courses/15-214-11fa/slides/method-dispatch.pdf
+
+Slide: 56
+d1.equals(d2)
+Compile time type of d1 = object; locate equals in object, find equals in inherited method; the blue lines are method family.
+Actual parameter d2 Duration is a subtype of object
+
+Runtime type = Duration
+Start looking in Duration for matching member of method family
+
+Slide: 57
+Compile time type of d1 is object
+Look in object and children for equals methods
+
+Runtime type is Duration, look in Duration for match
+
+Slide: 58
+Compile time type is Duration, look in Duration for matching equals
+Actual parameter is object (object is a subtype of itself) - choose equals(object)
+
+Runtime - look in Duration
+
+Slide: 59
+Two method families: red and blue
+
+What are the method families? X m(Object), X m(Z) 
+1st case A's X is called
+In B Z is not a supertype of Object
+
+Compile time - a is of type A
+Start in A and look for match of arguments.
+Actual parameter is objects - only match is red m
+Runtime - look B for match, none
+Look in superclass A
+
+2nd case A's X is called
+In C, m() overrides B's m but not A's
+
+Compile time - a is of type A
+Start in A and look for match of arguments
+Actual argument type is object - match is red
+Runtime start looking in C, look in supertypes
+
+
+Slide: 60
+1st case A's m
+in B X m(W w), W is not a superclass of Z. This is not an override of A's X m()
+
+Compile time a is an A
+Look in A for match. Actual parameter is W which is a subtype of Z, so it's a match
+Chose red
+
+Runtime, start in B, look in superclasses
+
+2nd case C's m
+C's X m(W w) is an override
+
+Compile time - b is type B
+Look in B and inherited classes for match, actual parameter type is W
+Blue family
+
+Runtime - start looking in C
+Choose m in C
+
+Slide: 62
+This is type safety. It rules out a huge class of bugs! Compare with C++!
+
+Slide: 63
+After change, you have an infinite loop and a stack overflow exception.
+Which inc2() is called?
+
+Slide: 66
+InstrumentedHashSet depends on the implementation of HashSet!
+
+Slide: 67
+Method family includes HashSet add and  InstrumetedHashSet add.
+HashSet add calls this,add(). this is InstrumetedHashSet at runtime
+
+
+Slide: 69
+A nice useful trick. "implements Set" allows our InstrumentedHashSet to be treated as a Set. On the other hand it does not extend anything. It reuses HashSet through Composition.
+Resolves problem because we are calling a HashSet add directly. InstrumentedHashSet is not a subclass of HashSet
+
+Slide: 71
+Inheritance is overrated as a means for code reuse. Composition is better.
+
+Slide: 73
+Up to this point we reasoned at the specification level. We'll see how we implement subtypes.
+
+Slide: 76
+Properties.put(String,String) is the substituting "subtype" method. Substitutabiltiy requires that Properties.put has stronger signature: parameters that are supertypes of Hashtable.put's parameters and return result that is subtype of Hashtable.put's result. String is NOT A SUPERTYPE OF Object, thus substitutability requirement is not met. 
+
+Similar reasoning for Properties.get(String). The argument is NOT a supertype of Object. The return is (as required) a subtype of Object.
+
+ 
+
+Slide: 79
+Composition to the rescue
+Properties no longer extends HastTable. It contains a HashTable
+
+Slide: 80
+There is a bug on this slide. Can you find it?
+I need to do addCount += c.size() in the constructor.
+
+Slide: 84
+A nice useful trick. "implements Set" allows our InstrumentedHashSet to be treated as a Set. On the other hand it does not extend anything. It reuses HashSet through Composition.
+
+I don't need to do addCount += c.size() here. Why? Because it calls its own addAll()
+
+
+

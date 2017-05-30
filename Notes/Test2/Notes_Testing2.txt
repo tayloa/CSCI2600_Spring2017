@@ -1,0 +1,145 @@
+Slide: 13
+Hence, there are 2 ways (at least) to test for equality!
+== is the reference equality. Returns true of the 2 references point to the same object.
+.equals() is the "value" equality. It may relax the reference equality. If it is defined in a class, it specifies what it means for two objects of this class to be "equal". If it is not defined in a class, then the class inherits Object.equals, which implements reference equality.
+
+a == b   is false
+b == c   is true
+a.equals(b) is false
+b.equals(c) is true
+
+Slide: 14
+
+
+
+Slide: 16
+Point extends Object (all objects extend Object, implicitly).  
+
+Slide: 20
+False - not same object
+
+Slide: 21
+Yields true.
+
+It is reflexive, symmetric and transitive, yes.
+
+Problem: we overloaded equals(), instead of overriding it. 
+
+However, consider:
+Object d1 = new Duration(10,5);
+Object d2 = new Duration(10,5);
+System.out.println(d1.equals(d2)); Yields FALSE! 
+
+We'll see why soon.
+
+
+
+
+Slide: 23
+Yields false! equals(Duration) overloads Object.equals. So now Duration has 2 equals method families.
+
+Because d1 and d2 are of declared (compile-time) type Object, the call d1.equals(d2) resolves to equals(Object) at compile time. At runtime, it calls Object.equals(Object).
+
+
+Slide: 24
+Yields true.
+Now Duration.equals(Object) overrides Object.equals(Object). d1.equals(d2) calls Duration.equals(Object).
+
+
+
+
+Slide: 26
+What happens if we inherit Duration.equals?
+Try it.
+
+Slide: 27
+This is not good. 
+It is not symmetric!
+
+d1.equals(d2) returns false. Fails instanceof test
+d2.equals(d1) returns true. Calls Duration.equals() ignores nano
+
+
+
+
+Slide: 28
+It fixes the symmetry problem but it is not transitive!
+
+Duration d1 = new NanoDuration(5,10,15);
+Duration d2 = new Duration(5,10);
+Duration d3 = new NanoDuration(5,10,30);
+d1.equals(d2); // true
+d2.equals(d3);   // true
+d1.equals(d3) // false
+
+
+
+
+
+
+
+Slide: 29
+d1.equals(d2); Yields true
+d2.equals(d3);  Yields true
+d1.equals(d3);  Yields false!
+
+Not transitive!
+
+
+
+Slide: 30
+Aside: Object.getClass() returns the exact runtime class of the receiver object.
+
+
+
+
+
+Slide: 31
+
+
+
+
+
+Slide: 35
+Unicty - uniqueness
+
+Slide: 37
+Choice 1: hashCode is inconsistent with equals. 
+One of the most common mistakes by Java programmers is to override equals but not override hashCode.
+
+Choice 2: consistent with equals, but inefficient, groups all Duration objects into one bucket.
+Choice 3: consistent with equals, better prefiltering, but still inefficient because groups all durations with same min into one bucket.
+Choice 4: consistent with equals. Even better, will tend to change the hashCode as object value changes. Still has problems hashCode for 1min 30 secs is the same as for 30 min 1 sec. 
+
+Slide: 38
+We need to redefine hashCode. What will be a good one? return 60*min+sec.
+Still the hashCode is not unique. 1 min 30 sec == 0 min 90 secs
+
+Slide: 43
+Two strings with the same content are behaviorally equivalent. Two Dates or StringBuffers with the same content are not. 
+
+Two Strings, Dates, or StringBuffers with same content are observationally equivalent.
+
+
+Slide: 46
+Date is deprecated - don't use. Use Calendar instead. It's just used here for illustration. Calendar overrides equals.
+Set.contains() uses Date.equals(). Why is s.contains(d2) false?
+Because the hashCode has changed.
+
+Slide: 49
+Prints:
+false
+
+true
+false
+
+h thinks it doesn't contain friends, but one of its elements is equal to friends. 
+
+Slide: 50
+Can we use hashCode to prefilter? Why yes, or why not?
+
+Slide: 53
+For immutable objects, we can use hashCode to prefilter.
+
+
+

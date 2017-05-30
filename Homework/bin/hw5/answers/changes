@@ -1,0 +1,6 @@
+Graph Class
+line 17: Changed underlying data structure: Now nodes is a map with nodes as keys and edges as values. Removed Edge edge set data structure.
+line 18: Changed Graph methods to work with the new data structure to improve runtime. 
+
+Edge Class 
+line 70: Added a comparator. It will compare by child then edge label. It will be used to find the shortest alphabetical path.

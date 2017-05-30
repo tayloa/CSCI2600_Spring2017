@@ -1,0 +1,718 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=windows-1252"/>
+	<title>CSCI 2600 Homework 4: Designing a Graph ADT</title>
+	<meta name="generator" content="LibreOffice 5.2.0.4 (Windows)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="2017-03-11T07:57:22.362000000"/>
+	<meta name="created" content="00:00:00">
+	<meta name="changed" content="2016-10-15T07:25:18.855000000">
+	<style type="text/css">
+		h2.cjk { font-family: "SimSun" }
+		h2.ctl { font-family: "Lucida Sans" }
+		h3.cjk { font-family: "SimSun" }
+		h3.ctl { font-family: "Lucida Sans" }
+		pre.cjk { font-family: "NSimSun", monospace }
+		tt.cjk { font-family: "NSimSun", monospace }
+		code.cjk { font-family: "NSimSun", monospace }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<div id="header" dir="ltr">
+	<p>CSCI 2600 Principles of Software</p>
+	<h1><!-- omit from toc -->Homework 4: Designing and Implementing an
+	ADT 
+	</h1>
+	<h2 class="western"><!-- omit from toc -->Due: March<b> 27</b> <b>@
+	</b><b>1</b><b>1:59pm</b> 
+	</h2>
+</div>
+<h2 class="western"><a name="Note 1"></a>IMPORTANT NOTES:</h2>
+<p>You should have package <tt class="western">hw4</tt> with the
+usual directory structure. Write your code under <tt class="western">hw4</tt>
+and your tests under <tt class="western">hw4/test</tt> (shows as
+<tt class="western">hw4.test</tt> in Project Explorer). If your
+directory structure is incorrect autograding will fail resulting in a
+grade of 0!</p>
+<h2 class="western"><a name="Introduction"></a>Introduction</h2>
+<p>This assignment has two parts. In the first part (Problem 1), you
+will practice concepts we discussed in class. In the second part, you
+will design, implement, and test a graph ADT. Given an abstract,
+high-level description of the desired ADT, you will develop a working
+Java implementation. You get to choose both the public interface and
+internal representation, then decide what unit tests to write to
+demonstrate that your implementation works correctly.</p>
+<p>Although this is an individual assignment, in the design stage you
+will learn more and produce a better design by bouncing your ideas
+off others and incorporating their own ideas. To encourage and
+facilitate discussion, we are relaxing the standard academic
+integrity policy for Problem 2 (the interface design stage). You must
+first attempt to come up with an interface design on your own, but
+then you are strongly encouraged to discuss your design with your
+classmates who have also attempted a design (as well as the course
+staff during office hours) as much as you like, without restrictions
+on what materials you can bring to or from meetings. On the other
+parts of this assignment, including the implementation stage, the
+standard academic integrity policy still applies.</p>
+<p>This assignment is the first of a multi-part project. In
+subsequent assignments you will build several clients of your graph
+ADT. By the end of the class, you will build a fully-fledged
+application for getting directions to travel between two places of
+interest on the RPI campus.</p>
+<h2 class="western"><a name="Problem1"></a>Problem 1: Written
+Exercises</h2>
+<p>This part will improve your understanding of the ADT concepts. You
+should have <tt class="western">hw4/IntPriorityQueue.java</tt> and
+<tt class="western">hw4/test/IntPriorityQueueTest.java</tt> as part
+of the distribution of Homework 4. (Research the heap data structure,
+if you haven't done so already.) Place your answers to the questions
+below in file <tt class="western">hw4/answers/problem1.txt</tt>.</p>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in">Write the abstraction function
+	and representation invariant, referring to the source code provided
+	in the <tt class="western">hw4/IntPriorityQueue.java</tt> file of
+	your homework. For ease of the graders, include your answer in
+	<tt class="western">hw4/answers/problem1.txt</tt>. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">The code in
+	<tt class="western">hw4/IntPriorityQueue.java</tt> can lead to
+	representation exposure. Explain what can go wrong and propose a
+	solution. Write your answer in <tt class="western">hw4/answers/problem1.txt</tt>.
+		</p>
+	<li/>
+<p style="margin-bottom: 0in">Write a <tt class="western">checkRep</tt>
+	method and insert calls to checkRep at all appropriate places in
+	<tt class="western">hw4/IntPriorityQueue.java</tt>. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Below are several descriptions
+	of an <tt class="western">IntPriorityQueue</tt> object's internal
+	state at different points in a program. Which snapshots are
+	equivalent to each other at the abstract level? 
+	</p>
+	<ol>
+		<p style="margin-bottom: 0in">heap = [Integer.MAX_VALUE,4,2,3,2,4]
+		and size = 3</p>
+		<p style="margin-bottom: 0in">heap = [Integer.MAX_VALUE,4,2,3] and
+		size = 3</p>
+		<p style="margin-bottom: 0in">heap = [Integer.MAX_VALUE,4,3,2] and
+		size = 3</p>
+		<p style="margin-bottom: 0in">heap = [Integer.MAX_VALUE,5,4,3,3,1]
+		and size = 5</p>
+	</ol>
+	<p>Place your answer in <tt class="western">hw4/answers/problem1.txt</tt>.
+		</p>
+</ol>
+<h2 class="western"><a name="Graph"></a>Building a Graph</h2>
+<h3 class="western"><a name="Graph-Definitions"></a>Definitions and
+Terminology</h3>
+<p>In the rest of this assignment you will design, implement, and
+test a <em>directed labeled multi-graph</em>.</p>
+<p>A <em>graph</em> is a collection of <em>nodes</em> (also called
+vertices) and <em>edges</em>. Each edge connects two nodes. In a
+<em>directed graph</em>, edges are one-way: an edge <tt class="western">e
+= &#10216;A,B&#10217;</tt> indicates that B is directly reachable
+from A. To indicate that B is directly reachable from A <em>and</em>
+A from B, a directed graph would have edges <tt class="western">&#10216;A,B&#10217;</tt>
+and <tt class="western">&#10216;B,A&#10217;</tt>. 
+</p>
+<p>The <em>children</em> of node B are the nodes to which there is an
+edge <em>from</em> B. In Fig. 1, the children of B are A and C.
+Similarly, the parents of B are the nodes from which there is an edge
+<em>to</em> B. In Fig. 1, B only has one parent, A. 
+</p>
+<p>A <em>path</em> is a sequence of edges <tt class="western">&#10216;node1,node2&#10217;,
+&#10216;node2,node3&#10217;, &#10216;node3,node4&#10217;, ...</tt>.
+In other words, a path is an ordered list of edges, where an edge <em>to</em>
+some node is immediately followed by an edge <em>from</em> that node.
+In Fig. 1, one possible path is <tt class="western">&#10216;B,A&#10217;,&#10216;A,B&#10217;,&#10216;B,C&#10217;</tt>.
+This path represents traveling from B to A to B to C. A path may
+traverse a given edge twice. 
+</p>
+<p>A <em>reflexive edge</em> is an edge which starts and ends at the
+same node. In Fig 1. there is a reflexive edge from A to A: <tt class="western">&#10216;A,A&#10217;</tt>.
+Your graph implementation must allow for reflexive edges. 
+</p>
+<div id="Graph-Images" dir="ltr">
+	<p><br/>
+<br/>
+
+	</p>
+	<div id="Digraph" dir="ltr">
+		<p style="margin-bottom: 0in"><img src="hw4_html_8c46f5e311594b4f.png" name="Image1" alt="A simple directed graph" align="bottom" width="192" height="192" border="0"/>
+
+				</p>
+		<p style="margin-bottom: 0in">Figure 1: A simple directed graph
+		with four nodes.</p>
+	</div>
+	<div id="Multigraph" dir="ltr">
+		<p style="margin-bottom: 0in"><img src="hw4_html_50cb0020ddf9feac.png" name="Image2" alt="A multigraph" align="bottom" width="192" height="192" border="0"/>
+
+				</p>
+		<p style="margin-bottom: 0in">Figure 2: A directed multigraph.</p>
+	</div>
+	<div id="Labeled-graph" dir="ltr">
+		<p style="margin-bottom: 0in"><img src="hw4_html_fd5e3ed3f63416e7.png" name="Image3" alt="A labeled graph" align="bottom" width="192" height="192" border="0"/>
+
+				</p>
+		<p style="margin-bottom: 0in">Figure 2: A directed labeled
+		multigraph.</p>
+	</div>
+</div>
+<p>In a <em>multigraph</em>, there can be any number of edges (zero,
+one, or more) between a pair of nodes. Fig. 2 shows a multigraph with
+2 edges from A to C. 
+</p>
+<p>In a <em>labeled graph</em> (Fig. 3), every edge has a label
+containing information of some sort. Labels are not unique: multiple
+edges may have the same label. In theory a graph could contain two
+&quot;identical&quot; edges with the same starting point, ending
+point, and label, but for this project you may decide whether to
+allow identical edges in your implementation. (Whatever you decide,
+make sure it is clearly documented so clients understand how they can
+use your ADT.) 
+</p>
+<p>If you want to learn more, read <a href="http://en.wikipedia.org/wiki/Graph_%28data_structure%29">Wikipedia's
+definition of a graph</a>. Then if you still have a question, ask us.
+</p>
+<p>Many interesting problems can be represented with graphs. For
+example:</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in">A graph can represent airline
+	flights between cities, where each city is a node and an edge <tt class="western">&#10216;A,B&#10217;</tt>
+	indicates that there is a flight from A to B. The edge label might
+	represent the cost in money (airfare), time (length of flight), or
+	distance. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">To find walking routes across
+	RPI's campus in Troy, you can build a graph where nodes represent
+	buildings and other locations and edges represent walking paths
+	connecting two locations. The label/cost of an edge is the physical
+	length of that path. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">The Web can be modeled as a
+	graph with node for every webpage and an edge <tt class="western">&#10216;A,B&#10217;</tt>
+	if page A links to page B. The label could indicate the anchor text
+	for a link on page A, or the number of links from page A to page B. 
+	</p>
+	<li/>
+<p>Facebook is essentially a giant graph with nodes for users
+	and edges between friends. (You can see a <a href="http://www.yasiv.com/facebook">visualization
+	of the Facebook graph</a>.) 
+	</p>
+</ul>
+<h3 class="western"><a name="Problem2"></a>Problem 2: Write a
+Specification for Graph</h3>
+<p>To start, you will specify the API for a Java class or classes
+representing a directed labeled multigraph. The API, or public
+interface, is the collection of public classes and methods that
+clients of your graph ADT will use. We recommend that you work in
+iterative layers of detail. Start rough &mdash; preferably with
+pencil and paper &mdash; by brainstorming what operations the ADT
+needs to support, how it might be logically broken into modules
+(classes/interfaces), and how these modules connect to each other.
+Then, jot down a list of methods for each class that provide these
+operations. Think through some possible client applications,
+particularly finding routes between different buildings, to get an
+idea about what operations might be needed. 
+</p>
+<p>Initially you should keep your design rough &mdash; don't write
+formal class and method specifications with all the proper clauses
+right away. Your design will likely go through multiple iterations,
+and it's easier to throw away parts before you've invested too much
+effort in them. 
+</p>
+<p>Once you are satisfied with your high-level design, write a
+specification for each class and method. Follow the convention we
+have been using in this class, remembering to use both standard
+Javadoc tags (<tt class="western">param</tt>, <tt class="western">returns</tt>,
+<tt class="western">throws</tt>) and ones introduced in <a href="http://courses.cs.washington.edu/courses/cse331/13sp/conceptual-info/specifications.html">the
+UW handout on specifications.</a> A good approach is to create
+skeleton implementations of your classes containing only method
+&ldquo;stubs&rdquo;, then write your specifications in place in the
+code. A stub is a not-yet-implemented method whose body simply throws
+an exception, as you saw in the Homework 3 starter code. Stubbing out
+a class gives you the flexibility to write client code and tests that
+use it before completing the implementation. The skeleton code will
+not behave correctly or pass tests, but the program will compile and
+run.</p>
+<p>For this assignment, you may restrict your graph to store the data
+in nodes and edge labels as <tt class="western">String</tt>s. We
+strongly recommend you DO NOT use Generics for this assignment. In a
+future assignment, you will use generics to make your ADT work with
+other data types &mdash; text, integers, doubles, etc. You may assume
+nodes are uniquely identified by their data contents: that is, no two
+nodes store the same data.</p>
+<p>Design problems such as this one are open-ended by nature: we are
+not looking for one &ldquo;right&rdquo; design. There are principles
+of good design you have learned in lecture, however. You will also
+find suggestions of what to consider and how to approach the problem
+in the <a href="#Hints">hints</a> section. Also, designs naturally
+evolve as requirements change, so try to make your code extensible,
+but don't over-generalize.</p>
+<p>Once you are done with the specification of your Graph ADT
+(overview and operations) copy and paste your specs and stubs into
+the file <tt class="western">hw4/answers/problem2.txt</tt>.<!-- <p>
+Please include in your submission a brief description (at most one sentence for
+each operation) of why you included the operations you
+did and why you feel they are a sufficient interface to a graph. If
+your design includes multiple classes or interfaces, explain why you
+included each one; if not, explain whether you considered additional
+classes and why you decided not to include them. This should be placed
+in <tt>hw4/answers/problem2.txt</tt>. The only other deliverables
+for this problem are the Javadoc class and method
+specifications as they appear in the source code you submit
+in <a href="#Problem4">Problem 4</a>; you do not need to submit your
+Javadoc in a separate file.</p>
+-->
+</p>
+<h3 class="western"><a name="Problem3"></a>Problem 3: Write Tests for
+Graph</h3>
+<p>Write a black-box test suite for your Graph specifications. It is
+important to write your tests <b>before</b> your code, but your tests
+will not pass until you have completed <a href="#Problem4">Problem 4</a>.
+</p>
+<ul>
+	<li/>
+<p><strong>Documentation:</strong> Include with your test
+	cases one short paragraph of documentation explaining your testing
+	strategy, and which (if any) testing heuristics you used. Place this
+	writeup in <tt class="western">hw4/answers/problem3.txt</tt>.<!-- TODO: think about authomation in the future --><!-- TODO: specification tests versus implementation tests -->
+		</p>
+</ul>
+<p>Create and commit new JUnit test classes in directory <tt class="western">hw4/test</tt>.
+You must have JUnit test classes for <tt class="western">GraphWrapper</tt>
+placed into file <tt class="western">hw4/test/GraphWrapperTest.java</tt>.
+(<tt class="western">GraphWrapper</tt> is explained in <a href="#Problem4">Problem
+4</a>.) Look back to Homework 0 and Homework 3 as examples of
+extensive test suites. 
+</p>
+<h3 class="western"><a name="Problem4"></a>Problem 4: Implement Graph</h3>
+<p>There are many ways to <a href="http://en.wikipedia.org/wiki/Graph_%28data_structure%29#Representations">represent</a>
+a graph. Here are a few: 
+</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in">As a collection of edges. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">As an adjacency list, in which
+	each node is associated with a list of its outgoing edges. 
+	</p>
+	<li/>
+<p>As an adjacency matrix, which explicitly represents, for
+	every pair &#10216;A,B&#10217; of edges, whether there is a link
+	from A to B, and how many. 
+	</p>
+</ul>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in">In one brief paragraph, describe
+	your representation. For at least the three representations above
+	and your representation (if it is not one of the ones above),
+	explain an advantage of that representation in a sentence. Given
+	these advantages, briefly explain why you chose the representation
+	you did. You should place this discussion in a file called
+	<tt class="western">hw4/answers/problem4.txt</tt>. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Place a proper <b>abstraction
+	function and representation invariant</b> for your Graph data type
+	(and any other ADTs you create) in your source code. Also implement
+	a private <tt class="western">checkRep()</tt> method, which will
+	help in finding errors in your implementation. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Provide an implementation of
+	your graph data type. We ask that you strive first for a good design
+	before worrying about performance right now. Eventually, however,
+	your path-finding application will create and operate on very large
+	graphs, so the scalability of your Graph implementation will be
+	important. Since the path-finding algorithm must frequently look up
+	the children for a given node, this operation should be performed
+	quickly even for large graph sizes (aim for constant time here).
+	Your graph building operations should also be reasonably efficient.
+	As your implementation will likely use classes in the Java
+	Collections Framework, you should understand the computational
+	complexity of classes such as <a href="http://docs.oracle.com/javase/7/docs/api/java/util/HashMap.html">HashMap</a>
+	and <a href="http://docs.oracle.com/javase/7/docs/api/java/util/ArrayList.html">ArrayList</a>.
+		</p>
+	<li/>
+<p style="margin-bottom: 0in">Be sure to call your <tt class="western">checkRep()</tt>
+	where appropriate. 
+	</p>
+	<li/>
+<p>Once you've finished your implementation, you should think
+	about whether or not new tests are needed in addition to those you
+	wrote before you started coding. If so, you should add these to your
+	test suite. You should <b>append to the end of your test strategy
+	writeup</b> in <a href="#Problem3">Problem 3</a> a description of
+	any new tests you added, or why you feel that your original tests
+	alone are sufficient. At this point you <b>must install <a href="http://www.eclemma.org/">EclEmma</a></b>
+	(through the Eclipse Marketplace), which measures your code
+	coverage. Look for coverage of package <tt class="western">hw4</tt>
+	in EclEmma. You must achieve 90% or higher coverage for <tt class="western">hw4</tt>
+	to receive full credit on this part. We measure the coverage of your
+	test suite --- the higher the coverage, the higher the grade. 
+	</p>
+</ol>
+<p>You have freedom to design the Graph ADT as you wish (you can name
+your class, include operations as you chose, choose the rep as you
+like). However, we require that you implement an additional class,
+<code class="western">GraphWrapper</code> which has an instance field
+of type your Graph ADT, and implements the following weakly specified
+public methods. You don't have to write rep invariant, abstraction
+function or checkRep() for <code class="western">GraphWrapper</code>.
+<code class="western">GraphWrapper</code> does not represent an ADT,
+it simply redirects the work to your Graph ADT. You do need to write
+a test suite <code class="western">GraphWrapperTest.java</code> in
+directory <tt class="western">hw4/test</tt>. The purpose of
+<code class="western">GraphWrapper</code> is to allow us to test your
+Graph ADT through a common interface. Below is the abstract
+description of the operations in <code class="western">GraphWrapper</code>.
+</p>
+<dl>
+	<dt><tt class="western">public GraphWrapper()</tt> 
+	</dt><dd>
+	This is the constructor of <tt class="western">GraphWrapper</tt>. It
+	initializes the instance field with a new empty instance of your
+	Graph ADT. 
+	</dd><dt>
+	<tt class="western">public void addNode(String nodeData)</tt> 
+	</dt><dd>
+	Adds a node represented by the string <tt class="western">nodeData</tt>
+	to your graph. If an identical node already exists in the graph, the
+	output of <tt class="western">addNode</tt> is not defined, that is,
+	it is left at your discretion. 
+	</dd><dt>
+	<tt class="western">public void addEdge(String parentNode, String
+	childNode, String edgeLabel)</tt> 
+	</dt><dd>
+	Creates an edge from <tt class="western">parentNode</tt> to
+	<tt class="western">childNode</tt> with label <tt class="western">edgeLabel</tt>
+	in your graph. If either of the nodes does not exist in the graph,
+	the output of this command is not defined. If an identical edge
+	(same parent, child, and label) already exists, the output of this
+	command is not defined either, as it is left to your discretion
+	whether to allow identical edges in your implementation. 
+	</dd><dt>
+	<tt class="western">public Iterator&lt;String&gt; listNodes()</tt> 
+	</dt><dd>
+	This operation has no effect on your graph. It returns an iterator
+	which returns the nodes in lexicographical (alphabetical) order. 
+	</dd><dt>
+	<tt class="western">public Iterator&lt;String&gt;
+	listChildren(String parentNode)</tt> 
+	</dt><dd style="margin-bottom: 0.2in">
+	This operation has no effect on your graph. It returns iterator
+	which returns the list of <tt class="western">childNode(edgeLabel)</tt>
+	in lexicographical (alphabetical) order by node name and secondarily
+	by edge label. <tt class="western">childNode(edgeLabel)</tt> means
+	there is an edge with label <tt class="western">edgeLabel</tt> from
+	<tt class="western">parentNode</tt> to <tt class="western">childNode</tt>.
+	If there are multiple edges from <tt class="western">parentNode</tt>
+	to some <tt class="western">childNode</tt>, there should be separate
+	entry for each edge. If there is a reflexive edge,
+	<tt class="western">parentNode(edgeLabel)</tt> should be in the
+	list. 
+	</dd></dl>
+<h3 class="western">
+<a name="reflection"></a>Reflection</h3>
+<p>Please answer the following questions in a file named
+<tt class="western">reflection.txt</tt> in your <tt class="western">answers/</tt>
+directory. Answer briefly, but in enough detail to help you improve
+your own practice via introspection and to enable the course staff to
+improve Principles of Software in the future.</p>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in">In retrospect, what could you
+	have done better to reduce the time you spent solving this
+	assignment? 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">What could the Principles of
+	Software staff have done better to improve your learning experience
+	in this assignment? 
+	</p>
+	<li/>
+<p>What do you know now that you wish you had known before
+	beginning the assignment? 
+	</p>
+</ol>
+<h3 class="western"><a name="collaboration"></a>Collaboration</h3>
+<p>Please answer the following questions in a file named
+<tt class="western">collaboration.txt</tt> in your <tt class="western">answers/</tt>
+directory.</p>
+<p>The standard <a href="http://www.cs.rpi.edu/~milanova/csci2600/syllabus.htm">integrity
+policy</a> applies to this assignment, with the exceptions described
+in the <a href="#Introduction">Introduction</a>. 
+</p>
+<p>State whether or not you collaborated with other students. If you
+did collaborate with other students, state their names and a brief
+description of how you collaborated. 
+</p>
+<h2 class="western"><a name="breakdown"></a>Grade Breakdown</h2>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in">Compilation of code and
+	testcases: 2pts (auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Quality of test suite, percent
+	of your tests passed: 6pts (auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Quality of test suite, percent
+	coverage: 12pts (auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Instructor GraphWrapper tests:
+	10pts (auto-graded) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Answers to Problem 1 questions
+	(<tt class="western">hw4/answers/problem1.txt</tt>): 4pts 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Specifications
+	(<tt class="western">hw4/answers/problem2.txt</tt>): 5pts 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Answers to Problem 3 questions
+	(<tt class="western">hw4/answers/problem3.txt</tt>): 1pts 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Answers to Problem 4 questions
+	(<tt class="western">hw4/answers/problem4.txt</tt> and your code):
+	9pts 
+	</p>
+	<li/>
+<p>Collaboration and reflection: 1pt 
+	</p>
+</ul>
+<h2 class="western"><a name="Hints"></a><!-- How to automate in the future? -->Hints</h2>
+<h3 class="western"><a name="WritingSpecs"></a>Writing Specifications</h3>
+<p>To give you some sense of the kinds of issues you should be
+considering in your design, here are some questions you might want to
+consider. These don't in general have simple answers. You'll need to
+exercise judgment, and think carefully about how decisions you make
+interfere with each other.</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in">Will the graph be mutable or
+	immutable? 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Will the graph be implemented as
+	a single class, or will there be a Java interface for the Graph
+	specification and a separate class for the implementation? 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Will edges be objects in their
+	own right? Will they be visible to a client of the abstract type? 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Will nodes be objects in their
+	own right? Will they be visible to a client of the abstract type? 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">When will the user specify the
+	nodes and/or edges in the graph? (In the constructor? With an
+	insertion method? Both? Can the user add multiple nodes and/or edges
+	at once?) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">What kind of iterators will the
+	type provide? 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Will the type provide any views,
+	like the set view returned by the <code class="western">entrySet()</code>
+	method of <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html">java.util.Map</a>?
+		</p>
+	<li/>
+<p style="margin-bottom: 0in">Will the type implement any
+	standard Java collection interfaces? 
+	</p>
+	<li/>
+<p>Will the type use any standard Java collections in its
+	implementation? 
+	</p>
+</ul>
+<p>In choosing what operations/methods to include, strive to include
+enough that the ADT will be convenient and useful for a client, but
+avoid the temptation to write an &ldquo;everything but the kitchen
+sink&rdquo; API. Generally speaking, it is better to design a minimal
+than a maximal API. In the real world, you can always add methods
+later. However, you can never remove them from a published API, and
+such methods may over-constrain the implementation in the future. 
+</p>
+<p>Make good use of the course staff. If you have concrete questions,
+then take your specification to office hours to get some feedback on
+your design and style. This is likely to save you a lot of time!</p>
+<h3 class="western"><a name="Working_Incrementally"></a>Working
+Incrementally</h3>
+<p>Although it is generally a bad idea to start coding before you
+have thought deeply, it often makes sense to work incrementally,
+interleaving design and coding. Once you have a sketch of your
+specification, you may want to write some experimental code. This
+should give you some concrete feedback on how easy it is to implement
+the methods you've specified. You may even want to start at the end,
+and write the code that uses your type, so that you can be confident
+that the methods you provide will be sufficient. 
+</p>
+<p>This strategy can backfire and degenerate into mindless hacking,
+leaving you with a pile of low-quality code and an incoherent
+specification. To avoid that, bear three things in mind: 
+</p>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in">You must be willing to start
+	again: experimental code isn't experimental if you're not prepared
+	to throw it away. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Whenever you start coding, you
+	must have a firm idea of what you're trying to implement. There's no
+	point starting to code to a specification that is vague and missing
+	crucial details. That doesn't mean that your specification must be
+	complete and polished, but it does mean that you shouldn't start
+	coding a method until at least you have its own specification
+	written. 
+	</p>
+	<li/>
+<p>You <em>must</em> write down the specification of a method
+	and not just imagine it; it's too easy to delude yourself. Try to
+	write it on paper and mull it over before you start any coding. It's
+	tempting to sit in front of an editor, write some specification as
+	comments, and then start coding around them, but this tends not to
+	be nearly so effective. 
+	</p>
+</ol>
+<h3 class="western"><a name="Designing_Tests"></a>Designing Tests</h3>
+<p>It can be difficult to come up with a good test suite. You would
+like to test a variety of &ldquo;interesting&rdquo; graphs, but what
+are interesting graphs? One possible approach is a &ldquo;0, 1, 2&rdquo;
+case analysis: test scripts with 0, 1, and 2 graphs are interesting;
+graphs with 0, 1, and 2 nodes and 0, 1, and 2 edges are interesting.
+For each method, 0, 1, and 2 parameters and 0, 1, and 2 results are
+interesting; for example: addEdge on nodes that currently have 0, 1,
+and 2 children; listChildren on nodes with 0, 1, and 2 children;
+etc.<!--, findPath with 0, 1,and 2 start nodes, 0, 1,and 2 goal
+nodes, and 0, 1,and 2 paths found.
+-->
+This approach, while certainly not required, can give a good way to
+structure your tests to cover many important cases without having too
+much redundancy. Use EclEmma to measure your coverate and gain even
+more confidence in your tests.</p>
+<h3 class="western"><a name="af-ri-checkrep"></a>Abstraction
+function, representation invariant, and checkRep</h3>
+<p>Include an abstraction function, representation invariant, and
+private <tt class="western">checkRep()</tt> method in all new classes
+you create that represent an ADT. If a class does not represent an
+ADT, place a comment that explicitly says so where the AF and RI
+would normally go. (For example, classes that contain only static
+methods and are never constructed usually do not represent an ADT &mdash;
+though you are unlikely to write any such classes for HW4.) Please
+come to office hours if you feel unsure about what counts as an ADT
+and what doesn't. 
+</p>
+<p>Be conscious of how certain operations in <tt class="western">checkRep()</tt>,
+particularly iterating over a large dataset, may affect the &ldquo;big-O&rdquo;
+runtime of your methods. If your program suffers performance problems
+in Homework 4 or 5, <tt class="western">checkRep()</tt> is a good
+place to start looking for problems.</p>
+<p>It is hard to balance the utility of the <tt class="western">checkRep()</tt>
+method with how expensive it may be to run. A good approach is to
+call <tt class="western">checkRep()</tt> as much as possible
+(generally at the beginning and end of every method), but to <strong>disable
+the </strong><strong><tt class="western">checkRep()</tt></strong><strong>
+when you turn in your code so that our tests don't timeout.</strong>
+A good way to do this is to have a static final constant variable
+that is checked in your <tt class="western">checkRep()</tt> such that
+it only runs when the constant variable is set.</p>
+<h3 class="western"><a name="hashCode-Warning"></a>A warning about
+equals and hashCode</h3>
+<p>You may find it useful to define a class or classes that implement
+method equals. If you do that, <em>be sure</em> to also provide a
+consistent definition of method hashCode, otherwise your objects may
+behave strangely if used in containers like HashMaps. There is a good
+discussion of the issues involved in <em>Effective Java</em> (item 9
+in the 2nd edition).</p>
+<h3 class="western"><a name="Generics-Warning"></a>A warning about
+using generics</h3>
+<p>You are permitted <font color="#ff0000"><b>but discouraged</b></font>
+from implementing generic classes on this assignment (that will come
+later). A generic class is one defined as something like 
+</p>
+<pre class="western">public class Graph&lt;N,E&gt; {
+   ...
+}</pre><p>
+where a client could then construct a <tt class="western">Graph&lt;String,String&gt;</tt>,
+<tt class="western">Graph&lt;City,Road&gt;</tt>, etc. 
+</p>
+<p>If you choose to write a generic class, be aware that Eclipse's
+built-in compiler sometimes handles generics differently from <tt class="western">javac</tt>,
+the standard command-line compiler. 
+</p>
+<p>This warning is only directed at students writing their own
+generic classes. Simply using, say, a <tt class="western">List&lt;String&gt;</tt>
+or <tt class="western">Comparator&lt;Foo&gt;</tt> (as you have been
+doing all along) should be fine. 
+</p>
+<h2 class="western"><a name="Turnin"></a>What to Submit</h2>
+<p>You should add and commit the following files to SVN:</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw4/answers/problem1.txt</tt>
+		</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw4/answers/problem2.txt</tt>
+		</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw4/answers/problem3.txt</tt>
+		</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw4/answers/problem4.txt</tt>
+		</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw4/answers/reflection.txt</tt>
+		</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw4/answers/collaboration.txt</tt>
+		</p>
+	<li/>
+<p style="margin-bottom: 0in"><tt class="western">hw4/*.java</tt>
+	<em>[IntPriorityQueue.java + Java classes for your graph
+	implementation]</em> 
+	</p>
+	<li/>
+<p><tt class="western">hw4/test/*Test.java</tt> <em>[JUnit
+	test classes you create]</em> 
+	</p>
+</ul>
+<h2 class="western"><a name="errata"></a>Errata</h2>
+<p>None yet. Check the Announcements page regularly. Updates to this
+homework will be posted there.</p>
+<div id="footer" dir="ltr">
+	<p>Parts of this homework was copied from the UW Software Design and
+	Implementation class.</p>
+</div>
+<p><!-- LocalWords:  ADT 660px 192px 28px 11pm H4 Returnin hw4 problem1 java
+ --><!-- LocalWords:  IntQueue1 IntQueue2 solveEquations myBirthday node1 F5
+ --><!-- LocalWords:  node2 node3 node4 multigraph param specfield testAdd cd
+ --><!-- LocalWords:  derivedfield SpecificationTests ScriptFileTests HashMap
+ --><!-- LocalWords:  ImplementationTests checkRep HW4TestDriver PrintWriter
+ --><!-- LocalWords:  txt CreateGraph graphName AddNode nodeData AddEdge attu
+ --><!-- LocalWords:  parentNode childNode edgeLabel ListNodes ListChildren
+ --><!-- LocalWords:  firstNode someEdge secondNode edgeA edgeB secondEdge
+ --><!-- LocalWords:  edgeC thirdNode anotherEdge
+ --></p>
+</body>
+</html>

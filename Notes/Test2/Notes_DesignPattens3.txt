@@ -1,0 +1,51 @@
+Slide: 4
+Remember, this is a central issue in design. Where Design patterns help. We would like to build systems that are open for extension (easy to change, add Views), but close to modification (we want to insulate Data from the change).
+
+Slide: 6
+What can be a problem?
+
+Slide: 7
+What can be a problem?
+
+Slide: 9
+What can be a problem?
+
+Slide: 11
+update(Observable obj, Object arg) allows for both Push and Pull models.
+
+Update is called from notifyObservers, which is a library method! notifyObservers() calls update(this,null) and notifyObservers(arg) calls update(this,arg).
+
+An Observer (such as NameObserver) can choose to use the first argument of update, the Observable obj, cast it to the appropriate type and extract the info it needs (The Pull model) or it can choose to ignore Observable obj, and use the argument Object arg, which the data sends (the Push model).
+
+Slide: 14
+This method has access to the object, so it could do more.
+
+Slide: 15
+What happens here? Is this the push model or the pull model? This is the push model: SaleItem pushes the data observers need to know (name String or price Float). Observers don't know what SaleItem is!
+
+Slide: 17
+Where is the bug?
+
+Slide: 19
+Pull model because the Observer needs to cast into the Observable type then call its methods.
+
+Slide: 23
+It might be a better idea to separate state from observer notification. 
+
+Slide: 39
+Lots missing
+
+Slide: 48
+Hard to extend. To add undo, we need to add it in several places.
+
+Slide: 49
+Each item operation is a subtype of Command Meun, buttons use Command. Operations are localized.
+
+Slide: 50
+Starts looking like something a visitor pattern might simplify
+
+Slide: 58
+DesignPatter3 - continue with last DesignPatters4
+
+
+

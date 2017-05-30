@@ -1,0 +1,4 @@
+	For black box testing, we are simply checking if given a certain input, the output is correct. 
+One main heuristic used was the "paths in specification" heuristic. Because the output of each Graph
+method relies on the parameters, good test inputs would be nodes and edges that are present and not present 
+in the graph.

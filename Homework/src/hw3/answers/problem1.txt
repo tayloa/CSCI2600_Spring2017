@@ -1,0 +1,15 @@
+1.
+Creator: Ratnum()
+Observer: checkRep(),isNaN(),isNegative(),isPositive(),compareTo(),equals(),toString(),hashcode()
+Producer: intValue(),floatValue(),doubleValue(),longvalue(),negate(),add(),sub(),mul(),div(),gcd(),equals(),valueOf()
+Mutator: none
+2. Each comment describes how the variables are being used by each producer. This will help whoever is reading the code understand what the method returns as well.
+3. The creator function, Ratnum(), initializes the object and sets private variables to have values. This means we fon't have to perform a check inside it's methods.
+4. This is because add() and mult() rely on a different creator function for the new object they create. This implementation checks if the denominator being passed in 
+   is zero and throws an error if it is.
+5. It may be static because no other variables tie into the method. You could overload the constructor function, take a string as a parameter, and create a new 
+   RatNum object.
+6. Each producer method would need to reduce the object to lowest terms, making each method slightly more complex.
+7. The functions would then be mutators. Ratnum() is also an immutable class. Having mutators would break the specification. 
+8. There are no methods that could violate the invariant. When on object of the Ratnum() class is initialized, conditions inside the function adjust the member variables
+   to fit the specifications and invariant. 
